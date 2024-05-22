@@ -1,10 +1,12 @@
 {
-	"name": "iobio-components",
+	"name": "@overture-stack/iobio-components",
 	"version": "1.0.0",
 	"description": "Overture Integration of Iobio.io Genomic Analysis Tools",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prettier": "prettier --config prettier.config.js --write ./**"
 	},
 	"repository": {
 		"type": "git",
@@ -15,5 +17,8 @@
 	"bugs": {
 		"url": "https://github.com/overture-stack/iobio-components/issues"
 	},
-	"homepage": "https://github.com/overture-stack/iobio-components#readme"
+	"homepage": "https://github.com/overture-stack/iobio-components#readme",
+	"devDependencies": {
+		"prettier": "^3.2.5"
+	}
 }
