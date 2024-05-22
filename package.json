@@ -6,7 +6,8 @@
 	"type": "module",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"prettier": "prettier --config prettier.config.js --write ./**"
+		"prettier": "prettier --config prettier.config.js --write ./**",
+		"bam": "cd bam.iobio && pnpm run start"
 	},
 	"repository": {
 		"type": "git",
