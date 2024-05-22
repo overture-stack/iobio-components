@@ -1,19 +1,19 @@
 {
-  "name": "iobio-components",
-  "version": "1.0.0",
-  "description": "Overture Integration of Iobio.io Genomic Analysis Tools",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/overture-stack/iobio-components"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/overture-stack/iobio-components/issues"
-  },
-  "homepage": "https://github.com/overture-stack/iobio-components#readme"
+	"name": "iobio-components",
+	"version": "1.0.0",
+	"description": "Overture Integration of Iobio.io Genomic Analysis Tools",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/overture-stack/iobio-components"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/overture-stack/iobio-components/issues"
+	},
+	"homepage": "https://github.com/overture-stack/iobio-components#readme"
 }
