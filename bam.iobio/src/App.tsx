@@ -20,7 +20,6 @@
  */
 
 import { useState, useEffect } from 'react';
-
 import './App.css';
 
 // import bamClass from 'bam.iobio/client/js/class.js';
@@ -39,8 +38,6 @@ import './App.css';
 
 // import build from 'bam.iobio/client/dist/build.js';
 
-type BamContext = typeof defaultBamContext;
-
 const defaultBamContext = {
 	pieChooser: true,
 	readCoverageBox: true,
@@ -53,6 +50,8 @@ const defaultBamContext = {
 	duplicates: true,
 	mappingQualityDistribution: true,
 };
+
+type BamContext = typeof defaultBamContext;
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamContext, value: boolean) => void) => {
 	const {
@@ -199,7 +198,7 @@ function App() {
 		<div className="App">
 			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
 				<>
-					{/* <img src={logo} className="App-logo" alt="logo" /> */}
+					<img src="logo.svg" className="App-logo" />
 					<p>
 						Edit <code>src/App.js</code> and save to reload.
 					</p>
