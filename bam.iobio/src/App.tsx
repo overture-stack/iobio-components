@@ -169,9 +169,9 @@ function App() {
 
 	const fileLoaded = Boolean(window.location.search);
 
-	const localBamConfig = JSON.parse(localStorage.getItem('bamConfig') || '');
+	const localBamConfig = localStorage.getItem('bamConfig') || null;
 
-	const [bamContext, setBamContext] = useState(localBamConfig ? localBamConfig : defaultBamContext);
+	const [bamContext, setBamContext] = useState(localBamConfig ? JSON.parse(localBamConfig) : defaultBamContext);
 
 	const [bamFile, setBamFile] = useState<string | null>(null);
 
@@ -198,7 +198,7 @@ function App() {
 		<div className="App">
 			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
 				<>
-					<img src="logo.svg" className="App-logo" />
+					<img src="ov-logo.png" className="App-logo" />
 					<p>
 						Edit <code>src/App.js</code> and save to reload.
 					</p>
