@@ -1,23 +1,45 @@
+/*
+ *
+ * Copyright (c) 2024 The Ontario Institute for Cancer Research. All rights reserved
+ *
+ *  This program and the accompanying materials are made available under the terms of
+ *  the GNU Affero General Public License v3.0. You should have received a copy of the
+ *  GNU Affero General Public License along with this program.
+ *   If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+ *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ *  SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ *  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ *  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ *  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
 import { useState, useEffect } from 'react';
 
-import logo from './logo.svg';
 import './App.css';
 
-import bamClass from 'bam.iobio/client/js/class.js';
+// import bamClass from 'bam.iobio/client/js/class.js';
 
-import d3 from 'bam.iobio/client/js/d3.min.js';
-import bamd3 from 'bam.iobio/client/js/bam.d3.js';
-import donut from 'bam.iobio/client/js/donut.d3.js';
-import histogram from 'bam.iobio/client/js/histogram.d3.js';
-import histogramViewFinder from 'bam.iobio/client/js/histogramViewFinder.d3.js';
-import iobioViz from 'bam.iobio/client/js/iobio.viz.js';
-import iobio from 'bam.iobio/client/js/iobio.min.js';
-import nprogress from 'bam.iobio/client/js/nprogress.js';
-import rdp from 'bam.iobio/client/js/rdp.js';
-import movingLine from 'bam.iobio/client/js/movingLine.d3.js';
-import socket from 'bam.iobio/client/js/socket.io.js';
+// import d3 from 'bam.iobio/client/js/d3.min.js';
+// import bamd3 from 'bam.iobio/client/js/bam.d3.js';
+// import donut from 'bam.iobio/client/js/donut.d3.js';
+// import histogram from 'bam.iobio/client/js/histogram.d3.js';
+// import histogramViewFinder from 'bam.iobio/client/js/histogramViewFinder.d3.js';
+// import iobioViz from 'bam.iobio/client/js/iobio.viz.js';
+// import iobio from 'bam.iobio/client/js/iobio.min.js';
+// import nprogress from 'bam.iobio/client/js/nprogress.js';
+// import rdp from 'bam.iobio/client/js/rdp.js';
+// import movingLine from 'bam.iobio/client/js/movingLine.d3.js';
+// import socket from 'bam.iobio/client/js/socket.io.js';
 
-import build from 'bam.iobio/client/dist/build.js';
+// import build from 'bam.iobio/client/dist/build.js';
+
+type BamContext = typeof defaultBamContext;
 
 const defaultBamContext = {
 	pieChooser: true,
@@ -32,7 +54,7 @@ const defaultBamContext = {
 	mappingQualityDistribution: true,
 };
 
-const bamConfigPanel = (bamContext, updateContext) => {
+const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamContext, value: boolean) => void) => {
 	const {
 		pieChooser,
 		readCoverageBox,
@@ -132,7 +154,7 @@ const bamConfigPanel = (bamContext, updateContext) => {
 	);
 };
 
-const bamFileStats = (bamFile) => {
+const bamFileStats = (bamFile: string | null) => {
 	const { max = '' } = bamFile ? JSON.parse(bamFile) : {};
 	return (
 		<div className="file-stats">
@@ -148,15 +170,15 @@ function App() {
 
 	const fileLoaded = Boolean(window.location.search);
 
-	const localBamConfig = JSON.parse(localStorage.getItem('bamConfig'));
+	const localBamConfig = JSON.parse(localStorage.getItem('bamConfig') || '');
 
-	const [bamContext, setBamContext] = useState(localBamConfig || defaultBamContext);
+	const [bamContext, setBamContext] = useState(localBamConfig ? localBamConfig : defaultBamContext);
 
-	const [bamFile, setBamFile] = useState(null);
+	const [bamFile, setBamFile] = useState<string | null>(null);
 
 	const [showBam, toggleShowBam] = useState(fileLoaded);
 
-	const updateContext = (key, value) => {
+	const updateContext = (key: keyof BamContext, value: boolean) => {
 		const newContext = {
 			...bamContext,
 			[key]: !value,
@@ -177,7 +199,7 @@ function App() {
 		<div className="App">
 			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
 				<>
-					<img src={logo} className="App-logo" alt="logo" />
+					{/* <img src={logo} className="App-logo" alt="logo" /> */}
 					<p>
 						Edit <code>src/App.js</code> and save to reload.
 					</p>
@@ -204,7 +226,8 @@ function App() {
 				<div id="app"></div>
 				{showBam ? (
 					<>
-						<script src={bamClass}></script>
+						Bam Code
+						{/* <script src={bamClass}></script>
 						<script src={bamd3}></script>
 						<script src={d3}></script>
 						<script src={donut}></script>
@@ -216,7 +239,7 @@ function App() {
 						<script src={rdp}></script>
 						<script src={movingLine}></script>
 						<script src={socket}></script>
-						<script src={build}></script>
+						<script src={build}></script> */}
 					</>
 				) : null}
 			</div>
