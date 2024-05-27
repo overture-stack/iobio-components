@@ -198,7 +198,7 @@ function App() {
 		<div className="App">
 			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
 				<>
-					<img src="ov-logo.png" className="App-logo" />
+					<img src="images/ov-logo.png" className="App-logo" />
 					<p>
 						Edit <code>src/App.js</code> and save to reload.
 					</p>

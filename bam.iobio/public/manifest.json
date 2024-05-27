@@ -6,15 +6,11 @@
 			"src": "favicon.ico",
 			"sizes": "64x64 32x32 24x24 16x16",
 			"type": "image/x-icon"
-		},
-		{
-			"src": "ov-logo.png",
-			"type": "image/png",
-			"sizes": "512x512"
 		}
 	],
 	"start_url": ".",
 	"display": "standalone",
 	"theme_color": "#000000",
-	"background_color": "#ffffff"
+	"background_color": "#ffffff",
+	"web_accessible_resources": ["images/ov-logo.png"]
 }
