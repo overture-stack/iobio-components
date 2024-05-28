@@ -220,12 +220,10 @@ function App() {
 			</button>
 
 			<div className={'bam-container' + (showBam ? ' bam-open' : '')}>
-				<h3 className="home-page-link">bam.iobio</h3>
 				{/* Needs to render on the page before scripts for BAM to work */}
 				<div id="app"></div>
 				{showBam ? (
 					<>
-						Bam Code
 						{/* <script src={bamClass}></script>
 						<script src={bamd3}></script>
 						<script src={d3}></script>
