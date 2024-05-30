@@ -212,8 +212,7 @@ function App() {
 				)}
 			</header>
 
-			{!fileLoaded && bamConfigPanel(bamContext, updateContext)}
-			{fileLoaded && bamFileStats(bamFile)}
+			{fileLoaded ? bamFileStats(bamFile) : bamConfigPanel(bamContext, updateContext)}
 
 			<button className={'config-button' + (showBam ? ' active' : '')} onClick={() => toggleShowBam(!showBam)}>
 				Show / Hide BAM
