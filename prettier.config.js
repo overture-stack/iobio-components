@@ -17,36 +17,4 @@ export default {
 	useTabs: true,
 	embeddedLanguageFormatting: 'auto',
 	vueIndentScriptAndStyle: false,
-	overrides: [
-		{
-			files: '*.js',
-			options: {
-				parser: 'babel',
-			},
-		},
-		{
-			files: '*.vue',
-			options: {
-				parser: 'vue',
-			},
-		},
-		{
-			files: '*.css',
-			options: {
-				parser: 'css',
-			},
-		},
-		{
-			files: '*.json',
-			options: {
-				parser: 'json',
-			},
-		},
-		{
-			files: '*.html',
-			options: {
-				parser: 'html',
-			},
-		},
-	],
 };
