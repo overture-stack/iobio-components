@@ -13,8 +13,6 @@
 		"type": "git",
 		"url": "git+https://github.com/overture-stack/iobio-components"
 	},
-	"author": "",
-	"license": "AGPL-3.0-or-later",
 	"bugs": {
 		"url": "https://github.com/overture-stack/iobio-components/issues"
 	},
