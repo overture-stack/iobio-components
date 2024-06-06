@@ -19,120 +19,41 @@
  *
  */
 
+import clsx from 'clsx';
+import 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
 const defaultBamContext = {
-	pieChooser: true,
-	readCoverageBox: true,
-	readsSampledBox: true,
 	mappedReads: true,
 	forwardStrands: true,
 	properPairs: true,
 	singletons: true,
 	bothMatesMapped: true,
 	duplicates: true,
-	mappingQualityDistribution: true,
+	histogram: true,
 };
 
 type BamContext = typeof defaultBamContext;
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamContext, value: boolean) => void) => {
-	const {
-		pieChooser,
-		readCoverageBox,
-		readsSampledBox,
-		mappedReads,
-		forwardStrands,
-		properPairs,
-		singletons,
-		bothMatesMapped,
-		duplicates,
-		mappingQualityDistribution,
-	} = bamContext;
+	const keys = Object.keys(bamContext) as (keyof BamContext)[];
 
 	return (
 		<div style={{ margin: '15px' }}>
-			<button
-				className={'config-button' + (pieChooser ? ' active' : '')}
-				onClick={() => {
-					updateContext('pieChooser', pieChooser);
-				}}
-			>
-				Pie Chooser
-			</button>
-			<button
-				className={'config-button' + (readCoverageBox ? ' active' : '')}
-				onClick={() => {
-					updateContext('readCoverageBox', readCoverageBox);
-				}}
-			>
-				Read Coverage
-			</button>
-			<button
-				className={'config-button' + (readsSampledBox ? ' active' : '')}
-				onClick={() => {
-					updateContext('readsSampledBox', readsSampledBox);
-				}}
-			>
-				Reads Sampled
-			</button>
-			<button
-				className={'config-button' + (mappedReads ? ' active' : '')}
-				onClick={() => {
-					updateContext('mappedReads', mappedReads);
-				}}
-			>
-				Mapped Reads
-			</button>
-			<button
-				className={'config-button' + (forwardStrands ? ' active' : '')}
-				onClick={() => {
-					updateContext('forwardStrands', forwardStrands);
-				}}
-			>
-				Forward Strands
-			</button>
-			<button
-				className={'config-button' + (properPairs ? ' active' : '')}
-				onClick={() => {
-					updateContext('properPairs', properPairs);
-				}}
-			>
-				Proper Pairs
-			</button>
-			<button
-				className={'config-button' + (singletons ? ' active' : '')}
-				onClick={() => {
-					updateContext('singletons', singletons);
-				}}
-			>
-				Singletons
-			</button>
-			<button
-				className={'config-button' + (bothMatesMapped ? ' active' : '')}
-				onClick={() => {
-					updateContext('bothMatesMapped', bothMatesMapped);
-				}}
-			>
-				Both Mates Mapped
-			</button>
-			<button
-				className={'config-button' + (duplicates ? ' active' : '')}
-				onClick={() => {
-					updateContext('duplicates', duplicates);
-				}}
-			>
-				Duplicates
-			</button>
-			<button
-				className={'config-button' + (mappingQualityDistribution ? ' active' : '')}
-				onClick={() => {
-					updateContext('mappingQualityDistribution', mappingQualityDistribution);
-				}}
-			>
-				Mapping Quality Distribution
-			</button>
+			{keys.map((key) => {
+				return (
+					<button
+						className={clsx('config-button', bamContext[key] && 'active')}
+						key={key}
+						onClick={() => {
+							updateContext(key, bamContext[key]);
+						}}
+					>
+						{key}
+					</button>
+				);
+			})}
 		</div>
 	);
 };
@@ -149,8 +70,6 @@ const bamFileStats = (bamFile: string | null) => {
 };
 
 function App() {
-	const bamUrl = '/?bam=https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
-
 	const fileLoaded = Boolean(window.location.search);
 
 	const localBamConfig = localStorage.getItem('bamConfig') || null;
@@ -159,7 +78,7 @@ function App() {
 
 	const [bamFile, setBamFile] = useState<string | null>(null);
 
-	const [showBam, toggleShowBam] = useState(fileLoaded);
+	const [showBam, toggleShowBam] = useState(true);
 
 	const updateContext = (key: keyof BamContext, value: boolean) => {
 		const newContext = {
@@ -178,34 +97,49 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
+	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
+
 	return (
 		<div className="App">
-			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
-				<>
-					<img src="images/ov-logo.png" className="App-logo" />
-					<p>
-						Edit <code>src/App.js</code> and save to reload.
-					</p>
-				</>
-				{fileLoaded ? (
+			<header className={clsx('App-header', fileLoaded ? 'file-loaded' : 'home')}>
+				<img src="ov-logo.png" className="App-logo" />
+				<h2>Overture Iobio Components</h2>
+
+				{fileLoaded && (
 					<a className="Back-button" href={'/'}>
 						Back
 					</a>
-				) : (
-					<a href={bamUrl}>Demo URL</a>
 				)}
 			</header>
-
 			{fileLoaded ? bamFileStats(bamFile) : bamConfigPanel(bamContext, updateContext)}
 
-			<button className={'config-button' + (showBam ? ' active' : '')} onClick={() => toggleShowBam(!showBam)}>
+			<button className={clsx('config-button', showBam && ' active')} onClick={() => toggleShowBam(!showBam)}>
 				Show / Hide BAM
 			</button>
 
-			<div className={'bam-container' + (showBam ? ' bam-open' : '')}>
+			<div className={clsx('bam-container', showBam && 'bam-open')}>
 				{/* Needs to render on the page before scripts for BAM to work */}
 				<div id="app"></div>
-				{showBam ? <>Bam.Iobio</> : null}
+				{showBam ? (
+					<>
+						<h3>Bam.Iobio</h3>
+
+						<iobio-data-broker alignment-url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
+
+						<div className="row iobio-container">
+							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
+							{forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />}
+							{properPairs && <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" />}
+							{singletons && <iobio-percent-box percent-key="singletons" total-key="total_reads" />}
+							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
+							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
+						</div>
+						<div className="row iobio-histo-container">
+							{histogram && <iobio-histogram broker-key="coverage_hist" />}
+							{/* {histogram && <Histogram broker-key="coverage_hist" />} */}
+						</div>
+					</>
+				) : null}
 			</div>
 		</div>
 	);

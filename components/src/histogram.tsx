@@ -19,12 +19,18 @@
  *
  */
 
-declare module 'iobio-demo-app';
+import iobioCharts from 'iobio-charts';
+import { useEffect } from 'react';
 
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-	}
+const { createHistogram } = iobioCharts;
+
+function Histogram(props: { 'broker-key': string }) {
+	useEffect(() => {
+		createHistogram();
+	}, []);
+
+	// return <iobio-histogram />;
+	return <div broker-key={props['broker-key']}></div>;
 }
+
+export default Histogram;

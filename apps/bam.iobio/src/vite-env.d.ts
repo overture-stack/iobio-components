@@ -19,12 +19,12 @@
  *
  */
 
-declare module 'iobio-demo-app';
+/// <reference types="vite/client" />
 
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-	}
+interface ImportMeta {
+	readonly env: ImportMetaEnv;
+}
+
+interface ImportMetaEnv {
+	readonly VITE_PORT: string;
 }
