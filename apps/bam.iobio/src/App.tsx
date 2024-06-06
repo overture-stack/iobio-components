@@ -20,6 +20,7 @@
  */
 
 import { useEffect, useState } from 'react';
+// import PercentChartBox from '@overture-stack/iobio-components/components';
 import './App.css';
 
 const defaultBamContext = {
@@ -195,8 +196,9 @@ function App() {
 					<a href={bamUrl}>Demo URL</a>
 				)}
 			</header>
-
 			{fileLoaded ? bamFileStats(bamFile) : bamConfigPanel(bamContext, updateContext)}
+
+			<percent-chart-box id="chart" />
 
 			<button className={'config-button' + (showBam ? ' active' : '')} onClick={() => toggleShowBam(!showBam)}>
 				Show / Hide BAM

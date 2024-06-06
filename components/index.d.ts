@@ -19,18 +19,4 @@
  *
  */
 
-declare module '@overture-stack/bam-visualizations/';
-
-declare namespace JSX {
-	interface IntrinsicElements {
-		'percent-chart-box': PercentChartProps;
-	}
-}
-
-interface PercentChartProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {}
-
-declare module '*.svg' {
-	const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>;
-
-	export default ReactComponent;
-}
+declare module '@overture-stack/iobio-components/';
