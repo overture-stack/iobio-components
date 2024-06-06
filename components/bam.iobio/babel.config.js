@@ -1,4 +1,4 @@
-module.exports = {
+const configs = {
 	presets: [
 		'@babel/preset-typescript',
 		'@babel/preset-env',
@@ -29,3 +29,5 @@ module.exports = {
 	],
 	sourceMaps: 'inline',
 };
+
+export default configs;

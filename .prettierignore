@@ -1,13 +1,7 @@
-client/data/*
-CNAME
-LICENSE
 **/Dockerfile
 **/node_modules
 **/*.sh
 **/*.md
-**/*.jpg
-**/*.gif
-**/*.png
 **/*.min.js
 **/package-lock.json
 **/.gitignore
