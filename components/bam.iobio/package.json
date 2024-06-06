@@ -5,7 +5,7 @@
 	"type": "module",
 	"dependencies": {
 		"@emotion/react": "^11.11.4",
-		"bam.iobio": "file:../../bam.iobio.io.poc",
+		"bam.iobio": "file:../../../bam.iobio.io.poc",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-scripts": "5.0.1"
