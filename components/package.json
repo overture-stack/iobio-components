@@ -7,6 +7,6 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
-		"iobio-charts": "^0.2.1"
+		"iobio-charts": "0.3.0"
 	}
 }

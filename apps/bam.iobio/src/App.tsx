@@ -20,7 +20,7 @@
  */
 
 import { useEffect, useState } from 'react';
-// import PercentChartBox from '@overture-stack/iobio-components/components';
+import PercentChartBox from '@overture-stack/iobio-components/components';
 import './App.css';
 
 const defaultBamContext = {
@@ -178,6 +178,8 @@ function App() {
 		const fileStats = localStorage.getItem('bamFileStats');
 		setBamFile(fileStats);
 	}, [fileLoaded]);
+
+	const PercentChart = PercentChartBox();
 
 	return (
 		<div className="App">
