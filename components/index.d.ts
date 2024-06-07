@@ -27,4 +27,8 @@ declare module '@overture-stack/iobio-components/components' {
 	};
 
 	class StackedHistogram extends HTMLElement {}
+
+	interface IobioElement extends HTMLElement {
+		update: (data: any) => void;
+	}
 }

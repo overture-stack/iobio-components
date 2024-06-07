@@ -19,7 +19,7 @@
  *
  */
 
-import { PercentChartBox, StackedHistogram } from '@overture-stack/iobio-components/components';
+import { IobioElement, PercentChartBox, StackedHistogram } from '@overture-stack/iobio-components/components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
@@ -179,14 +179,22 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const PercentElement = PercentChartBox();
+	const PercentChart = PercentChartBox();
+	console.log('% chart', PercentChart);
+
+	const PercentElement = PercentChart.el;
 	console.log('% element', PercentElement);
+	// PercentChart.update(3);
 
 	const Histogram = new StackedHistogram();
 	console.log('histogram', Histogram);
 
-	const chartElement = document.querySelector('percent-chart-box');
-	console.log('chartElement', chartElement);
+	const ChartElement = document.querySelector('percent-chart-box') || <></>;
+	console.log('chartElement', ChartElement);
+	if (ChartElement) {
+		const chart = ChartElement as IobioElement;
+		// chart?.update(4);
+	}
 
 	return (
 		<div className="App">
@@ -218,6 +226,9 @@ function App() {
 					<>
 						<h3>Bam.Iobio</h3>
 						<percent-chart-box id="percent-chart-box" />
+						{/* <ChartElement />
+						<PercentElement />
+						<Histogram /> */}
 					</>
 				) : null}
 			</div>
