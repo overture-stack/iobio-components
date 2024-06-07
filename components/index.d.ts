@@ -20,15 +20,15 @@
  */
 
 declare module '@overture-stack/iobio-components/components' {
+	interface IobioElement extends HTMLElement {
+		update: (data: any) => void;
+	}
+
 	function PercentChartBox(): {
 		el: HTMLDivElement;
 		update: (data: any) => void;
 		getStyles: () => any;
 	};
 
-	class StackedHistogram extends HTMLElement {}
-
-	interface IobioElement extends HTMLElement {
-		update: (data: any) => void;
-	}
+	class StackedHistogram extends IobioElement {}
 }

@@ -184,16 +184,35 @@ function App() {
 
 	const PercentElement = PercentChart.el;
 	console.log('% element', PercentElement);
-	// PercentChart.update(3);
+
+	if (typeof PercentChart.update === 'function') {
+		try {
+			PercentChart.update([3, 5]);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	const Histogram = new StackedHistogram();
 	console.log('histogram', Histogram);
 
-	const ChartElement = document.querySelector('percent-chart-box') || <></>;
-	console.log('chartElement', ChartElement);
+	// document.querySelector('percent-chart-box').update([4,5]); works in Chrome DevTools
+	const ChartElement: IobioElement | null = document.querySelector('percent-chart-box');
+
 	if (ChartElement) {
-		const chart = ChartElement as IobioElement;
-		// chart?.update(4);
+		const chart = ChartElement;
+		console.log('chartElement', chart);
+
+		const update = chart.update;
+		console.log('update', update, typeof update);
+
+		if (typeof chart.update === 'function') {
+			try {
+				update([4, 6]);
+			} catch (error) {
+				console.log(error);
+			}
+		}
 	}
 
 	return (
@@ -226,9 +245,10 @@ function App() {
 					<>
 						<h3>Bam.Iobio</h3>
 						<percent-chart-box id="percent-chart-box" />
-						{/* <ChartElement />
-						<PercentElement />
-						<Histogram /> */}
+						<stacked-histogram />
+						{/* <ChartElement /> */}
+						{/* <PercentElement /> */}
+						{/* <Histogram /> */}
 					</>
 				) : null}
 			</div>
