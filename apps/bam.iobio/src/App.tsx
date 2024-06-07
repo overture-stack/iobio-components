@@ -199,17 +199,21 @@ function App() {
 
 	const ChartElement: IobioElement | null = document.querySelector('percent-chart-box');
 
-	if (ChartElement) {
-		if (typeof ChartElement.update === 'function') {
-			try {
-				const randomNumA = Math.round(Math.random() * 10);
-				const randomNumB = Math.round(Math.random() * 10);
-				ChartElement.update([randomNumA, randomNumB]);
-			} catch (error) {
-				console.log(error);
+	const randomizeChart = () => {
+		if (ChartElement) {
+			if (typeof ChartElement.update === 'function') {
+				try {
+					const randomNumA = Math.round(Math.random() * 10);
+					const randomNumB = Math.round(Math.random() * 10);
+					ChartElement?.update([randomNumA, randomNumB]);
+				} catch (error) {
+					console.log(error);
+				}
 			}
 		}
-	}
+	};
+
+	randomizeChart();
 
 	return (
 		<div className="App">
@@ -240,11 +244,9 @@ function App() {
 				{showBam ? (
 					<>
 						<h3>Bam.Iobio</h3>
+						<button onClick={randomizeChart}>Randomize</button>
 						<percent-chart-box id="percent-chart-box" />
 						<stacked-histogram />
-						{/* <ChartElement /> */}
-						{/* <PercentElement /> */}
-						{/* <Histogram /> */}
 					</>
 				) : null}
 			</div>
