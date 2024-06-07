@@ -19,4 +19,12 @@
  *
  */
 
-declare module '@overture-stack/iobio-components/components';
+declare module '@overture-stack/iobio-components/components' {
+	function PercentChartBox(): {
+		el: HTMLDivElement;
+		update: (data: any) => void;
+		getStyles: () => any;
+	};
+
+	class StackedHistogram extends HTMLElement {}
+}

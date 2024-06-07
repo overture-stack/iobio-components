@@ -19,8 +19,8 @@
  *
  */
 
+import { PercentChartBox, StackedHistogram } from '@overture-stack/iobio-components/components';
 import { useEffect, useState } from 'react';
-import PercentChartBox from '@overture-stack/iobio-components/components';
 import './App.css';
 
 const defaultBamContext = {
@@ -160,7 +160,7 @@ function App() {
 
 	const [bamFile, setBamFile] = useState<string | null>(null);
 
-	const [showBam, toggleShowBam] = useState(fileLoaded);
+	const [showBam, toggleShowBam] = useState(true);
 
 	const updateContext = (key: keyof BamContext, value: boolean) => {
 		const newContext = {
@@ -179,7 +179,14 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const PercentChart = PercentChartBox();
+	const PercentElement = PercentChartBox();
+	console.log('% element', PercentElement);
+
+	const Histogram = new StackedHistogram();
+	console.log('histogram', Histogram);
+
+	const chartElement = document.querySelector('percent-chart-box');
+	console.log('chartElement', chartElement);
 
 	return (
 		<div className="App">
@@ -200,8 +207,6 @@ function App() {
 			</header>
 			{fileLoaded ? bamFileStats(bamFile) : bamConfigPanel(bamContext, updateContext)}
 
-			<percent-chart-box id="chart" />
-
 			<button className={'config-button' + (showBam ? ' active' : '')} onClick={() => toggleShowBam(!showBam)}>
 				Show / Hide BAM
 			</button>
@@ -209,7 +214,12 @@ function App() {
 			<div className={'bam-container' + (showBam ? ' bam-open' : '')}>
 				{/* Needs to render on the page before scripts for BAM to work */}
 				<div id="app"></div>
-				{showBam ? <>Bam.Iobio</> : null}
+				{showBam ? (
+					<>
+						<h3>Bam.Iobio</h3>
+						<percent-chart-box id="percent-chart-box" />
+					</>
+				) : null}
 			</div>
 		</div>
 	);

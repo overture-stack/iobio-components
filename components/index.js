@@ -1,3 +1,3 @@
-import { PercentChartBox } from 'iobio-charts';
+import { PercentChartBox, StackedHistogram } from 'iobio-charts';
 
-export default PercentChartBox;
+export { PercentChartBox, StackedHistogram };
