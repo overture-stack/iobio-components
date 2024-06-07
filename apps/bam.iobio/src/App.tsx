@@ -189,6 +189,7 @@ function App() {
 		try {
 			PercentChart.update([3, 5]);
 		} catch (error) {
+			console.log('% chart update error', PercentChart.update);
 			console.log(error);
 		}
 	}
@@ -196,19 +197,14 @@ function App() {
 	const Histogram = new StackedHistogram();
 	console.log('histogram', Histogram);
 
-	// document.querySelector('percent-chart-box').update([4,5]); works in Chrome DevTools
 	const ChartElement: IobioElement | null = document.querySelector('percent-chart-box');
 
 	if (ChartElement) {
-		const chart = ChartElement;
-		console.log('chartElement', chart);
-
-		const update = chart.update;
-		console.log('update', update, typeof update);
-
-		if (typeof chart.update === 'function') {
+		if (typeof ChartElement.update === 'function') {
 			try {
-				update([4, 6]);
+				const randomNumA = Math.round(Math.random() * 10);
+				const randomNumB = Math.round(Math.random() * 10);
+				ChartElement.update([randomNumA, randomNumB]);
 			} catch (error) {
 				console.log(error);
 			}
