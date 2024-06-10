@@ -185,6 +185,7 @@ function App() {
 	const PercentElement = PercentChart.el;
 	console.log('% element', PercentElement);
 
+	// TODO: This syntax is not working
 	if (typeof PercentChart.update === 'function') {
 		try {
 			PercentChart.update([3, 5]);
