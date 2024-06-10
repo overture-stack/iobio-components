@@ -23,8 +23,8 @@ declare module '@overture-stack/bam-visualizations/';
 
 declare namespace JSX {
 	interface IntrinsicElements {
-		'percent-chart-box': React.ComponentProps;
-		'stacked-histogram': React.ComponentProps;
+		'iobio-percent-box': React.ComponentProps;
+		'iobio-histogram': React.ComponentProps;
 	}
 }
 
