@@ -19,7 +19,7 @@
  *
  */
 
-import { createPercentBox, IobioElement } from '@overture-stack/iobio-components/components';
+import { createHistogram, createPercentBox } from '@overture-stack/iobio-components/components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
@@ -179,16 +179,28 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
+	// Init
 	createPercentBox();
-	const ChartNode: IobioElement | null = document.querySelector('iobio-percent-box');
+	createHistogram();
 
 	const randomizeChart = () => {
 		const randomNumA = Math.round(Math.random() * 10);
 		const randomNumB = Math.round(Math.random() * 10);
-		ChartNode?.update([randomNumA, randomNumB]);
+
+		return [randomNumA, randomNumB];
 	};
 
-	randomizeChart();
+	const randomizeHistogram = () => {
+		const dataA = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataB = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataC = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataD = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+
+		return [dataA, dataB, dataC, dataD];
+	};
+
+	const [chartData, setChartData] = useState(JSON.stringify(randomizeChart()));
+	const [histogramData, setHistogramData] = useState(JSON.stringify(randomizeHistogram()));
 
 	return (
 		<div className="App">
@@ -219,9 +231,19 @@ function App() {
 				{showBam ? (
 					<>
 						<h3>Bam.Iobio</h3>
-						<button onClick={randomizeChart}>Randomize</button>
-						<iobio-percent-box />
-						<iobio-histogram />
+						<button
+							onClick={() => {
+								window.location.reload();
+							}}
+						>
+							Randomize
+						</button>
+						<iobio-percent-box data={chartData} />
+						<iobio-histogram
+							data={histogramData}
+							data-script-id="data"
+							data-url="https://cdn.jsdelivr.net/npm/iobio-charts@0.3/test/example_data.json"
+						/>
 					</>
 				) : null}
 			</div>
