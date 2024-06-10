@@ -19,7 +19,12 @@
  *
  */
 
-import { IobioElement, PercentChartBox, StackedHistogram } from '@overture-stack/iobio-components/components';
+import {
+	createHistogram,
+	createPercentBox,
+	HistogramElement,
+	IobioElement,
+} from '@overture-stack/iobio-components/components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
@@ -179,7 +184,7 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const PercentChart = PercentChartBox();
+	const PercentChart = createPercentBox();
 	console.log('% chart', PercentChart);
 
 	const PercentElement = PercentChart.el;
@@ -195,10 +200,12 @@ function App() {
 		}
 	}
 
-	const Histogram = new StackedHistogram();
+	const Histogram = createHistogram();
 	console.log('histogram', Histogram);
+	console.log('histo element', HistogramElement);
 
 	const ChartElement: IobioElement | null = document.querySelector('percent-chart-box');
+	const HistogramNode: IobioElement | null = document.querySelector('stacked-histogram');
 
 	const randomizeChart = () => {
 		if (ChartElement) {
@@ -207,6 +214,19 @@ function App() {
 					const randomNumA = Math.round(Math.random() * 10);
 					const randomNumB = Math.round(Math.random() * 10);
 					ChartElement?.update([randomNumA, randomNumB]);
+				} catch (error) {
+					console.log(error);
+				}
+			}
+		}
+
+		if (HistogramNode) {
+			console.log('typeof update', typeof HistogramNode.update);
+			if (typeof HistogramNode.update === 'function') {
+				try {
+					const randomNumA = Math.round(Math.random() * 10);
+					const randomNumB = Math.round(Math.random() * 10);
+					HistogramNode?.update([randomNumA, randomNumB]);
 				} catch (error) {
 					console.log(error);
 				}
@@ -247,7 +267,7 @@ function App() {
 						<h3>Bam.Iobio</h3>
 						<button onClick={randomizeChart}>Randomize</button>
 						<percent-chart-box id="percent-chart-box" />
-						<stacked-histogram />
+						<stacked-histogram id="stacked-histogram" />
 					</>
 				) : null}
 			</div>

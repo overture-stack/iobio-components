@@ -1,3 +1,5 @@
-import { PercentChartBox, StackedHistogram } from 'iobio-charts';
+import iobioCharts from 'iobio-charts';
 
-export { PercentChartBox, StackedHistogram };
+const { createHistogram, createPercentBox, HistogramElement, PercentBoxElement } = iobioCharts;
+
+export { createHistogram, createPercentBox, HistogramElement, PercentBoxElement };
