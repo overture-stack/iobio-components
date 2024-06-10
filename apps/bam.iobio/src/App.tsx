@@ -196,7 +196,12 @@ function App() {
 		const dataC = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
 		const dataD = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
 
-		return [dataA, dataB, dataC, dataD];
+		const dataA1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataB1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataC1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataD1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+
+		return [dataA, dataB, dataC, dataD, dataA1, dataB1, dataC1, dataD1];
 	};
 
 	const [chartData, setChartData] = useState(JSON.stringify(randomizeChart()));
@@ -233,17 +238,16 @@ function App() {
 						<h3>Bam.Iobio</h3>
 						<button
 							onClick={() => {
-								window.location.reload();
+								setChartData(JSON.stringify(randomizeChart()));
+								setHistogramData(JSON.stringify(randomizeHistogram()));
+								// Alt state update solution
+								// window.location.reload();
 							}}
 						>
 							Randomize
 						</button>
 						<iobio-percent-box data={chartData} />
-						<iobio-histogram
-							data={histogramData}
-							data-script-id="data"
-							data-url="https://cdn.jsdelivr.net/npm/iobio-charts@0.3/test/example_data.json"
-						/>
+						<iobio-histogram data={histogramData} data-script-id="data" />
 					</>
 				) : null}
 			</div>
