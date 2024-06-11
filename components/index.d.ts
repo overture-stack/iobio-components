@@ -33,7 +33,6 @@ declare module '@overture-stack/iobio-components/components' {
 	function createHistogram(): {
 		el: HTMLDivElement;
 		update: (data: any) => void;
-		getStyles: () => any;
 	};
 
 	class PercentBoxElement extends IobioElement {}
