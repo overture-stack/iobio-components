@@ -150,8 +150,6 @@ const bamFileStats = (bamFile: string | null) => {
 };
 
 function App() {
-	const bamUrl = '/?bam=https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
-
 	const fileLoaded = Boolean(window.location.search);
 
 	const localBamConfig = localStorage.getItem('bamConfig') || null;
@@ -183,23 +181,25 @@ function App() {
 	createPercentBox();
 	createHistogram();
 
+	const randomNum10 = () => Math.round(Math.random() * 10);
+
 	const randomizeChart = () => {
-		const randomNumA = Math.round(Math.random() * 10);
-		const randomNumB = Math.round(Math.random() * 10);
+		const randomNumA = randomNum10();
+		const randomNumB = randomNum10();
 
 		return [randomNumA, randomNumB];
 	};
 
 	const randomizeHistogram = () => {
-		const dataA = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
-		const dataB = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
-		const dataC = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
-		const dataD = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataA = [randomNum10(), randomNum10()];
+		const dataB = [randomNum10(), randomNum10()];
+		const dataC = [randomNum10(), randomNum10()];
+		const dataD = [randomNum10(), randomNum10()];
 
-		const dataA1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
-		const dataB1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
-		const dataC1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
-		const dataD1 = [Math.round(Math.random() * 10), Math.round(Math.random() * 10)];
+		const dataA1 = [randomNum10(), randomNum10()];
+		const dataB1 = [randomNum10(), randomNum10()];
+		const dataC1 = [randomNum10(), randomNum10()];
+		const dataD1 = [randomNum10(), randomNum10()];
 
 		return [dataA, dataB, dataC, dataD, dataA1, dataB1, dataC1, dataD1];
 	};
@@ -212,17 +212,12 @@ function App() {
 			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
 				<>
 					<img src="images/ov-logo.png" className="App-logo" />
-					<p>
-						Edit <code>src/App.js</code> and save to reload.
-					</p>
 				</>
-				{fileLoaded ? (
+				{(fileLoaded && (
 					<a className="Back-button" href={'/'}>
 						Back
 					</a>
-				) : (
-					<a href={bamUrl}>Demo URL</a>
-				)}
+				)) || <></>}
 			</header>
 			{fileLoaded ? bamFileStats(bamFile) : bamConfigPanel(bamContext, updateContext)}
 
@@ -238,10 +233,12 @@ function App() {
 						<h3>Bam.Iobio</h3>
 						<button
 							onClick={() => {
-								setChartData(JSON.stringify(randomizeChart()));
-								setHistogramData(JSON.stringify(randomizeHistogram()));
-								// Alt state update solution
-								// window.location.reload();
+								// Work w/ Lifecycle Updates
+								// setChartData(JSON.stringify(randomizeChart()));
+								// setHistogramData(JSON.stringify(randomizeHistogram()));
+
+								// Alt. state update solution
+								window.location.reload();
 							}}
 						>
 							Randomize
