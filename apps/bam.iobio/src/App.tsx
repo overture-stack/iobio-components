@@ -24,115 +24,32 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 const defaultBamContext = {
-	pieChooser: true,
-	readCoverageBox: true,
-	readsSampledBox: true,
-	mappedReads: true,
-	forwardStrands: true,
-	properPairs: true,
-	singletons: true,
-	bothMatesMapped: true,
-	duplicates: true,
-	mappingQualityDistribution: true,
+	percentBox: true,
+	histogram: true,
 };
 
 type BamContext = typeof defaultBamContext;
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamContext, value: boolean) => void) => {
-	const {
-		pieChooser,
-		readCoverageBox,
-		readsSampledBox,
-		mappedReads,
-		forwardStrands,
-		properPairs,
-		singletons,
-		bothMatesMapped,
-		duplicates,
-		mappingQualityDistribution,
-	} = bamContext;
+	const { percentBox, histogram } = bamContext;
 
 	return (
 		<div style={{ margin: '15px' }}>
 			<button
-				className={'config-button' + (pieChooser ? ' active' : '')}
+				className={'config-button' + (percentBox ? ' active' : '')}
 				onClick={() => {
-					updateContext('pieChooser', pieChooser);
+					updateContext('percentBox', percentBox);
 				}}
 			>
 				Pie Chooser
 			</button>
 			<button
-				className={'config-button' + (readCoverageBox ? ' active' : '')}
+				className={'config-button' + (histogram ? ' active' : '')}
 				onClick={() => {
-					updateContext('readCoverageBox', readCoverageBox);
+					updateContext('histogram', histogram);
 				}}
 			>
 				Read Coverage
-			</button>
-			<button
-				className={'config-button' + (readsSampledBox ? ' active' : '')}
-				onClick={() => {
-					updateContext('readsSampledBox', readsSampledBox);
-				}}
-			>
-				Reads Sampled
-			</button>
-			<button
-				className={'config-button' + (mappedReads ? ' active' : '')}
-				onClick={() => {
-					updateContext('mappedReads', mappedReads);
-				}}
-			>
-				Mapped Reads
-			</button>
-			<button
-				className={'config-button' + (forwardStrands ? ' active' : '')}
-				onClick={() => {
-					updateContext('forwardStrands', forwardStrands);
-				}}
-			>
-				Forward Strands
-			</button>
-			<button
-				className={'config-button' + (properPairs ? ' active' : '')}
-				onClick={() => {
-					updateContext('properPairs', properPairs);
-				}}
-			>
-				Proper Pairs
-			</button>
-			<button
-				className={'config-button' + (singletons ? ' active' : '')}
-				onClick={() => {
-					updateContext('singletons', singletons);
-				}}
-			>
-				Singletons
-			</button>
-			<button
-				className={'config-button' + (bothMatesMapped ? ' active' : '')}
-				onClick={() => {
-					updateContext('bothMatesMapped', bothMatesMapped);
-				}}
-			>
-				Both Mates Mapped
-			</button>
-			<button
-				className={'config-button' + (duplicates ? ' active' : '')}
-				onClick={() => {
-					updateContext('duplicates', duplicates);
-				}}
-			>
-				Duplicates
-			</button>
-			<button
-				className={'config-button' + (mappingQualityDistribution ? ' active' : '')}
-				onClick={() => {
-					updateContext('mappingQualityDistribution', mappingQualityDistribution);
-				}}
-			>
-				Mapping Quality Distribution
 			</button>
 		</div>
 	);
@@ -243,8 +160,8 @@ function App() {
 						>
 							Randomize
 						</button>
-						<iobio-percent-box data={chartData} />
-						<iobio-histogram data={histogramData} data-script-id="data" />
+						{bamContext.percentBox ? <iobio-percent-box data={chartData} /> : <></>}
+						{bamContext.histogram ? <iobio-histogram data={histogramData} data-script-id="data" /> : <></>}
 					</>
 				) : null}
 			</div>
