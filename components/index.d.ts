@@ -19,6 +19,8 @@
  *
  */
 
+declare module 'iobio-charts';
+
 declare module '@overture-stack/iobio-components/components' {
 	interface IobioElement extends HTMLElement {
 		update: (data: any) => void;
