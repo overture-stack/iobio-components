@@ -129,6 +129,7 @@ function App() {
 			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
 				<>
 					<img src="images/ov-logo.png" className="App-logo" />
+					<h2>Overture Iobio Components</h2>
 				</>
 				{(fileLoaded && (
 					<a className="Back-button" href={'/'}>
