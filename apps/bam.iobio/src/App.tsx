@@ -151,7 +151,7 @@ function App() {
 						<h3>Bam.Iobio</h3>
 						<button
 							onClick={() => {
-								// Work w/ Lifecycle Updates
+								// Work w/ Lifecycle Updates i.e. attributeChangedCallback
 								// setChartData(JSON.stringify(randomizeChart()));
 								// setHistogramData(JSON.stringify(randomizeHistogram()));
 
