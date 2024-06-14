@@ -58,8 +58,8 @@ importers:
   components:
     dependencies:
       iobio-charts:
-        specifier: 0.4.0
-        version: 0.4.0
+        specifier: 0.7.0
+        version: 0.7.0
 
 packages:
 
@@ -3154,8 +3154,8 @@ packages:
     resolution: {integrity: sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==}
     engines: {node: '>=12'}
 
-  iobio-charts@0.4.0:
-    resolution: {integrity: sha512-B2YSiYVMo3QIxCC9q4kRPfYmKiVzb0pJIdCdNlzcKNZf/0G6OZPEyVlByiIs6+2pUkriGd1LP4jdD0hpnT2Gpg==}
+  iobio-charts@0.7.0:
+    resolution: {integrity: sha512-tu/fcbPC7f33l2pBK21j/cQ5zG567yYRdQ3Dc13jRwKr4+sYCrseWlwN1TwDNpbVhG8/govY3oDh1UNog9NSpg==}
 
   ipaddr.js@1.9.1:
     resolution: {integrity: sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==}
@@ -9442,7 +9442,7 @@ snapshots:
 
   internmap@2.0.3: {}
 
-  iobio-charts@0.4.0:
+  iobio-charts@0.7.0:
     dependencies:
       d3: 7.9.0
 
