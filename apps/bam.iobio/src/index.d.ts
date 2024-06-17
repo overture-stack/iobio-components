@@ -25,6 +25,7 @@ declare namespace JSX {
 	interface IntrinsicElements {
 		'iobio-percent-box': React.ComponentProps;
 		'iobio-histogram': React.ComponentProps;
+		'iobio-data-broker': React.ComponentProps;
 	}
 }
 

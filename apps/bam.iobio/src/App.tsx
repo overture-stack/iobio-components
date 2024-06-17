@@ -24,33 +24,35 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 const defaultBamContext = {
-	percentBox: true,
+	mappedReads: true,
+	forwardStrands: true,
+	properPairs: true,
+	singletons: true,
+	bothMatesMapped: true,
+	duplicates: true,
 	histogram: true,
 };
 
 type BamContext = typeof defaultBamContext;
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamContext, value: boolean) => void) => {
-	const { percentBox, histogram } = bamContext;
+	const keys = Object.keys(bamContext) as (keyof BamContext)[];
 
 	return (
 		<div style={{ margin: '15px' }}>
-			<button
-				className={'config-button' + (percentBox ? ' active' : '')}
-				onClick={() => {
-					updateContext('percentBox', percentBox);
-				}}
-			>
-				Pie Chooser
-			</button>
-			<button
-				className={'config-button' + (histogram ? ' active' : '')}
-				onClick={() => {
-					updateContext('histogram', histogram);
-				}}
-			>
-				Read Coverage
-			</button>
+			{keys.map((key) => {
+				return (
+					<button
+						className={'config-button' + (bamContext[key] ? ' active' : '')}
+						key={key}
+						onClick={() => {
+							updateContext(key, !bamContext[key]);
+						}}
+					>
+						{key}
+					</button>
+				);
+			})}
 		</div>
 	);
 };
@@ -121,6 +123,7 @@ function App() {
 		return [dataA, dataB, dataC, dataD, dataA1, dataB1, dataC1, dataD1];
 	};
 
+	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
 	const [chartData, setChartData] = useState(JSON.stringify(randomizeChart()));
 	const [histogramData, setHistogramData] = useState(JSON.stringify(randomizeHistogram()));
 
@@ -161,8 +164,18 @@ function App() {
 						>
 							Randomize
 						</button>
-						{bamContext.percentBox ? <iobio-percent-box data={chartData} /> : <></>}
-						{bamContext.histogram ? <iobio-histogram data={histogramData} data-script-id="data" /> : <></>}
+
+						<iobio-data-broker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
+
+						<div className="row">
+							{mappedReads ? <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" /> : <></>}
+							{forwardStrands ? <iobio-percent-box percent-key="forward_strands" total-key="total_reads" /> : <></>}
+							{properPairs ? <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" /> : <></>}
+							{singletons ? <iobio-percent-box percent-key="singletons" total-key="total_reads" /> : <></>}
+							{bothMatesMapped ? <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" /> : <></>}
+							{duplicates ? <iobio-percent-box percent-key="duplicates" total-key="total_reads" /> : <></>}
+						</div>
+						<div className="row">{histogram ? <iobio-histogram key="coverage_hist" /> : <></>}</div>
 					</>
 				) : null}
 			</div>
