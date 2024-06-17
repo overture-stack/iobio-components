@@ -100,29 +100,6 @@ function App() {
 	createPercentBox();
 	createHistogram();
 
-	const randomNum10 = () => Math.round(Math.random() * 10);
-
-	const randomizeChart = () => {
-		const randomNumA = randomNum10();
-		const randomNumB = randomNum10();
-
-		return [randomNumA, randomNumB];
-	};
-
-	const randomizeHistogram = () => {
-		const dataA = [randomNum10(), randomNum10()];
-		const dataB = [randomNum10(), randomNum10()];
-		const dataC = [randomNum10(), randomNum10()];
-		const dataD = [randomNum10(), randomNum10()];
-
-		const dataA1 = [randomNum10(), randomNum10()];
-		const dataB1 = [randomNum10(), randomNum10()];
-		const dataC1 = [randomNum10(), randomNum10()];
-		const dataD1 = [randomNum10(), randomNum10()];
-
-		return [dataA, dataB, dataC, dataD, dataA1, dataB1, dataC1, dataD1];
-	};
-
 	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
 
 	return (
