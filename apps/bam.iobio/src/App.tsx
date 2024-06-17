@@ -46,7 +46,7 @@ const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamCo
 						className={'config-button' + (bamContext[key] ? ' active' : '')}
 						key={key}
 						onClick={() => {
-							updateContext(key, !bamContext[key]);
+							updateContext(key, bamContext[key]);
 						}}
 					>
 						{key}
