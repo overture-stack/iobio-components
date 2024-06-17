@@ -124,8 +124,6 @@ function App() {
 	};
 
 	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
-	const [chartData, setChartData] = useState(JSON.stringify(randomizeChart()));
-	const [histogramData, setHistogramData] = useState(JSON.stringify(randomizeHistogram()));
 
 	return (
 		<div className="App">
@@ -152,18 +150,6 @@ function App() {
 				{showBam ? (
 					<>
 						<h3>Bam.Iobio</h3>
-						<button
-							onClick={() => {
-								// Work w/ Lifecycle Updates i.e. attributeChangedCallback
-								// setChartData(JSON.stringify(randomizeChart()));
-								// setHistogramData(JSON.stringify(randomizeHistogram()));
-
-								// Alt. state update solution
-								window.location.reload();
-							}}
-						>
-							Randomize
-						</button>
 
 						<iobio-data-broker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
