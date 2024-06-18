@@ -28,9 +28,3 @@ declare namespace JSX {
 		'iobio-data-broker': React.ComponentProps;
 	}
 }
-
-declare module '*.svg' {
-	const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>;
-
-	export default ReactComponent;
-}
