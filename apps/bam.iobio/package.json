@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"type": "module",
+	"name": "iobio-demo-app",
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
