@@ -65,6 +65,17 @@ h2 {
 	font-size: 1.25em;
 }
 
+.iobio-container {
+	max-height: 20vh;
+	width: 90%;
+}
+
+.iobio-histo-container {
+	max-height: 30vh;
+	justify-content: space-around;
+	width: 90%;
+}
+
 .row {
 	display: flex;
 }

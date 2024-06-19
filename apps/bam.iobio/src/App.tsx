@@ -130,7 +130,7 @@ function App() {
 
 						<iobio-data-broker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
-						<div className="row">
+						<div className="row iobio-container">
 							{mappedReads ? <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" /> : <></>}
 							{forwardStrands ? <iobio-percent-box percent-key="forward_strands" total-key="total_reads" /> : <></>}
 							{properPairs ? <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" /> : <></>}
@@ -138,7 +138,9 @@ function App() {
 							{bothMatesMapped ? <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" /> : <></>}
 							{duplicates ? <iobio-percent-box percent-key="duplicates" total-key="total_reads" /> : <></>}
 						</div>
-						<div className="row">{histogram ? <iobio-histogram key="coverage_hist" /> : <></>}</div>
+						<div className="row iobio-histo-container">
+							{histogram ? <iobio-histogram broker-key="coverage_hist" /> : <></>}
+						</div>
 					</>
 				) : null}
 			</div>
