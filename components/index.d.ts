@@ -19,7 +19,6 @@
  *
  */
 
-// import { createPercentBox, } from './index';
 import iobio from 'iobio-charts';
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
