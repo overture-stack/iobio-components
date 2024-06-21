@@ -7,6 +7,9 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
-		"iobio-charts": "0.10.0"
+		"@types/react": "^18.3.3",
+		"iobio-charts": "0.10.0",
+		"react": "^18.2.0",
+		"typescript": "^5.5.2"
 	}
 }

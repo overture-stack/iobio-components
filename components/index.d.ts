@@ -18,21 +18,26 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
-import iobioCharts from 'iobio-charts';
-import components from './index';
+
+// import { createPercentBox, } from './index';
+import iobio from 'iobio-charts';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 declare module 'iobio-charts' {
-	export declare function createPercentBox(): typeof iobioCharts.createPercentBox;
-	export declare function createHistogram(): typeof iobioCharts.createHistogram;
-	export declare const PercentBoxElement: typeof iobioCharts.PercentBoxElement;
-	export declare const HistogramElement: typeof iobioCharts.HistogramElement;
-	export declare const DataBroker: typeof iobioCharts.DataBroker;
-	export declare const DataBrokerElement: typeof iobioCharts.DataBrokerElement;
+	export function createPercentBox(): typeof iobio.createPercentBox;
+	export function createHistogram(): typeof iobio.createHistogram;
+	export const PercentBoxElement: typeof iobio.PercentBoxElement;
+	export const HistogramElement: typeof iobio.HistogramElement;
+	export const DataBroker: typeof iobio.DataBroker;
+	export const DataBrokerElement: typeof iobio.DataBrokerElement;
 }
 
 declare module '@overture-stack/iobio-components/components';
 
-export declare function createPercentBox(): typeof components.createPercentBox;
-export declare function createHistogram(): typeof components.createHistogram;
-export declare const PercentBoxElement: typeof components.PercentBoxElement;
-export declare const HistogramElement: typeof components.HistogramElement;
+declare namespace JSX {
+	interface IntrinsicElements {
+		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+	}
+}

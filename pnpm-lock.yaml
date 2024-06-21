@@ -57,9 +57,18 @@ importers:
 
   components:
     dependencies:
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.3
       iobio-charts:
         specifier: 0.10.0
         version: 0.10.0
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      typescript:
+        specifier: ^5.5.2
+        version: 5.5.2
 
 packages:
 

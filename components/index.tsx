@@ -23,4 +23,8 @@ import iobioCharts from 'iobio-charts';
 
 const { createHistogram, createPercentBox, HistogramElement, PercentBoxElement } = iobioCharts;
 
-export { HistogramElement, PercentBoxElement, createHistogram, createPercentBox };
+function IobioHistogram(props: { 'broker-key': string }) {
+	return <iobio-histogram broker-key="coverage_hist" />;
+}
+
+export { IobioHistogram, PercentBoxElement, createHistogram, createPercentBox };
