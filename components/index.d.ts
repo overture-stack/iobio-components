@@ -18,26 +18,21 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+import iobioCharts from 'iobio-charts';
+import components from './index';
 
-declare module 'iobio-charts';
-
-declare module '@overture-stack/iobio-components/components' {
-	interface IobioElement extends HTMLElement {
-		update: (data: any) => void;
-	}
-
-	function createPercentBox(): {
-		el: HTMLDivElement;
-		update: (data: any) => void;
-		getStyles: () => any;
-	};
-
-	function createHistogram(): {
-		el: HTMLDivElement;
-		update: (data: any) => void;
-	};
-
-	class PercentBoxElement extends IobioElement {}
-
-	class HistogramElement extends IobioElement {}
+declare module 'iobio-charts' {
+	export declare function createPercentBox(): typeof iobioCharts.createPercentBox;
+	export declare function createHistogram(): typeof iobioCharts.createHistogram;
+	export declare const PercentBoxElement: typeof iobioCharts.PercentBoxElement;
+	export declare const HistogramElement: typeof iobioCharts.HistogramElement;
+	export declare const DataBroker: typeof iobioCharts.DataBroker;
+	export declare const DataBrokerElement: typeof iobioCharts.DataBrokerElement;
 }
+
+declare module '@overture-stack/iobio-components/components';
+
+export declare function createPercentBox(): typeof components.createPercentBox;
+export declare function createHistogram(): typeof components.createHistogram;
+export declare const PercentBoxElement: typeof components.PercentBoxElement;
+export declare const HistogramElement: typeof components.HistogramElement;
