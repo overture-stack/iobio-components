@@ -26,6 +26,7 @@
 	"dependencies": {
 		"@emotion/react": "^11.11.4",
 		"@overture-stack/iobio-components": "workspace:^",
+		"clsx": "^2.1.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-scripts": "5.0.1"

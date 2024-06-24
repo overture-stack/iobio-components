@@ -19,7 +19,8 @@
  *
  */
 
-import { createHistogram, createPercentBox, IobioHistogram } from '@overture-stack/iobio-components/components';
+import { createHistogram, createPercentBox } from '@overture-stack/iobio-components/components';
+import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import './App.css';
 
@@ -43,7 +44,7 @@ const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamCo
 			{keys.map((key) => {
 				return (
 					<button
-						className={'config-button' + (bamContext[key] ? ' active' : '')}
+						className={clsx('config-button', bamContext[key] && 'active')}
 						key={key}
 						onClick={() => {
 							updateContext(key, bamContext[key]);
@@ -104,7 +105,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<header className={'App-header' + (fileLoaded ? ' file-loaded' : ' home')}>
+			<header className={clsx('App-header', fileLoaded ? 'file-loaded' : 'home')}>
 				<>
 					<img src="images/ov-logo.png" className="App-logo" />
 					<h2>Overture Iobio Components</h2>
@@ -117,11 +118,11 @@ function App() {
 			</header>
 			{fileLoaded ? bamFileStats(bamFile) : bamConfigPanel(bamContext, updateContext)}
 
-			<button className={'config-button' + (showBam ? ' active' : '')} onClick={() => toggleShowBam(!showBam)}>
+			<button className={clsx('config-button', showBam && ' active')} onClick={() => toggleShowBam(!showBam)}>
 				Show / Hide BAM
 			</button>
 
-			<div className={'bam-container' + (showBam ? ' bam-open' : '')}>
+			<div className={clsx('bam-container', showBam && 'bam-open')}>
 				{/* Needs to render on the page before scripts for BAM to work */}
 				<div id="app"></div>
 				{showBam ? (
@@ -140,7 +141,7 @@ function App() {
 						</div>
 						<div className="row iobio-histo-container">
 							{histogram ? <iobio-histogram broker-key="coverage_hist" /> : <></>}
-							<IobioHistogram broker-key="coverage_hist" />
+							{/* <IobioHistogram broker-key="coverage_hist" /> */}
 						</div>
 					</>
 				) : null}
