@@ -1,6 +1,7 @@
 {
 	"private": true,
 	"type": "module",
+	"name": "iobio-demo-app",
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
@@ -24,6 +25,7 @@
 	},
 	"dependencies": {
 		"@emotion/react": "^11.11.4",
+		"@overture-stack/iobio-components": "workspace:^",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-scripts": "5.0.1"

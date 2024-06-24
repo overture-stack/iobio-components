@@ -19,12 +19,25 @@
  *
  */
 
-declare module '@overture-stack/bam-visualizations/';
+declare module 'iobio-charts';
 
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': React.ComponentProps;
-		'iobio-histogram': React.ComponentProps;
-		'iobio-data-broker': React.ComponentProps;
+declare module '@overture-stack/iobio-components/components' {
+	interface IobioElement extends HTMLElement {
+		update: (data: any) => void;
 	}
+
+	function createPercentBox(): {
+		el: HTMLDivElement;
+		update: (data: any) => void;
+		getStyles: () => any;
+	};
+
+	function createHistogram(): {
+		el: HTMLDivElement;
+		update: (data: any) => void;
+	};
+
+	class PercentBoxElement extends IobioElement {}
+
+	class HistogramElement extends IobioElement {}
 }
