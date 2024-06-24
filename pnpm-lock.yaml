@@ -70,6 +70,12 @@ importers:
         specifier: ^5.5.2
         version: 5.5.2
 
+  components:
+    dependencies:
+      iobio-charts:
+        specifier: 0.10.0
+        version: 0.10.0
+
 packages:
 
   '@alloc/quick-lru@5.2.0':
