@@ -20,7 +20,8 @@
 		"baseUrl": "./",
 		"paths": {
 			"@/public": ["./public"],
-			"@/*": ["./*"]
+			"@/*": ["./*"],
+			"iobio-charts": ["./components/index.d.ts"]
 		},
 		"plugins": [
 			{

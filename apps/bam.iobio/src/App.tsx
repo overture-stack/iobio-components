@@ -19,7 +19,7 @@
  *
  */
 
-import { createHistogram, createPercentBox } from '@overture-stack/iobio-components/components';
+import { createHistogram, createPercentBox, IobioHistogram } from '@overture-stack/iobio-components/components';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import './App.css';
@@ -140,7 +140,7 @@ function App() {
 						</div>
 						<div className="row iobio-histo-container">
 							{histogram && <iobio-histogram broker-key="coverage_hist" />}
-							{/* <IobioHistogram broker-key="coverage_hist" /> */}
+							<IobioHistogram broker-key="coverage_hist" />
 						</div>
 					</>
 				) : null}

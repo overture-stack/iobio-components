@@ -20,7 +20,7 @@
  */
 
 import iobio from 'iobio-charts';
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { DetailedHTMLProps, ElementType, HTMLAttributes } from 'react';
 
 declare module 'iobio-charts' {
 	export function createPercentBox(): typeof iobio.createPercentBox;
@@ -31,7 +31,9 @@ declare module 'iobio-charts' {
 	export const DataBrokerElement: typeof iobio.DataBrokerElement;
 }
 
-declare module '@overture-stack/iobio-components/components';
+declare module '@overture-stack/iobio-components/components' {
+	export const IobioHistogram: ElementType;
+}
 
 declare namespace JSX {
 	interface IntrinsicElements {
