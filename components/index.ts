@@ -19,12 +19,18 @@
  *
  */
 
-import iobioCharts from 'iobio-charts';
+import { Histogram } from './histogram';
+import { initPercentBox } from './percent_box';
 
-const { createHistogram, createPercentBox, HistogramElement, PercentBoxElement } = iobioCharts;
+// declare module '@overture-stack/iobio-components/components';
 
-function IobioHistogram(props: { 'broker-key': string }) {
-	return <iobio-histogram broker-key="coverage_hist" />;
-}
+// const Components = {
+// 	IobioHistogram: Histogram,
+// 	createPercentBox: initPercentBox,
+// };
 
-export { IobioHistogram, PercentBoxElement, createHistogram, createPercentBox };
+// export default Components;
+
+export const IobioHistogram = Histogram;
+
+export const createPercentBox = initPercentBox;

@@ -19,7 +19,8 @@
  *
  */
 
-import { createHistogram, createPercentBox, IobioHistogram } from '@overture-stack/iobio-components/components';
+import { createPercentBox, IobioHistogram } from '@overture-stack/iobio-components/components/';
+
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import './App.css';
@@ -99,7 +100,6 @@ function App() {
 
 	// Init
 	createPercentBox();
-	createHistogram();
 
 	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
 

@@ -21,7 +21,7 @@
 		"paths": {
 			"@/public": ["./public"],
 			"@/*": ["./*"],
-			"iobio-charts": ["./components/index.d.ts"]
+			"iobio-charts": ["./components/iobio.d.ts"]
 		},
 		"plugins": [
 			{

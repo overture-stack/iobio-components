@@ -19,26 +19,17 @@
  *
  */
 
-import iobio from 'iobio-charts';
-import { DetailedHTMLProps, ElementType, HTMLAttributes } from 'react';
+import iobioCharts from 'iobio-charts';
+import { useEffect } from 'react';
 
-declare module 'iobio-charts' {
-	export function createPercentBox(): typeof iobio.createPercentBox;
-	export function createHistogram(): typeof iobio.createHistogram;
-	export const PercentBoxElement: typeof iobio.PercentBoxElement;
-	export const HistogramElement: typeof iobio.HistogramElement;
-	export const DataBroker: typeof iobio.DataBroker;
-	export const DataBrokerElement: typeof iobio.DataBrokerElement;
+const { createHistogram } = iobioCharts;
+
+function Histogram(props: { 'broker-key': string }) {
+	useEffect(() => {
+		createHistogram();
+	}, []);
+	console.log(props);
+	return <iobio-histogram broker-key="coverage_hist" />;
 }
 
-declare module '@overture-stack/iobio-components/components' {
-	export const IobioHistogram: ElementType;
-}
-
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-	}
-}
+export { Histogram };
