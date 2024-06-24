@@ -106,15 +106,14 @@ function App() {
 	return (
 		<div className="App">
 			<header className={clsx('App-header', fileLoaded ? 'file-loaded' : 'home')}>
-				<>
-					<img src="images/ov-logo.png" className="App-logo" />
-					<h2>Overture Iobio Components</h2>
-				</>
-				{(fileLoaded && (
+				<img src="images/ov-logo.png" className="App-logo" />
+				<h2>Overture Iobio Components</h2>
+
+				{fileLoaded && (
 					<a className="Back-button" href={'/'}>
 						Back
 					</a>
-				)) || <></>}
+				)}
 			</header>
 			{fileLoaded ? bamFileStats(bamFile) : bamConfigPanel(bamContext, updateContext)}
 
@@ -132,15 +131,15 @@ function App() {
 						<iobio-data-broker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
 						<div className="row iobio-container">
-							{mappedReads ? <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" /> : <></>}
-							{forwardStrands ? <iobio-percent-box percent-key="forward_strands" total-key="total_reads" /> : <></>}
-							{properPairs ? <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" /> : <></>}
-							{singletons ? <iobio-percent-box percent-key="singletons" total-key="total_reads" /> : <></>}
-							{bothMatesMapped ? <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" /> : <></>}
-							{duplicates ? <iobio-percent-box percent-key="duplicates" total-key="total_reads" /> : <></>}
+							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
+							{forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />}
+							{properPairs && <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" />}
+							{singletons && <iobio-percent-box percent-key="singletons" total-key="total_reads" />}
+							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
+							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
 						</div>
 						<div className="row iobio-histo-container">
-							{histogram ? <iobio-histogram broker-key="coverage_hist" /> : <></>}
+							{histogram && <iobio-histogram broker-key="coverage_hist" />}
 							{/* <IobioHistogram broker-key="coverage_hist" /> */}
 						</div>
 					</>
