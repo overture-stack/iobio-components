@@ -64,8 +64,8 @@ importers:
   components:
     dependencies:
       iobio-charts:
-        specifier: ^0.11.0
-        version: 0.11.0
+        specifier: ^0.10.0
+        version: 0.10.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1017,8 +1017,8 @@ packages:
     resolution: {integrity: sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==}
     engines: {node: '>=12'}
 
-  iobio-charts@0.11.0:
-    resolution: {integrity: sha512-iRxGaNgpgylDTeryqW4fBr1Oak4Ba+WBRdrDThyRGvErxYcEC1dQPhczjZbhnjJ2rL0lJzwmLbz3SIvKVSdlmA==}
+  iobio-charts@0.10.0:
+    resolution: {integrity: sha512-0Tz+kVN3xF/9JIx7jvgSDwsJ5LQYfCZyU0lFIcRaCGPT0pAZEYNspMRb81XPqoqHvS2rbtshrO65apazcmNJAQ==}
 
   is-extglob@2.1.1:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
@@ -2334,7 +2334,7 @@ snapshots:
 
   internmap@2.0.3: {}
 
-  iobio-charts@0.11.0:
+  iobio-charts@0.10.0:
     dependencies:
       d3: 7.9.0
 
