@@ -19,12 +19,16 @@
  *
  */
 
+/// <reference types="vite/client" />
+
+import { ComponentProps } from 'react';
+
 declare module '@overture-stack/bam-visualizations/';
 
 declare namespace JSX {
 	interface IntrinsicElements {
-		'iobio-percent-box': React.ComponentProps;
-		'iobio-histogram': React.ComponentProps;
-		'iobio-data-broker': React.ComponentProps;
+		'iobio-percent-box': ComponentProps<'div'>;
+		'iobio-histogram': ComponentProps<'div'>;
+		'iobio-data-broker': ComponentProps<'div'>;
 	}
 }

@@ -19,9 +19,9 @@
  *
  */
 
-import IobioComponents from '@overture-stack/iobio-components/components/';
+// import IobioComponents from '@overture-stack/iobio-components/components/';
 
-const { IobioHistogram, createPercentBox } = IobioComponents;
+// const { IobioHistogram, createPercentBox } = IobioComponents;
 
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
@@ -101,14 +101,14 @@ function App() {
 	}, [fileLoaded]);
 
 	// Init
-	createPercentBox();
+	// createPercentBox();
 
-	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
+	// const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
 
 	return (
 		<div className="App">
 			<header className={clsx('App-header', fileLoaded ? 'file-loaded' : 'home')}>
-				<img src="images/ov-logo.png" className="App-logo" />
+				<img src="public/ov-logo.png" className="App-logo" />
 				<h2>Overture Iobio Components</h2>
 
 				{fileLoaded && (
@@ -130,19 +130,19 @@ function App() {
 					<>
 						<h3>Bam.Iobio</h3>
 
-						<iobio-data-broker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
+						{/* <iobio-data-broker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" /> */}
 
 						<div className="row iobio-container">
-							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
-							{forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />}
-							{properPairs && <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" />}
-							{singletons && <iobio-percent-box percent-key="singletons" total-key="total_reads" />}
-							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
-							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
+							{/* {mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />} */}
+							{/* {forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />} */}
+							{/* {properPairs && <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" />} */}
+							{/* {singletons && <iobio-percent-box percent-key="singletons" total-key="total_reads" />} */}
+							{/* {bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />} */}
+							{/* {duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />} */}
 						</div>
 						<div className="row iobio-histo-container">
-							{histogram && <iobio-histogram broker-key="coverage_hist" />}
-							<IobioHistogram broker-key="coverage_hist" />
+							{/* {histogram && <iobio-histogram broker-key="coverage_hist" />} */}
+							{/* <IobioHistogram broker-key="coverage_hist" /> */}
 						</div>
 					</>
 				) : null}
