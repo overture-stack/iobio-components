@@ -1,5 +1,5 @@
 {
-	"name": "bam.iobio",
+	"name": "components",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
@@ -10,8 +10,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"clsx": "^2.1.1",
-		"@overture-stack/iobio-components": "workspace:^",
+		"iobio-charts": "^0.11.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1"
 	},
@@ -24,7 +23,7 @@
 		"eslint": "^8.57.0",
 		"eslint-plugin-react-hooks": "^4.6.2",
 		"eslint-plugin-react-refresh": "^0.4.7",
-		"typescript": "^5.2.2",
+		"typescript": "^5.5.2",
 		"vite": "^5.3.1"
 	}
 }
