@@ -24,7 +24,7 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import './App.css';
 
-const { createHistogram, createPercentBox } = IobioComponents;
+const { Histogram, createPercentBox } = IobioComponents;
 const defaultBamContext = {
 	mappedReads: true,
 	forwardStrands: true,
@@ -100,7 +100,6 @@ function App() {
 
 	// Init
 	createPercentBox();
-	createHistogram();
 
 	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
 
@@ -141,7 +140,7 @@ function App() {
 						</div>
 						<div className="row iobio-histo-container">
 							{histogram && <iobio-histogram broker-key="coverage_hist" />}
-							{/* <IobioHistogram broker-key="coverage_hist" /> */}
+							{histogram && <Histogram broker-key="coverage_hist" />}
 						</div>
 					</>
 				) : null}

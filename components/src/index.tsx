@@ -19,10 +19,10 @@
  *
  */
 
-import createHistogram from './histogram.tsx';
+import Histogram from './histogram.tsx';
 import createPercentBox from './percent_box.tsx';
 
 export default {
-	createHistogram,
+	Histogram,
 	createPercentBox,
 };

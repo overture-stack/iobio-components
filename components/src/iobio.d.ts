@@ -20,7 +20,6 @@
  */
 
 import iobio from 'iobio-charts';
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 // TODO: How to handle maintenance?
 declare module 'iobio-charts' {
