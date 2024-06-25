@@ -19,18 +19,10 @@
  *
  */
 
-import { Histogram } from './histogram';
-import { initPercentBox } from './percent_box';
+import IobioHistogram from './histogram.tsx';
+import createPercentBox from './percent_box.tsx';
 
-// declare module '@overture-stack/iobio-components/components';
-
-// const Components = {
-// 	IobioHistogram: Histogram,
-// 	createPercentBox: initPercentBox,
-// };
-
-// export default Components;
-
-export const IobioHistogram = Histogram;
-
-export const createPercentBox = initPercentBox;
+export default {
+	IobioHistogram,
+	createPercentBox,
+};

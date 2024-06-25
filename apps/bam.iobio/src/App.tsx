@@ -19,7 +19,9 @@
  *
  */
 
-import { createPercentBox, IobioHistogram } from '@overture-stack/iobio-components/components/';
+import IobioComponents from '@overture-stack/iobio-components/components/';
+
+const { IobioHistogram, createPercentBox } = IobioComponents;
 
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';

@@ -21,6 +21,6 @@
 
 import iobioCharts from 'iobio-charts';
 
-const { createPercentBox: initPercentBox } = iobioCharts;
+const { createPercentBox } = iobioCharts;
 
-export { initPercentBox };
+export default createPercentBox;

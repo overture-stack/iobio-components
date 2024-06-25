@@ -4,6 +4,7 @@
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
+		"allowImportingTsExtensions": true,
 		"alwaysStrict": true /* Ensure 'use strict' is always emitted. */,
 		"strict": true /* Enable all strict type-checking options. */,
 		"forceConsistentCasingInFileNames": true,

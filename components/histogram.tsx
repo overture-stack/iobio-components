@@ -32,4 +32,4 @@ function Histogram(props: { 'broker-key': string }) {
 	return <iobio-histogram broker-key="coverage_hist" />;
 }
 
-export { Histogram };
+export default Histogram;
