@@ -1,4 +1,12 @@
-# React + TypeScript + Vite
+# Overture Wrapper for Bam.Iobio Components
+
+## Setup + Local Development
+
+- Install dependencies: `pnpm ci`
+
+- Import components in consumer app as `import IobioComponents from '@overture-stack/iobio-components/components/src/index';`
+
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
