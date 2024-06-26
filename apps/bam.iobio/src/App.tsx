@@ -19,12 +19,11 @@
  *
  */
 
-import IobioComponents from '@overture-stack/iobio-components/components';
+import IobioComponents from '@overture-stack/iobio-components/components/';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import './App.css';
 
-const { Histogram, createPercentBox } = IobioComponents;
 const defaultBamContext = {
 	mappedReads: true,
 	forwardStrands: true,
@@ -71,6 +70,9 @@ const bamFileStats = (bamFile: string | null) => {
 };
 
 function App() {
+	// TODO: IobioComponents is needed in scope for web components but linter removes unused imports
+	console.log(IobioComponents);
+
 	const fileLoaded = Boolean(window.location.search);
 
 	const localBamConfig = localStorage.getItem('bamConfig') || null;
@@ -97,9 +99,6 @@ function App() {
 		const fileStats = localStorage.getItem('bamFileStats');
 		setBamFile(fileStats);
 	}, [fileLoaded]);
-
-	// Init
-	createPercentBox();
 
 	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
 
@@ -128,7 +127,7 @@ function App() {
 					<>
 						<h3>Bam.Iobio</h3>
 
-						<iobio-data-broker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
+						<iobio-data-broker alignment-url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
 						<div className="row iobio-container">
 							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
@@ -140,7 +139,7 @@ function App() {
 						</div>
 						<div className="row iobio-histo-container">
 							{histogram && <iobio-histogram broker-key="coverage_hist" />}
-							{histogram && <Histogram broker-key="coverage_hist" />}
+							{/* {histogram && <Histogram broker-key="coverage_hist" />} */}
 						</div>
 					</>
 				) : null}
