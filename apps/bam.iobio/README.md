@@ -2,7 +2,7 @@
 
 ## Setup + Local Development
 
-- Install dependencies: `pnpm ci`
+- Install dependencies: `pnpm i`
 
 - Start script: `pnpm run dev`
 

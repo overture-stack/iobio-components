@@ -2,7 +2,7 @@
 
 ## Setup + Local Development
 
-- Install dependencies: `pnpm ci`
+- Install dependencies: `pnpm i`
 
 - Import components in consumer app as `import IobioComponents from '@overture-stack/iobio-components/components/src/index';`
 
