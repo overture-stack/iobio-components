@@ -117,7 +117,7 @@ h2 {
 
 .iobio-histo-container {
 	max-height: 30vh;
-	justify-content: space-around;
+	justify-content: center;
 	width: 90%;
 }
 
