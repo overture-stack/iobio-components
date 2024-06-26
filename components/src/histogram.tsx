@@ -26,14 +26,11 @@ const { createHistogram } = iobioCharts;
 
 function Histogram(props: { 'broker-key': string }) {
 	useEffect(() => {
-		const histogram = createHistogram();
-		console.log(histogram);
+		createHistogram();
 	}, []);
-	console.log(props);
-	console.log(iobioCharts);
 
 	// return <iobio-histogram />;
-	return <div></div>;
+	return <div broker-key={props['broker-key']}></div>;
 }
 
 export default Histogram;
