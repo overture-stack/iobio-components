@@ -30,11 +30,3 @@ declare module 'iobio-charts' {
 	export const DataBroker: typeof iobio.DataBroker;
 	export const DataBrokerElement: typeof iobio.DataBrokerElement;
 }
-
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-	}
-}

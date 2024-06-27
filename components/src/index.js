@@ -19,10 +19,10 @@
  *
  */
 
-import Histogram from './histogram.tsx';
+import IobioHistogram from './histogram.tsx';
 import createPercentBox from './percent_box.tsx';
 
 export default {
-	Histogram,
+	IobioHistogram,
 	createPercentBox,
 };
