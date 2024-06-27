@@ -19,4 +19,4 @@
  *
  */
 
-declare module '@overture-stack/iobio-components/components/';
+declare module 'components';

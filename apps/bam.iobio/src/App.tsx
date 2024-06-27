@@ -19,8 +19,8 @@
  *
  */
 
-import '@overture-stack/iobio-components/components/';
 import clsx from 'clsx';
+import 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
