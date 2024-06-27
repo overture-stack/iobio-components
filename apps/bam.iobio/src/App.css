@@ -5,6 +5,10 @@
 	text-align: center;
 }
 
+.iobio-histo-container {
+	--iobio-data-color: lightgreen;
+}
+
 .logo {
 	height: 6em;
 	padding: 1.5em;
