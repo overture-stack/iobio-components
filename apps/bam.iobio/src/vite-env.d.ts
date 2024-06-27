@@ -19,25 +19,12 @@
  *
  */
 
-declare module 'iobio-charts';
+/// <reference types="vite/client" />
 
-declare module '@overture-stack/iobio-components/components' {
-	interface IobioElement extends HTMLElement {
-		update: (data: any) => void;
-	}
+interface ImportMeta {
+	readonly env: ImportMetaEnv;
+}
 
-	function createPercentBox(): {
-		el: HTMLDivElement;
-		update: (data: any) => void;
-		getStyles: () => any;
-	};
-
-	function createHistogram(): {
-		el: HTMLDivElement;
-		update: (data: any) => void;
-	};
-
-	class PercentBoxElement extends IobioElement {}
-
-	class HistogramElement extends IobioElement {}
+interface ImportMetaEnv {
+	readonly VITE_PORT: string;
 }

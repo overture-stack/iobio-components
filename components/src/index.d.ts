@@ -19,12 +19,4 @@
  *
  */
 
-declare module 'iobio-demo-app';
-
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-	}
-}
+declare module 'components';
