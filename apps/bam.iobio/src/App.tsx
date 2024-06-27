@@ -24,7 +24,7 @@ import IobioComponents from 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
-const { IobioHistogram } = IobioComponents;
+const { IobioHistogram, IobioPercentBox } = IobioComponents;
 
 const defaultBamContext = {
 	coverageDepth: true,
@@ -140,12 +140,12 @@ function App() {
 
 						<div className="row iobio-chart-container">{coverageDepth && <iobio-coverage-depth />}</div>
 						<div className="row iobio-container">
-							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
-							{forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />}
-							{properPairs && <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" />}
-							{singletons && <iobio-percent-box percent-key="singletons" total-key="total_reads" />}
-							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
-							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
+							{mappedReads && <IobioPercentBox percentKey="mapped_reads" totalKey="total_reads" />}
+							{forwardStrands && <IobioPercentBox percentKey="forward_strands" totalKey="total_reads" />}
+							{properPairs && <IobioPercentBox percentKey="proper_pairs" totalKey="total_reads" />}
+							{singletons && <IobioPercentBox percentKey="singletons" totalKey="total_reads" />}
+							{bothMatesMapped && <IobioPercentBox percentKey="both_mates_mapped" totalKey="total_reads" />}
+							{duplicates && <IobioPercentBox percentKey="duplicates" totalKey="total_reads" />}
 						</div>
 						<div className="row iobio-chart-container">{histogram && <IobioHistogram brokerKey="coverage_hist" />}</div>
 					</>
