@@ -19,12 +19,10 @@
  *
  */
 
-import IobioCoverageDepth from './coverage_depth.tsx';
-import IobioHistogram from './histogram.tsx';
-import IobioPercentBox from './percent_box.tsx';
+import 'iobio-charts';
 
-export default {
-	IobioCoverageDepth,
-	IobioHistogram,
-	IobioPercentBox,
-};
+function IobioCoverageDepth() {
+	return <iobio-coverage-depth />;
+}
+
+export default IobioCoverageDepth;
