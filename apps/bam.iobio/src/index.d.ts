@@ -19,7 +19,7 @@
  *
  */
 
-declare module '@overture-stack/bam-visualizations/';
+declare module 'iobio-demo-app';
 
 declare namespace JSX {
 	interface IntrinsicElements {
