@@ -24,7 +24,7 @@ import IobioComponents from 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
-const { IobioHistogram, IobioPercentBox } = IobioComponents;
+const { IobioCoverageDepth, IobioHistogram, IobioPercentBox } = IobioComponents;
 
 const defaultBamContext = {
 	coverageDepth: true,
@@ -138,7 +138,7 @@ function App() {
 
 						<iobio-data-broker alignment-url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
-						<div className="row iobio-chart-container">{coverageDepth && <iobio-coverage-depth />}</div>
+						<div className="row iobio-chart-container">{coverageDepth && <IobioCoverageDepth />}</div>
 						<div className="row iobio-container">
 							{mappedReads && <IobioPercentBox percentKey="mapped_reads" totalKey="total_reads" />}
 							{forwardStrands && <IobioPercentBox percentKey="forward_strands" totalKey="total_reads" />}
