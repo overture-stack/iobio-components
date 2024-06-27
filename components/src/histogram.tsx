@@ -21,8 +21,8 @@
 
 import 'iobio-charts';
 
-function IobioHistogram({ brokerKey }: { brokerKey: string }) {
-	return <iobio-histogram broker-key={brokerKey} />;
+function IobioHistogram({ brokerKey, color }: { brokerKey: string; color?: string }) {
+	return <iobio-histogram broker-key={brokerKey} style={{ '--iobio-data-color': color }} />;
 }
 
 export default IobioHistogram;

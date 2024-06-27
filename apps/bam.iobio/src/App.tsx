@@ -147,7 +147,9 @@ function App() {
 							{bothMatesMapped && <IobioPercentBox percentKey="both_mates_mapped" totalKey="total_reads" />}
 							{duplicates && <IobioPercentBox percentKey="duplicates" totalKey="total_reads" />}
 						</div>
-						<div className="row iobio-chart-container">{histogram && <IobioHistogram brokerKey="coverage_hist" />}</div>
+						<div className="row iobio-chart-container">
+							{histogram && <IobioHistogram brokerKey="coverage_hist" color={'red'} />}
+						</div>
 					</>
 				) : null}
 			</div>
