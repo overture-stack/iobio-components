@@ -21,14 +21,10 @@
 
 /// <reference types="vite/client" />
 
-import { ComponentProps } from 'react';
+interface ImportMeta {
+	readonly env: ImportMetaEnv;
+}
 
-declare module '@overture-stack/bam-visualizations/';
-
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': ComponentProps<'div'>;
-		'iobio-histogram': ComponentProps<'div'>;
-		'iobio-data-broker': ComponentProps<'div'>;
-	}
+interface ImportMetaEnv {
+	readonly VITE_PORT: string;
 }

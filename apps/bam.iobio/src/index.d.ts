@@ -19,6 +19,8 @@
  *
  */
 
+declare module '@overture-stack/bam-visualizations/';
+
 declare namespace JSX {
 	interface IntrinsicElements {
 		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
