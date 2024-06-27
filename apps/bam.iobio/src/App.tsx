@@ -20,9 +20,11 @@
  */
 
 import clsx from 'clsx';
-import 'components';
+import IobioComponents from 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
+
+const { IobioHistogram } = IobioComponents;
 
 const defaultBamContext = {
 	coverageDepth: true,
@@ -145,10 +147,7 @@ function App() {
 							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
 							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
 						</div>
-						<div className="row iobio-chart-container">
-							{histogram && <iobio-histogram broker-key="coverage_hist" />}
-							{/* {histogram && <Histogram broker-key="coverage_hist" />} */}
-						</div>
+						<div className="row iobio-chart-container">{histogram && <IobioHistogram brokerKey="coverage_hist" />}</div>
 					</>
 				) : null}
 			</div>
