@@ -5,10 +5,6 @@
 	text-align: center;
 }
 
-.iobio-histo-container {
-	--iobio-data-color: lightgreen;
-}
-
 .logo {
 	height: 6em;
 	padding: 1.5em;
@@ -96,10 +92,12 @@ h2 {
 	width: 90%;
 }
 
-.iobio-histo-container {
-	max-height: 30vh;
+.iobio-chart-container {
+	margin: 15px;
+	height: 30vh;
 	justify-content: center;
 	width: 90%;
+	--iobio-data-color: lightgreen;
 }
 
 .row {
