@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 
 const defaultBamContext = {
+	coverageDepth: true,
 	mappedReads: true,
 	forwardStrands: true,
 	properPairs: true,
@@ -97,7 +98,16 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
+	const {
+		coverageDepth,
+		mappedReads,
+		forwardStrands,
+		properPairs,
+		singletons,
+		bothMatesMapped,
+		duplicates,
+		histogram,
+	} = bamContext;
 
 	return (
 		<div className="App">
@@ -126,6 +136,7 @@ function App() {
 
 						<iobio-data-broker alignment-url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
+						<div className="row iobio-chart-container">{coverageDepth && <iobio-coverage-depth />}</div>
 						<div className="row iobio-container">
 							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
 							{forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />}
@@ -134,7 +145,7 @@ function App() {
 							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
 							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
 						</div>
-						<div className="row iobio-histo-container">
+						<div className="row iobio-chart-container">
 							{histogram && <iobio-histogram broker-key="coverage_hist" />}
 							{/* {histogram && <Histogram broker-key="coverage_hist" />} */}
 						</div>
