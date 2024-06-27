@@ -19,7 +19,7 @@
  *
  */
 
-import IobioComponents from '@overture-stack/iobio-components/components/';
+import '@overture-stack/iobio-components/components/';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import './App.css';
@@ -70,9 +70,6 @@ const bamFileStats = (bamFile: string | null) => {
 };
 
 function App() {
-	// TODO: IobioComponents is needed in scope for web components but linter removes unused imports
-	console.log(IobioComponents);
-
 	const fileLoaded = Boolean(window.location.search);
 
 	const localBamConfig = localStorage.getItem('bamConfig') || null;
