@@ -19,14 +19,10 @@
  *
  */
 
-import IobioCoverageDepth from './coverage_depth.tsx';
-import IobioDataBroker from './data_broker.tsx';
-import IobioHistogram from './histogram.tsx';
-import IobioPercentBox from './percent_box.tsx';
+import 'iobio-charts';
 
-export default {
-	IobioCoverageDepth,
-	IobioDataBroker,
-	IobioHistogram,
-	IobioPercentBox,
-};
+function IobioDataBroker({ url }: { url: string }) {
+	return <iobio-data-broker alignment-url={url} />;
+}
+
+export default IobioDataBroker;
