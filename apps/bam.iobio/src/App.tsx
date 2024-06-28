@@ -138,7 +138,6 @@ function App() {
 			</button>
 
 			<div className={clsx('bam-container', showBam && 'bam-open')}>
-				{/* Needs to render on the page before scripts for BAM to work */}
 				<div id="app"></div>
 				{showBam ? (
 					<>
@@ -146,7 +145,13 @@ function App() {
 
 						<IobioDataBroker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
-						<div className="row iobio-chart-container">{coverageDepth && <IobioCoverageDepth />}</div>
+						{coverageDepth && (
+							<div className="row iobio-chart-container">
+								<IobioCoverageDepth />
+							</div>
+						)}
+
+						{/* Percent Boxes */}
 						<div className="row iobio-container">
 							{mappedReads && <IobioPercentBox title="Mapped Reads" percentKey="mapped_reads" totalKey="total_reads" />}
 							{forwardStrands && (
@@ -159,27 +164,33 @@ function App() {
 							)}
 							{duplicates && <IobioPercentBox title="Duplicates" percentKey="duplicates" totalKey="total_reads" />}
 						</div>
-						<div className="row iobio-chart-container">
-							{coverage_hist && (
+
+						{/* Histograms */}
+						{coverage_hist && (
+							<div className="row iobio-chart-container">
 								<IobioHistogram brokerKey="coverage_hist" title="Read Coverage Distribution" color="red" />
-							)}
-						</div>
-						<div className="row iobio-chart-container">
-							{frag_hist && (
+							</div>
+						)}
+						{frag_hist && (
+							<div className="row iobio-chart-container">
 								<IobioHistogram brokerKey="frag_hist" title="Fragment Length" color="orange" ignoreOutliers />
-							)}
-						</div>
-						<div className="row iobio-chart-container">
-							{length_hist && (
+							</div>
+						)}
+						{length_hist && (
+							<div className="row iobio-chart-container">
 								<IobioHistogram brokerKey="length_hist" title="Read Length" color="gold" ignoreOutliers />
-							)}
-						</div>
-						<div className="row iobio-chart-container">
-							{mapq_hist && <IobioHistogram brokerKey="mapq_hist" title="Mapping Quality" color="aquamarine" />}
-						</div>
-						<div className="row iobio-chart-container">
-							{baseq_hist && <IobioHistogram brokerKey="baseq_hist" title="Base Quality" color="cornflowerblue" />}
-						</div>
+							</div>
+						)}
+						{mapq_hist && (
+							<div className="row iobio-chart-container">
+								<IobioHistogram brokerKey="mapq_hist" title="Mapping Quality" color="aquamarine" />
+							</div>
+						)}
+						{baseq_hist && (
+							<div className="row iobio-chart-container">
+								<IobioHistogram brokerKey="baseq_hist" title="Base Quality" color="cornflowerblue" />
+							</div>
+						)}
 					</>
 				) : null}
 			</div>
