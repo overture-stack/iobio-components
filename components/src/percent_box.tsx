@@ -19,8 +19,10 @@
  *
  */
 
-import iobioCharts from 'iobio-charts';
+import 'iobio-charts';
 
-const { createPercentBox } = iobioCharts;
+function IobioPercentBox({ percentKey, title, totalKey }: { percentKey: string; title?: string; totalKey: string }) {
+	return <iobio-percent-box percent-key={percentKey} title={title} total-key={totalKey} />;
+}
 
-export default createPercentBox;
+export default IobioPercentBox;

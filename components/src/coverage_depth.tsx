@@ -19,4 +19,10 @@
  *
  */
 
-declare module 'iobio-demo-app';
+import 'iobio-charts';
+
+function IobioCoverageDepth() {
+	return <iobio-coverage-depth />;
+}
+
+export default IobioCoverageDepth;

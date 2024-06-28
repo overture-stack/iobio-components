@@ -20,7 +20,7 @@
  */
 
 import clsx from 'clsx';
-import 'components';
+import { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } from 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
 
@@ -31,7 +31,12 @@ const defaultBamContext = {
 	singletons: true,
 	bothMatesMapped: true,
 	duplicates: true,
-	histogram: true,
+	coverageDepth: true,
+	coverage_hist: true,
+	frag_hist: true,
+	length_hist: true,
+	mapq_hist: true,
+	baseq_hist: true,
 };
 
 type BamContext = typeof defaultBamContext;
@@ -97,7 +102,20 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
+	const {
+		coverageDepth,
+		mappedReads,
+		forwardStrands,
+		properPairs,
+		singletons,
+		bothMatesMapped,
+		duplicates,
+		coverage_hist,
+		frag_hist,
+		length_hist,
+		mapq_hist,
+		baseq_hist,
+	} = bamContext;
 
 	return (
 		<div className="App">
@@ -118,26 +136,60 @@ function App() {
 			</button>
 
 			<div className={clsx('bam-container', showBam && 'bam-open')}>
-				{/* Needs to render on the page before scripts for BAM to work */}
 				<div id="app"></div>
 				{showBam ? (
 					<>
 						<h3>Bam.Iobio</h3>
 
-						<iobio-data-broker alignment-url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
+						<IobioDataBroker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
+						{/* Percent Boxes */}
 						<div className="row iobio-container">
-							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
-							{forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />}
-							{properPairs && <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" />}
-							{singletons && <iobio-percent-box percent-key="singletons" total-key="total_reads" />}
-							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
-							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
+							{mappedReads && <IobioPercentBox title="Mapped Reads" percentKey="mapped_reads" totalKey="total_reads" />}
+							{forwardStrands && (
+								<IobioPercentBox title="Forward Strands" percentKey="forward_strands" totalKey="total_reads" />
+							)}
+							{properPairs && <IobioPercentBox title="Proper Pairs" percentKey="proper_pairs" totalKey="total_reads" />}
+							{singletons && <IobioPercentBox title="Singletons" percentKey="singletons" totalKey="total_reads" />}
+							{bothMatesMapped && (
+								<IobioPercentBox title="Both Mates Mapped" percentKey="both_mates_mapped" totalKey="total_reads" />
+							)}
+							{duplicates && <IobioPercentBox title="Duplicates" percentKey="duplicates" totalKey="total_reads" />}
 						</div>
-						<div className="row iobio-histo-container">
-							{histogram && <iobio-histogram broker-key="coverage_hist" />}
-							{/* {histogram && <Histogram broker-key="coverage_hist" />} */}
-						</div>
+
+						{/* Coverage Depth */}
+						{coverageDepth && (
+							<div className="row iobio-chart-container">
+								<IobioCoverageDepth />
+							</div>
+						)}
+
+						{/* Histograms */}
+						{coverage_hist && (
+							<div className="row iobio-chart-container">
+								<IobioHistogram brokerKey="coverage_hist" title="Read Coverage Distribution" color="red" />
+							</div>
+						)}
+						{frag_hist && (
+							<div className="row iobio-chart-container">
+								<IobioHistogram brokerKey="frag_hist" title="Fragment Length" color="orange" ignoreOutliers />
+							</div>
+						)}
+						{length_hist && (
+							<div className="row iobio-chart-container">
+								<IobioHistogram brokerKey="length_hist" title="Read Length" color="gold" ignoreOutliers />
+							</div>
+						)}
+						{mapq_hist && (
+							<div className="row iobio-chart-container">
+								<IobioHistogram brokerKey="mapq_hist" title="Mapping Quality" color="aquamarine" />
+							</div>
+						)}
+						{baseq_hist && (
+							<div className="row iobio-chart-container">
+								<IobioHistogram brokerKey="baseq_hist" title="Base Quality" color="cornflowerblue" />
+							</div>
+						)}
 					</>
 				) : null}
 			</div>

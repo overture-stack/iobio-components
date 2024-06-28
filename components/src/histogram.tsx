@@ -19,18 +19,27 @@
  *
  */
 
-import iobioCharts from 'iobio-charts';
-import { useEffect } from 'react';
+import 'iobio-charts';
 
-const { createHistogram } = iobioCharts;
-
-function Histogram(props: { 'broker-key': string }) {
-	useEffect(() => {
-		createHistogram();
-	}, []);
-
-	// return <iobio-histogram />;
-	return <div broker-key={props['broker-key']}></div>;
+function IobioHistogram({
+	brokerKey,
+	color,
+	ignoreOutliers,
+	title,
+}: {
+	brokerKey: string;
+	color?: string;
+	ignoreOutliers?: boolean;
+	title?: string;
+}) {
+	return (
+		<iobio-histogram
+			broker-key={brokerKey}
+			ignore-outliers={ignoreOutliers}
+			title={title}
+			style={{ '--iobio-data-color': color }}
+		/>
+	);
 }
 
-export default Histogram;
+export default IobioHistogram;
