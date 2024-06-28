@@ -21,8 +21,25 @@
 
 import 'iobio-charts';
 
-function IobioHistogram({ brokerKey, color }: { brokerKey: string; color?: string }) {
-	return <iobio-histogram broker-key={brokerKey} style={{ '--iobio-data-color': color }} />;
+function IobioHistogram({
+	brokerKey,
+	color,
+	ignoreOutliers,
+	title,
+}: {
+	brokerKey: string;
+	color?: string;
+	ignoreOutliers?: boolean;
+	title?: string;
+}) {
+	return (
+		<iobio-histogram
+			broker-key={brokerKey}
+			ignore-outliers={ignoreOutliers}
+			title={title}
+			style={{ '--iobio-data-color': color }}
+		/>
+	);
 }
 
 export default IobioHistogram;

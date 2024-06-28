@@ -34,7 +34,11 @@ const defaultBamContext = {
 	singletons: true,
 	bothMatesMapped: true,
 	duplicates: true,
-	histogram: true,
+	coverage_hist: true,
+	frag_hist: true,
+	length_hist: true,
+	mapq_hist: true,
+	baseq_hist: true,
 };
 
 type BamContext = typeof defaultBamContext;
@@ -108,7 +112,11 @@ function App() {
 		singletons,
 		bothMatesMapped,
 		duplicates,
-		histogram,
+		coverage_hist,
+		frag_hist,
+		length_hist,
+		mapq_hist,
+		baseq_hist,
 	} = bamContext;
 
 	return (
@@ -140,15 +148,37 @@ function App() {
 
 						<div className="row iobio-chart-container">{coverageDepth && <IobioCoverageDepth />}</div>
 						<div className="row iobio-container">
-							{mappedReads && <IobioPercentBox percentKey="mapped_reads" totalKey="total_reads" />}
-							{forwardStrands && <IobioPercentBox percentKey="forward_strands" totalKey="total_reads" />}
-							{properPairs && <IobioPercentBox percentKey="proper_pairs" totalKey="total_reads" />}
-							{singletons && <IobioPercentBox percentKey="singletons" totalKey="total_reads" />}
-							{bothMatesMapped && <IobioPercentBox percentKey="both_mates_mapped" totalKey="total_reads" />}
-							{duplicates && <IobioPercentBox percentKey="duplicates" totalKey="total_reads" />}
+							{mappedReads && <IobioPercentBox title="Mapped Reads" percentKey="mapped_reads" totalKey="total_reads" />}
+							{forwardStrands && (
+								<IobioPercentBox title="Forward Strands" percentKey="forward_strands" totalKey="total_reads" />
+							)}
+							{properPairs && <IobioPercentBox title="Proper Pairs" percentKey="proper_pairs" totalKey="total_reads" />}
+							{singletons && <IobioPercentBox title="Singletons" percentKey="singletons" totalKey="total_reads" />}
+							{bothMatesMapped && (
+								<IobioPercentBox title="Both Mates Mapped" percentKey="both_mates_mapped" totalKey="total_reads" />
+							)}
+							{duplicates && <IobioPercentBox title="Duplicates" percentKey="duplicates" totalKey="total_reads" />}
 						</div>
 						<div className="row iobio-chart-container">
-							{histogram && <IobioHistogram brokerKey="coverage_hist" color={'red'} />}
+							{coverage_hist && (
+								<IobioHistogram brokerKey="coverage_hist" title="Read Coverage Distribution" color="red" />
+							)}
+						</div>
+						<div className="row iobio-chart-container">
+							{frag_hist && (
+								<IobioHistogram brokerKey="frag_hist" title="Fragment Length" color="orange" ignoreOutliers />
+							)}
+						</div>
+						<div className="row iobio-chart-container">
+							{length_hist && (
+								<IobioHistogram brokerKey="length_hist" title="Read Length" color="gold" ignoreOutliers />
+							)}
+						</div>
+						<div className="row iobio-chart-container">
+							{mapq_hist && <IobioHistogram brokerKey="mapq_hist" title="Mapping Quality" color="aquamarine" />}
+						</div>
+						<div className="row iobio-chart-container">
+							{baseq_hist && <IobioHistogram brokerKey="baseq_hist" title="Base Quality" color="cornflowerblue" />}
 						</div>
 					</>
 				) : null}
