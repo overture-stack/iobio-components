@@ -24,9 +24,11 @@ import IobioDataBroker from './data_broker.tsx';
 import IobioHistogram from './histogram.tsx';
 import IobioPercentBox from './percent_box.tsx';
 
-export default {
+const IobioComponents = {
 	IobioCoverageDepth,
 	IobioDataBroker,
 	IobioHistogram,
 	IobioPercentBox,
 };
+
+export default IobioComponents;
