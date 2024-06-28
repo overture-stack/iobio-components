@@ -27,13 +27,13 @@ import './App.css';
 const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } = IobioComponents;
 
 const defaultBamContext = {
-	coverageDepth: true,
 	mappedReads: true,
 	forwardStrands: true,
 	properPairs: true,
 	singletons: true,
 	bothMatesMapped: true,
 	duplicates: true,
+	coverageDepth: true,
 	coverage_hist: true,
 	frag_hist: true,
 	length_hist: true,
@@ -145,12 +145,6 @@ function App() {
 
 						<IobioDataBroker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
 
-						{coverageDepth && (
-							<div className="row iobio-chart-container">
-								<IobioCoverageDepth />
-							</div>
-						)}
-
 						{/* Percent Boxes */}
 						<div className="row iobio-container">
 							{mappedReads && <IobioPercentBox title="Mapped Reads" percentKey="mapped_reads" totalKey="total_reads" />}
@@ -164,6 +158,13 @@ function App() {
 							)}
 							{duplicates && <IobioPercentBox title="Duplicates" percentKey="duplicates" totalKey="total_reads" />}
 						</div>
+
+						{/* Coverage Depth */}
+						{coverageDepth && (
+							<div className="row iobio-chart-container">
+								<IobioCoverageDepth />
+							</div>
+						)}
 
 						{/* Histograms */}
 						{coverage_hist && (
