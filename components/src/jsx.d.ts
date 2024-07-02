@@ -19,11 +19,11 @@
  *
  */
 
-import IobioCoverageDepth from './coverage_depth';
-import IobioDataBroker from './data_broker';
-import IobioHistogram from './histogram';
-import IobioPercentBox from './percent_box';
-
-declare module 'components';
-
-export { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox };
+declare namespace JSX {
+	interface IntrinsicElements {
+		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+		'iobio-coverage-depth': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+	}
+}
