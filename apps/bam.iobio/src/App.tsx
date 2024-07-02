@@ -24,6 +24,8 @@ import { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } 
 import { useEffect, useState } from 'react';
 import './App.css';
 
+const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+
 const defaultBamContext = {
 	mappedReads: true,
 	forwardStrands: true,
@@ -141,7 +143,7 @@ function App() {
 					<>
 						<h3>Bam.Iobio</h3>
 
-						<IobioDataBroker url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
+						<IobioDataBroker url={iobioURL} />
 
 						{/* Percent Boxes */}
 						<div className="row iobio-container">
