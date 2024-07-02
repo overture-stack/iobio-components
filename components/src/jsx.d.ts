@@ -23,11 +23,19 @@ import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 declare global {
 	namespace JSX {
+		interface IobioStyle extends Properties<string | number, string & {}> {
+			'--iobio-data-color'?: string;
+		}
+
+		interface IobioElementProps extends HTMLAttributes<HTMLElement> {
+			style?: IobioStyle;
+		}
+
 		interface IntrinsicElements {
-			'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-			'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-			'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-			'iobio-coverage-depth': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
+			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-data-broker': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
 		}
 	}
 }
