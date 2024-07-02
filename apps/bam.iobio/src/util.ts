@@ -51,8 +51,14 @@ export const defaultBamContext = {
 	baseq_hist: true,
 };
 
+export type BamContext = typeof defaultBamContext;
+
 export type BamKey = keyof typeof defaultBamContext;
 
 export const BamDataKeys = Object.keys(defaultBamContext) as Array<BamKey>;
 
-export type BamContext = typeof defaultBamContext;
+export const percentKeys = BamDataKeys.slice(0, 6);
+
+export const histogramKeys = BamDataKeys.slice(7);
+
+export const ignoreOutlierKeys = [BamDataKeys[8], BamDataKeys[9]];

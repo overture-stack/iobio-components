@@ -23,9 +23,21 @@ import clsx from 'clsx';
 import IobioComponents from 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { BamContext, BamDataKeys, BamDisplayNames, BamKey, defaultBamContext, iobioURL } from './util';
+import {
+	BamContext,
+	BamDataKeys,
+	BamDisplayNames,
+	BamKey,
+	defaultBamContext,
+	histogramKeys,
+	ignoreOutlierKeys,
+	iobioURL,
+	percentKeys,
+} from './util';
 
 const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } = IobioComponents;
+
+const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue'];
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: BamKey, value: boolean) => void) => (
 	<div style={{ margin: '15px' }}>
@@ -84,21 +96,6 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const {
-		coverageDepth,
-		mappedReads,
-		forwardStrands,
-		properPairs,
-		singletons,
-		bothMatesMapped,
-		duplicates,
-		coverage_hist,
-		frag_hist,
-		length_hist,
-		mapq_hist,
-		baseq_hist,
-	} = bamContext;
-
 	return (
 		<div className="App">
 			<header className={clsx('App-header', fileLoaded ? 'file-loaded' : 'home')}>
@@ -127,50 +124,36 @@ function App() {
 
 						{/* Percent Boxes */}
 						<div className="row iobio-container">
-							{mappedReads && <IobioPercentBox title="Mapped Reads" percentKey="mapped_reads" totalKey="total_reads" />}
-							{forwardStrands && (
-								<IobioPercentBox title="Forward Strands" percentKey="forward_strands" totalKey="total_reads" />
+							{percentKeys.map(
+								(key) =>
+									bamContext[key] && (
+										<IobioPercentBox title={BamDisplayNames[key]} percentKey={key} totalKey="total_reads" key={key} />
+									),
 							)}
-							{properPairs && <IobioPercentBox title="Proper Pairs" percentKey="proper_pairs" totalKey="total_reads" />}
-							{singletons && <IobioPercentBox title="Singletons" percentKey="singletons" totalKey="total_reads" />}
-							{bothMatesMapped && (
-								<IobioPercentBox title="Both Mates Mapped" percentKey="both_mates_mapped" totalKey="total_reads" />
-							)}
-							{duplicates && <IobioPercentBox title="Duplicates" percentKey="duplicates" totalKey="total_reads" />}
 						</div>
 
 						{/* Coverage Depth */}
-						{coverageDepth && (
+						{bamContext.coverageDepth && (
 							<div className="row iobio-chart-container">
 								<IobioCoverageDepth />
 							</div>
 						)}
 
 						{/* Histograms */}
-						{coverage_hist && (
-							<div className="row iobio-chart-container">
-								<IobioHistogram brokerKey="coverage_hist" title="Read Coverage Distribution" color="red" />
-							</div>
-						)}
-						{frag_hist && (
-							<div className="row iobio-chart-container">
-								<IobioHistogram brokerKey="frag_hist" title="Fragment Length" color="orange" ignoreOutliers />
-							</div>
-						)}
-						{length_hist && (
-							<div className="row iobio-chart-container">
-								<IobioHistogram brokerKey="length_hist" title="Read Length" color="gold" ignoreOutliers />
-							</div>
-						)}
-						{mapq_hist && (
-							<div className="row iobio-chart-container">
-								<IobioHistogram brokerKey="mapq_hist" title="Mapping Quality" color="aquamarine" />
-							</div>
-						)}
-						{baseq_hist && (
-							<div className="row iobio-chart-container">
-								<IobioHistogram brokerKey="baseq_hist" title="Base Quality" color="cornflowerblue" />
-							</div>
+						{histogramKeys.map(
+							(key, index) =>
+								bamContext[key] && (
+									<div key={key} className="row iobio-chart-container">
+										<IobioHistogram
+											key={key}
+											brokerKey={key}
+											title={BamDisplayNames[key]}
+											color={colors[index]}
+											// TODO: why not boolean false?
+											ignoreOutliers={ignoreOutlierKeys.includes(key) || undefined}
+										/>
+									</div>
+								),
 						)}
 					</>
 				) : null}
