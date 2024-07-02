@@ -133,7 +133,7 @@ function App() {
 						</div>
 
 						{/* Coverage Depth */}
-						{bamContext.coverageDepth && (
+						{bamContext.coverage_depth && (
 							<div className="row iobio-chart-container">
 								<IobioCoverageDepth />
 							</div>

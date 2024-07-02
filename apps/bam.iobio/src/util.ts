@@ -22,13 +22,13 @@
 export const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
 
 export const BamDisplayNames = {
-	mappedReads: 'Mapped Reads',
-	forwardStrands: 'Forward Strands',
-	properPairs: 'Proper Pairs',
+	mapped_reads: 'Mapped Reads',
+	forward_strands: 'Forward Strands',
+	proper_pairs: 'Proper Pairs',
 	singletons: 'Singletons',
-	bothMatesMapped: 'Both Mates Mapped',
+	both_mates_mapped: 'Both Mates Mapped',
 	duplicates: 'Duplicates',
-	coverageDepth: 'Coverage Depth',
+	coverage_depth: 'Coverage Depth',
 	coverage_hist: 'Read Coverage Distribution',
 	frag_hist: 'Fragment Length',
 	length_hist: 'Read Length',
@@ -37,13 +37,13 @@ export const BamDisplayNames = {
 };
 
 export const defaultBamContext = {
-	mappedReads: true,
-	forwardStrands: true,
-	properPairs: true,
+	mapped_reads: true,
+	forward_strands: true,
+	proper_pairs: true,
 	singletons: true,
-	bothMatesMapped: true,
+	both_mates_mapped: true,
 	duplicates: true,
-	coverageDepth: true,
+	coverage_depth: true,
 	coverage_hist: true,
 	frag_hist: true,
 	length_hist: true,
