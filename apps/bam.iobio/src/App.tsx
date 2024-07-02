@@ -20,50 +20,30 @@
  */
 
 import clsx from 'clsx';
-import { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } from 'components';
+import IobioComponents from 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
+import { BamContext, BamDataKeys, BamDisplayNames, BamKey, defaultBamContext, iobioURL } from './util';
 
-const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } = IobioComponents;
 
-const defaultBamContext = {
-	mappedReads: true,
-	forwardStrands: true,
-	properPairs: true,
-	singletons: true,
-	bothMatesMapped: true,
-	duplicates: true,
-	coverageDepth: true,
-	coverage_hist: true,
-	frag_hist: true,
-	length_hist: true,
-	mapq_hist: true,
-	baseq_hist: true,
-};
-
-type BamContext = typeof defaultBamContext;
-
-const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamContext, value: boolean) => void) => {
-	const keys = Object.keys(bamContext) as (keyof BamContext)[];
-
-	return (
-		<div style={{ margin: '15px' }}>
-			{keys.map((key) => {
-				return (
-					<button
-						className={clsx('config-button', bamContext[key] && 'active')}
-						key={key}
-						onClick={() => {
-							updateContext(key, bamContext[key]);
-						}}
-					>
-						{key}
-					</button>
-				);
-			})}
-		</div>
-	);
-};
+const bamConfigPanel = (bamContext: BamContext, updateContext: (key: BamKey, value: boolean) => void) => (
+	<div style={{ margin: '15px' }}>
+		{BamDataKeys.map((key) => {
+			return (
+				<button
+					className={clsx('config-button', bamContext[key] && 'active')}
+					key={key}
+					onClick={() => {
+						updateContext(key, bamContext[key]);
+					}}
+				>
+					{BamDisplayNames[key]}
+				</button>
+			);
+		})}
+	</div>
+);
 
 const bamFileStats = (bamFile: string | null) => {
 	const { max = '' } = bamFile ? JSON.parse(bamFile) : {};
