@@ -20,9 +20,11 @@
  */
 
 import clsx from 'clsx';
-import { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } from 'components';
+import IobioComponents from 'components';
 import { useEffect, useState } from 'react';
 import './App.css';
+
+const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox } = IobioComponents;
 
 const defaultBamContext = {
 	mappedReads: true,
