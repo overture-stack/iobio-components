@@ -24,7 +24,7 @@ import 'iobio-charts';
 function IobioHistogram({
 	brokerKey,
 	color,
-	ignoreOutliers = false,
+	ignoreOutliers,
 	title,
 }: {
 	brokerKey: string;
