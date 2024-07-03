@@ -19,14 +19,4 @@
  *
  */
 
-import iobio from 'iobio-charts';
-
-// TODO: How to handle maintenance?
-declare module 'iobio-charts' {
-	export function createPercentBox(): typeof iobio.createPercentBox;
-	export function createHistogram(): typeof iobio.createHistogram;
-	export const PercentBoxElement: typeof iobio.PercentBoxElement;
-	export const HistogramElement: typeof iobio.HistogramElement;
-	export const DataBroker: typeof iobio.DataBroker;
-	export const DataBrokerElement: typeof iobio.DataBrokerElement;
-}
+declare module 'iobio-charts';
