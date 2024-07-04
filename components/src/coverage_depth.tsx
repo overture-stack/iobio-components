@@ -19,8 +19,6 @@
  *
  */
 
-import 'iobio-charts';
-
 function IobioCoverageDepth() {
 	return <iobio-coverage-depth />;
 }

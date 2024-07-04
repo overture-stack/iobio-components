@@ -19,8 +19,6 @@
  *
  */
 
-import 'iobio-charts';
-
 function IobioHistogram({
 	brokerKey,
 	color,

@@ -19,6 +19,8 @@
  *
  */
 
+import 'iobio-charts';
+
 import IobioCoverageDepth from './coverage_depth.tsx';
 import IobioDataBroker from './data_broker.tsx';
 import IobioHistogram from './histogram.tsx';

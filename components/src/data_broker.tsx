@@ -19,8 +19,6 @@
  *
  */
 
-import 'iobio-charts';
-
 function IobioDataBroker({ url }: { url: string }) {
 	return <iobio-data-broker alignment-url={url} />;
 }
