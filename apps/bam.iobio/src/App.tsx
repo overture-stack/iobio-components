@@ -25,13 +25,13 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import {
 	BamContext,
-	BamDataKeys,
 	BamDisplayNames,
 	BamKey,
+	BamKeys,
 	defaultBamContext,
 	histogramKeys,
-	ignoreOutlierKeys,
 	iobioURL,
+	isOutlierKey,
 	percentKeys,
 } from './util';
 
@@ -41,7 +41,7 @@ const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue'];
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: BamKey, value: boolean) => void) => (
 	<div style={{ margin: '15px' }}>
-		{BamDataKeys.map((key) => {
+		{BamKeys.map((key) => {
 			return (
 				<button
 					className={clsx('config-button', bamContext[key] && 'active')}
@@ -140,9 +140,8 @@ function App() {
 						)}
 
 						{/* Histograms */}
-						{histogramKeys.map((key, index) => {
-							const ignoreOutliers = ignoreOutlierKeys.includes(key) ? { ignoreOutliers: true } : {};
-							return (
+						{histogramKeys.map(
+							(key, index) =>
 								bamContext[key] && (
 									<div key={key} className="row iobio-chart-container">
 										<IobioHistogram
@@ -150,12 +149,11 @@ function App() {
 											brokerKey={key}
 											title={BamDisplayNames[key]}
 											color={colors[index]}
-											{...ignoreOutliers}
+											ignoreOutliers={isOutlierKey(key)}
 										/>
 									</div>
-								)
-							);
-						})}
+								),
+						)}
 					</>
 				) : null}
 			</div>

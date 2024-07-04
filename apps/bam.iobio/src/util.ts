@@ -21,20 +21,24 @@
 
 export const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
 
-export const BamDisplayNames = {
-	mapped_reads: 'Mapped Reads',
-	forward_strands: 'Forward Strands',
-	proper_pairs: 'Proper Pairs',
-	singletons: 'Singletons',
-	both_mates_mapped: 'Both Mates Mapped',
-	duplicates: 'Duplicates',
-	coverage_depth: 'Coverage Depth',
-	coverage_hist: 'Read Coverage Distribution',
-	frag_hist: 'Fragment Length',
-	length_hist: 'Read Length',
-	mapq_hist: 'Mapping Quality',
-	baseq_hist: 'Base Quality',
-};
+export const BamKeys = [
+	'mapped_reads',
+	'forward_strands',
+	'proper_pairs',
+	'singletons',
+	'both_mates_mapped',
+	'duplicates',
+	'coverage_depth',
+	'coverage_hist',
+	'frag_hist',
+	'length_hist',
+	'mapq_hist',
+	'baseq_hist',
+] as const;
+
+export type BamKey = (typeof BamKeys)[number];
+
+export type BamContext = Record<BamKey, boolean>;
 
 export const defaultBamContext = {
 	mapped_reads: true,
@@ -49,16 +53,48 @@ export const defaultBamContext = {
 	length_hist: true,
 	mapq_hist: true,
 	baseq_hist: true,
+} as const satisfies BamContext;
+
+export const BamDisplayNames = {
+	mapped_reads: 'Mapped Reads',
+	forward_strands: 'Forward Strands',
+	proper_pairs: 'Proper Pairs',
+	singletons: 'Singletons',
+	both_mates_mapped: 'Both Mates Mapped',
+	duplicates: 'Duplicates',
+	coverage_depth: 'Coverage Depth',
+	coverage_hist: 'Read Coverage Distribution',
+	frag_hist: 'Fragment Length',
+	length_hist: 'Read Length',
+	mapq_hist: 'Mapping Quality',
+	baseq_hist: 'Base Quality',
+} as const satisfies Record<BamKey, string>;
+
+export const histogramKeys = [
+	'coverage_hist',
+	'frag_hist',
+	'length_hist',
+	'mapq_hist',
+	'baseq_hist',
+] as const satisfies Array<BamKey>;
+
+export type BamHistogramKey = (typeof histogramKeys)[number];
+
+export const percentKeys = [
+	'mapped_reads',
+	'forward_strands',
+	'proper_pairs',
+	'singletons',
+	'both_mates_mapped',
+	'duplicates',
+] as const satisfies Array<BamKey>;
+
+export type BamPercentKey = (typeof percentKeys)[number];
+
+const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
+
+type outlierKey = (typeof ignoreOutlierKeys)[number];
+
+export const isOutlierKey = (key: BamKey): key is outlierKey => {
+	return ignoreOutlierKeys.includes(key as outlierKey);
 };
-
-export type BamContext = typeof defaultBamContext;
-
-export type BamKey = keyof typeof defaultBamContext;
-
-export const BamDataKeys = Object.keys(defaultBamContext) as Array<BamKey>;
-
-export const percentKeys = BamDataKeys.slice(0, 6);
-
-export const histogramKeys = BamDataKeys.slice(7);
-
-export const ignoreOutlierKeys = [BamDataKeys[8], BamDataKeys[9]];

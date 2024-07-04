@@ -30,13 +30,9 @@ function IobioHistogram({
 	ignoreOutliers?: boolean;
 	title?: string;
 }) {
+	const outlierProp = ignoreOutliers ? { 'ignore-outliers': true } : {};
 	return (
-		<iobio-histogram
-			broker-key={brokerKey}
-			ignore-outliers={ignoreOutliers}
-			title={title}
-			style={{ '--iobio-data-color': color }}
-		/>
+		<iobio-histogram broker-key={brokerKey} title={title} style={{ '--iobio-data-color': color }} {...outlierProp} />
 	);
 }
 
