@@ -140,8 +140,9 @@ function App() {
 						)}
 
 						{/* Histograms */}
-						{histogramKeys.map(
-							(key, index) =>
+						{histogramKeys.map((key, index) => {
+							const ignoreOutliers = ignoreOutlierKeys.includes(key) ? { ignoreOutliers: true } : {};
+							return (
 								bamContext[key] && (
 									<div key={key} className="row iobio-chart-container">
 										<IobioHistogram
@@ -149,12 +150,12 @@ function App() {
 											brokerKey={key}
 											title={BamDisplayNames[key]}
 											color={colors[index]}
-											// TODO: why not boolean false?
-											ignoreOutliers={ignoreOutlierKeys.includes(key) || undefined}
+											{...ignoreOutliers}
 										/>
 									</div>
-								),
-						)}
+								)
+							);
+						})}
 					</>
 				) : null}
 			</div>
