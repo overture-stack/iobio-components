@@ -19,8 +19,8 @@
  *
  */
 
-function IobioDataBroker({ url }: { url: string }) {
-	return <iobio-data-broker alignment-url={url} />;
+function IobioDataBroker({ alignmentUrl }: { alignmentUrl: string }) {
+	return <iobio-data-broker alignment-url={alignmentUrl} />;
 }
 
 export default IobioDataBroker;

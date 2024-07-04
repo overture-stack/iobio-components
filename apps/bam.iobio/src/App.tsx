@@ -120,7 +120,7 @@ function App() {
 					<>
 						<h3>Bam.Iobio</h3>
 
-						<IobioDataBroker url={iobioURL} />
+						<IobioDataBroker alignmentUrl={iobioURL} />
 
 						{/* Percent Boxes */}
 						<div className="row iobio-container">
