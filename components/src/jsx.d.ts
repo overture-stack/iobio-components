@@ -23,12 +23,8 @@ import { DetailedHTMLProps, HTMLAttributes } from 'react';
 
 declare global {
 	namespace JSX {
-		interface IobioStyle extends Properties<string | number, string & {}> {
-			'--iobio-data-color'?: string;
-		}
-
 		interface IobioElementProps extends HTMLAttributes<HTMLElement> {
-			style?: IobioStyle;
+			styles?: string;
 		}
 
 		interface IntrinsicElements {

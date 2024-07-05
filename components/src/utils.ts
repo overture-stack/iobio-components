@@ -32,3 +32,17 @@ export const getBooleanAttributes = (booleanAttributes: { [key: string]: boolean
 			return { ...acc, [key]: booleanAttributes[key] };
 		}, {});
 };
+
+/**
+ * Take React Style object and apply it to Web Component Shadow Dom as style sheet
+ * Allows adding custom styles to nested elements
+ * @param element DOM Node
+ * @param styles CSS String
+ */
+export const setElementStyles = (element: Element, styles: string) => {
+	if (element?.shadowRoot) {
+		const elementStyles = new CSSStyleSheet();
+		elementStyles.replaceSync(styles);
+		element.shadowRoot.adoptedStyleSheets = [elementStyles];
+	}
+};

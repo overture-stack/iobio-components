@@ -19,28 +19,31 @@
  *
  */
 
-import { getBooleanAttributes } from './utils';
+import { useEffect } from 'react';
+import { getBooleanAttributes, setElementStyles } from './utils';
 
 function IobioHistogram({
 	brokerKey,
-	color,
+	styles,
 	ignoreOutliers = false,
 	title,
 }: {
 	brokerKey: string;
-	color?: string;
+	styles?: string;
 	ignoreOutliers?: boolean;
 	title?: string;
 }) {
+	useEffect(() => {
+		const selector = `iobio-histogram[broker-key=${brokerKey}]`;
+		const element = document.querySelector(selector);
+
+		if (element && styles) {
+			setElementStyles(element, styles);
+		}
+	}, []);
+
 	const booleanAttributes = getBooleanAttributes({ 'ignore-outliers': ignoreOutliers });
-	return (
-		<iobio-histogram
-			broker-key={brokerKey}
-			title={title}
-			style={{ '--iobio-data-color': color }}
-			{...booleanAttributes}
-		/>
-	);
+	return <iobio-histogram broker-key={brokerKey} title={title} {...booleanAttributes} />;
 }
 
 export default IobioHistogram;

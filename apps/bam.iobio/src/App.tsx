@@ -130,7 +130,6 @@ function App() {
 								<IobioCoverageDepth />
 							</div>
 						)}
-
 						{/* Histograms */}
 						{histogramKeys.map(
 							(key, index) =>
@@ -140,7 +139,12 @@ function App() {
 											key={key}
 											brokerKey={key}
 											title={BamDisplayNames[key]}
-											color={colors[index]}
+											styles={`
+												.iobio-histogram-title { text-align: left;} 
+												:host {
+													--iobio-data-color: ${colors[index]};
+												}
+												`}
 											ignoreOutliers={isOutlierKey(key)}
 										/>
 									</div>
