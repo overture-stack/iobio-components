@@ -19,10 +19,16 @@
  *
  */
 
-export const getBooleanAttributes = (booleanAttributesForThisComponent: { [key: string]: boolean }) => {
-	return Object.keys(booleanAttributesForThisComponent)
-		.filter((k) => booleanAttributesForThisComponent[k])
+/**
+ * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not
+ * False values are removed, truthy values returned as { key: boolean }
+ * @param booleanAttributes
+ * @returns { key: boolean }
+ */
+export const getBooleanAttributes = (booleanAttributes: { [key: string]: boolean }) => {
+	return Object.keys(booleanAttributes)
+		.filter((attribute) => booleanAttributes[attribute])
 		.reduce((acc, key) => {
-			return { ...acc, [key]: booleanAttributesForThisComponent[key] };
+			return { ...acc, [key]: booleanAttributes[key] };
 		}, {});
 };
