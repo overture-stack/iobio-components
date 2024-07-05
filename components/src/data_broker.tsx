@@ -19,10 +19,8 @@
  *
  */
 
-import Histogram from './histogram.tsx';
-import createPercentBox from './percent_box.tsx';
+function IobioDataBroker({ alignmentUrl }: { alignmentUrl: string }) {
+	return <iobio-data-broker alignment-url={alignmentUrl} />;
+}
 
-export default {
-	Histogram,
-	createPercentBox,
-};
+export default IobioDataBroker;

@@ -19,4 +19,36 @@
  *
  */
 
-declare module 'components';
+export const BamKeys = [
+	'mapped_reads',
+	'forward_strands',
+	'proper_pairs',
+	'singletons',
+	'both_mates_mapped',
+	'duplicates',
+	'coverage_depth',
+	'coverage_hist',
+	'frag_hist',
+	'length_hist',
+	'mapq_hist',
+	'baseq_hist',
+] as const;
+
+export type BamKey = (typeof BamKeys)[number];
+
+export type BamContext = Record<BamKey, boolean>;
+
+export const BamDisplayNames = {
+	mapped_reads: 'Mapped Reads',
+	forward_strands: 'Forward Strands',
+	proper_pairs: 'Proper Pairs',
+	singletons: 'Singletons',
+	both_mates_mapped: 'Both Mates Mapped',
+	duplicates: 'Duplicates',
+	coverage_depth: 'Coverage Depth',
+	coverage_hist: 'Read Coverage Distribution',
+	frag_hist: 'Fragment Length',
+	length_hist: 'Read Length',
+	mapq_hist: 'Mapping Quality',
+	baseq_hist: 'Base Quality',
+} as const satisfies Record<BamKey, string>;

@@ -20,43 +20,34 @@
  */
 
 import clsx from 'clsx';
-import 'components';
+import IobioComponents from 'components';
+import type { BamContext, BamKey } from 'components/src/constants';
 import { useEffect, useState } from 'react';
 import './App.css';
+import { defaultBamContext, histogramKeys, iobioURL, isOutlierKey, percentKeys } from './util';
 
-const defaultBamContext = {
-	mappedReads: true,
-	forwardStrands: true,
-	properPairs: true,
-	singletons: true,
-	bothMatesMapped: true,
-	duplicates: true,
-	histogram: true,
-};
+const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox, BamDisplayNames, BamKeys } =
+	IobioComponents;
 
-type BamContext = typeof defaultBamContext;
+const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue'];
 
-const bamConfigPanel = (bamContext: BamContext, updateContext: (key: keyof BamContext, value: boolean) => void) => {
-	const keys = Object.keys(bamContext) as (keyof BamContext)[];
-
-	return (
-		<div style={{ margin: '15px' }}>
-			{keys.map((key) => {
-				return (
-					<button
-						className={clsx('config-button', bamContext[key] && 'active')}
-						key={key}
-						onClick={() => {
-							updateContext(key, bamContext[key]);
-						}}
-					>
-						{key}
-					</button>
-				);
-			})}
-		</div>
-	);
-};
+const bamConfigPanel = (bamContext: BamContext, updateContext: (key: BamKey, value: boolean) => void) => (
+	<div style={{ margin: '15px' }}>
+		{BamKeys.map((key) => {
+			return (
+				<button
+					className={clsx('config-button', bamContext[key] && 'active')}
+					key={key}
+					onClick={() => {
+						updateContext(key, bamContext[key]);
+					}}
+				>
+					{BamDisplayNames[key]}
+				</button>
+			);
+		})}
+	</div>
+);
 
 const bamFileStats = (bamFile: string | null) => {
 	const { max = '' } = bamFile ? JSON.parse(bamFile) : {};
@@ -97,8 +88,6 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const { mappedReads, forwardStrands, properPairs, singletons, bothMatesMapped, duplicates, histogram } = bamContext;
-
 	return (
 		<div className="App">
 			<header className={clsx('App-header', fileLoaded ? 'file-loaded' : 'home')}>
@@ -118,26 +107,49 @@ function App() {
 			</button>
 
 			<div className={clsx('bam-container', showBam && 'bam-open')}>
-				{/* Needs to render on the page before scripts for BAM to work */}
 				<div id="app"></div>
 				{showBam ? (
 					<>
 						<h3>Bam.Iobio</h3>
 
-						<iobio-data-broker alignment-url="https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam" />
+						<IobioDataBroker alignmentUrl={iobioURL} />
 
+						{/* Percent Boxes */}
 						<div className="row iobio-container">
-							{mappedReads && <iobio-percent-box percent-key="mapped_reads" total-key="total_reads" />}
-							{forwardStrands && <iobio-percent-box percent-key="forward_strands" total-key="total_reads" />}
-							{properPairs && <iobio-percent-box percent-key="proper_pairs" total-key="total_reads" />}
-							{singletons && <iobio-percent-box percent-key="singletons" total-key="total_reads" />}
-							{bothMatesMapped && <iobio-percent-box percent-key="both_mates_mapped" total-key="total_reads" />}
-							{duplicates && <iobio-percent-box percent-key="duplicates" total-key="total_reads" />}
+							{percentKeys.map(
+								(key) =>
+									bamContext[key] && (
+										<IobioPercentBox title={BamDisplayNames[key]} percentKey={key} totalKey="total_reads" key={key} />
+									),
+							)}
 						</div>
-						<div className="row iobio-histo-container">
-							{histogram && <iobio-histogram broker-key="coverage_hist" />}
-							{/* {histogram && <Histogram broker-key="coverage_hist" />} */}
-						</div>
+
+						{/* Coverage Depth */}
+						{bamContext.coverage_depth && (
+							<div className="row iobio-chart-container">
+								<IobioCoverageDepth />
+							</div>
+						)}
+						{/* Histograms */}
+						{histogramKeys.map(
+							(key, index) =>
+								bamContext[key] && (
+									<div key={key} className="row iobio-chart-container">
+										<IobioHistogram
+											key={key}
+											brokerKey={key}
+											title={BamDisplayNames[key]}
+											styles={`
+												.iobio-histogram-title { text-align: left;} 
+												:host {
+													--iobio-data-color: ${colors[index]};
+												}
+												`}
+											ignoreOutliers={isOutlierKey(key)}
+										/>
+									</div>
+								),
+						)}
 					</>
 				) : null}
 			</div>

@@ -19,4 +19,8 @@
  *
  */
 
-declare module 'iobio-demo-app';
+function IobioCoverageDepth() {
+	return <iobio-coverage-depth />;
+}
+
+export default IobioCoverageDepth;

@@ -19,4 +19,19 @@
  *
  */
 
-declare module 'iobio-demo-app';
+import { DetailedHTMLProps, HTMLAttributes } from 'react';
+
+declare global {
+	namespace JSX {
+		interface IobioElementProps extends HTMLAttributes<HTMLElement> {
+			styles?: string;
+		}
+
+		interface IntrinsicElements {
+			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-data-broker': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+		}
+	}
+}

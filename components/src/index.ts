@@ -19,4 +19,22 @@
  *
  */
 
-declare module 'iobio-demo-app';
+import 'iobio-charts';
+
+import { BamDisplayNames, BamKeys } from './constants.ts';
+
+import IobioCoverageDepth from './coverage_depth.tsx';
+import IobioDataBroker from './data_broker.tsx';
+import IobioHistogram from './histogram.tsx';
+import IobioPercentBox from './percent_box.tsx';
+
+const IobioComponents = {
+	IobioCoverageDepth,
+	IobioDataBroker,
+	IobioHistogram,
+	IobioPercentBox,
+	BamKeys,
+	BamDisplayNames,
+};
+
+export default IobioComponents;

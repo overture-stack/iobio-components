@@ -19,22 +19,4 @@
  *
  */
 
-import iobio from 'iobio-charts';
-
-// TODO: How to handle maintenance?
-declare module 'iobio-charts' {
-	export function createPercentBox(): typeof iobio.createPercentBox;
-	export function createHistogram(): typeof iobio.createHistogram;
-	export const PercentBoxElement: typeof iobio.PercentBoxElement;
-	export const HistogramElement: typeof iobio.HistogramElement;
-	export const DataBroker: typeof iobio.DataBroker;
-	export const DataBrokerElement: typeof iobio.DataBrokerElement;
-}
-
-declare namespace JSX {
-	interface IntrinsicElements {
-		'iobio-percent-box': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-histogram': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-		'iobio-data-broker': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>;
-	}
-}
+declare module 'iobio-charts';
