@@ -19,50 +19,36 @@
  *
  */
 
-import type { BamContext, BamKey } from 'components/src/constants';
-
-export const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
-
-export const defaultBamContext = {
-	mapped_reads: true,
-	forward_strands: true,
-	proper_pairs: true,
-	singletons: true,
-	both_mates_mapped: true,
-	duplicates: true,
-	coverage_depth: true,
-	coverage_hist: true,
-	frag_hist: true,
-	length_hist: true,
-	mapq_hist: true,
-	baseq_hist: true,
-} as const satisfies BamContext;
-
-export const histogramKeys = [
-	'coverage_hist',
-	'frag_hist',
-	'length_hist',
-	'mapq_hist',
-	'baseq_hist',
-] as const satisfies Array<BamKey>;
-
-export type BamHistogramKey = (typeof histogramKeys)[number];
-
-export const percentKeys = [
+export const BamKeys = [
 	'mapped_reads',
 	'forward_strands',
 	'proper_pairs',
 	'singletons',
 	'both_mates_mapped',
 	'duplicates',
-] as const satisfies Array<BamKey>;
+	'coverage_depth',
+	'coverage_hist',
+	'frag_hist',
+	'length_hist',
+	'mapq_hist',
+	'baseq_hist',
+] as const;
 
-export type BamPercentKey = (typeof percentKeys)[number];
+export type BamKey = (typeof BamKeys)[number];
 
-const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
+export type BamContext = Record<BamKey, boolean>;
 
-type outlierKey = (typeof ignoreOutlierKeys)[number];
-
-export const isOutlierKey = (key: BamKey): key is outlierKey => {
-	return ignoreOutlierKeys.includes(key as outlierKey);
-};
+export const BamDisplayNames = {
+	mapped_reads: 'Mapped Reads',
+	forward_strands: 'Forward Strands',
+	proper_pairs: 'Proper Pairs',
+	singletons: 'Singletons',
+	both_mates_mapped: 'Both Mates Mapped',
+	duplicates: 'Duplicates',
+	coverage_depth: 'Coverage Depth',
+	coverage_hist: 'Read Coverage Distribution',
+	frag_hist: 'Fragment Length',
+	length_hist: 'Read Length',
+	mapq_hist: 'Mapping Quality',
+	baseq_hist: 'Base Quality',
+} as const satisfies Record<BamKey, string>;
