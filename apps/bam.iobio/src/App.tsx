@@ -20,8 +20,8 @@
  */
 
 import clsx from 'clsx';
-import IobioComponents from 'components';
-import type { BamContext, BamKey } from 'components/src/constants';
+import IobioComponents from 'iobio-react-components';
+import type { BamContext, BamKey } from 'iobio-react-components/src/constants';
 import { useEffect, useState } from 'react';
 import './App.css';
 import { defaultBamContext, histogramKeys, iobioURL, isOutlierKey, percentKeys } from './util';
