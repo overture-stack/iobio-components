@@ -21,6 +21,8 @@
 
 import 'iobio-charts';
 
+import IobioCharts from 'iobio-charts';
+
 import { BamDisplayNames, BamKeys } from './constants.ts';
 
 import IobioCoverageDepth from './coverage_depth.tsx';
@@ -33,6 +35,7 @@ const IobioComponents = {
 	IobioDataBroker,
 	IobioHistogram,
 	IobioPercentBox,
+	DataBroker: IobioCharts.DataBroker,
 	BamKeys,
 	BamDisplayNames,
 };
