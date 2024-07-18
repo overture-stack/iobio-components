@@ -21,21 +21,21 @@
 
 import 'iobio-charts';
 
-import IobioCharts from 'iobio-charts';
-
 import { BamDisplayNames, BamKeys } from './constants.ts';
 
 import IobioCoverageDepth from './coverage_depth.tsx';
-import IobioDataBroker from './data_broker.tsx';
+import DataBrokerElements from './data_broker.tsx';
 import IobioHistogram from './histogram.tsx';
 import IobioPercentBox from './percent_box.tsx';
+
+const { DataBrokerUtil, IobioDataBroker } = DataBrokerElements;
 
 const IobioComponents = {
 	IobioCoverageDepth,
 	IobioDataBroker,
 	IobioHistogram,
 	IobioPercentBox,
-	DataBroker: IobioCharts.DataBroker,
+	DataBrokerUtil,
 	BamKeys,
 	BamDisplayNames,
 };

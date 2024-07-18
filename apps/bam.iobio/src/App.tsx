@@ -26,8 +26,15 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { defaultBamContext, histogramKeys, iobioURL, isOutlierKey, percentKeys } from './util';
 
-const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox, DataBroker, BamDisplayNames, BamKeys } =
-	IobioComponents;
+const {
+	IobioCoverageDepth,
+	IobioDataBroker,
+	IobioHistogram,
+	IobioPercentBox,
+	DataBrokerUtil,
+	BamDisplayNames,
+	BamKeys,
+} = IobioComponents;
 
 const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue'];
 
@@ -88,7 +95,7 @@ function App() {
 		setBamFile(fileStats);
 	}, [fileLoaded]);
 
-	const broker = new DataBroker(iobioURL);
+	const broker = new DataBrokerUtil(iobioURL);
 	console.log(broker);
 
 	return (
