@@ -97,6 +97,11 @@ function App() {
 
 	const broker = new DataBrokerUtil(iobioURL);
 	console.log(broker);
+	broker.onEvent('total_reads', (val: any) => {
+		console.log(val);
+		console.log(broker._update);
+		console.log(broker._latestUpdates);
+	});
 
 	return (
 		<div className="App">
