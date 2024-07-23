@@ -27,10 +27,14 @@ declare global {
 			styles?: string;
 		}
 
+		interface IobioDataProps extends IobioElementProps {
+			server?: string;
+		}
+
 		interface IntrinsicElements {
 			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
 			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-data-broker': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-data-broker': DetailedHTMLProps<IobioDataProps, HTMLElement>;
 			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
 		}
 	}

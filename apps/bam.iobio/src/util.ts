@@ -19,9 +19,11 @@
  *
  */
 
-import type { BamContext, BamKey } from 'components/src/constants';
+import type { BamContext, BamKey } from 'iobio-react-components/src/constants';
 
-export const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+export const demoDataURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+
+export const localServerURL = 'http://localhost:9001';
 
 export const defaultBamContext = {
 	mapped_reads: true,

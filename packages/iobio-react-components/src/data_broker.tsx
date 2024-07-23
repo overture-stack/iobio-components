@@ -21,8 +21,8 @@
 
 import IobioCharts from 'iobio-charts';
 
-function IobioDataBroker({ alignmentUrl }: { alignmentUrl: string }) {
-	return <iobio-data-broker alignment-url={alignmentUrl} />;
+function IobioDataBroker({ alignmentUrl, server }: { alignmentUrl: string; server: string }) {
+	return <iobio-data-broker alignment-url={alignmentUrl} server={server} />;
 }
 
 // TODO: rename DataBrokerUtil + Fix Imports
