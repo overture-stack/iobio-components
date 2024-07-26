@@ -21,7 +21,7 @@
 
 import IobioCharts from 'iobio-charts';
 
-function IobioDataBroker({ alignmentUrl, server }: { alignmentUrl: string; server: string }) {
+function IobioDataBroker({ alignmentUrl, server }: { alignmentUrl: string; server?: string }) {
 	return <iobio-data-broker alignment-url={alignmentUrl} server={server} />;
 }
 
