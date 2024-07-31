@@ -19,8 +19,8 @@
  *
  */
 
-function IobioPercentBox({ percentKey, title, totalKey }: { percentKey: string; title?: string; totalKey: string }) {
-	return <iobio-percent-box percent-key={percentKey} title={title} total-key={totalKey} />;
+function IobioPercentBox({ percentKey, label, totalKey }: { percentKey: string; label?: string; totalKey: string }) {
+	return <iobio-percent-box percent-key={percentKey} label={label} total-key={totalKey} />;
 }
 
 export default IobioPercentBox;

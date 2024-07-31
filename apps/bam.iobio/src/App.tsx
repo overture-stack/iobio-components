@@ -119,7 +119,7 @@ function App() {
 							{percentKeys.map(
 								(key) =>
 									bamContext[key] && (
-										<IobioPercentBox title={BamDisplayNames[key]} percentKey={key} totalKey="total_reads" key={key} />
+										<IobioPercentBox label={BamDisplayNames[key]} percentKey={key} totalKey="total_reads" key={key} />
 									),
 							)}
 						</div>
@@ -138,7 +138,7 @@ function App() {
 										<IobioHistogram
 											key={key}
 											brokerKey={key}
-											title={BamDisplayNames[key]}
+											label={BamDisplayNames[key]}
 											styles={`
 												.iobio-histogram-title { text-align: left;} 
 												:host {

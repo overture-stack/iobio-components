@@ -25,6 +25,7 @@ declare global {
 	namespace JSX {
 		interface IobioElementProps extends HTMLAttributes<HTMLElement> {
 			styles?: string;
+			label?: string;
 		}
 
 		interface IntrinsicElements {
