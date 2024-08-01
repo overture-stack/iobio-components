@@ -127,7 +127,7 @@ function App() {
 						{/* Coverage Depth */}
 						{bamContext.coverage_depth && (
 							<div className="row iobio-chart-container">
-								<IobioCoverageDepth />
+								<IobioCoverageDepth label="Read Coverage" />
 							</div>
 						)}
 						{/* Histograms */}
