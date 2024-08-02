@@ -24,14 +24,14 @@ import { getBooleanAttributes, setElementStyles } from './utils';
 
 function IobioHistogram({
 	brokerKey,
-	styles,
 	ignoreOutliers = false,
-	title,
+	label,
+	styles,
 }: {
 	brokerKey: string;
-	styles?: string;
 	ignoreOutliers?: boolean;
-	title?: string;
+	label?: string;
+	styles?: string;
 }) {
 	useEffect(() => {
 		const selector = `iobio-histogram[broker-key=${brokerKey}]`;
@@ -43,7 +43,7 @@ function IobioHistogram({
 	}, []);
 
 	const booleanAttributes = getBooleanAttributes({ 'ignore-outliers': ignoreOutliers });
-	return <iobio-histogram broker-key={brokerKey} title={title} {...booleanAttributes} />;
+	return <iobio-histogram broker-key={brokerKey} label={label} {...booleanAttributes} />;
 }
 
 export default IobioHistogram;

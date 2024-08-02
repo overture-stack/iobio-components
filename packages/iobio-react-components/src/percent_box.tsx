@@ -19,8 +19,30 @@
  *
  */
 
-function IobioPercentBox({ percentKey, title, totalKey }: { percentKey: string; title?: string; totalKey: string }) {
-	return <iobio-percent-box percent-key={percentKey} title={title} total-key={totalKey} />;
+import { useEffect } from 'react';
+import { setElementStyles } from './utils';
+
+function IobioPercentBox({
+	percentKey,
+	label,
+	styles,
+	totalKey,
+}: {
+	percentKey: string;
+	label?: string;
+	styles?: string;
+	totalKey: string;
+}) {
+	useEffect(() => {
+		const selector = `iobio-percent-box[percent-key=${percentKey}][total-key=${totalKey}]`;
+		const element = document.querySelector(selector);
+
+		if (element && styles) {
+			setElementStyles(element, styles);
+		}
+	}, []);
+
+	return <iobio-percent-box percent-key={percentKey} label={label} total-key={totalKey} />;
 }
 
 export default IobioPercentBox;
