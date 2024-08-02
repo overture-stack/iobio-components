@@ -24,7 +24,7 @@ import IobioComponents from 'iobio-react-components';
 import type { BamContext, BamKey } from 'iobio-react-components/src/constants';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { defaultBamContext, histogramKeys, iobioURL, isOutlierKey, percentKeys } from './util';
+import { defaultBamContext, demoDataURL, histogramKeys, isOutlierKey, localServerURL, percentKeys } from './util';
 
 const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox, BamDisplayNames, BamKeys } =
 	IobioComponents;
@@ -113,7 +113,7 @@ function App() {
 					<>
 						<h3>Bam.Iobio</h3>
 
-						<IobioDataBroker alignmentUrl={iobioURL} />
+						<IobioDataBroker alignmentUrl={demoDataURL} server={localServerURL} />
 
 						{/* Percent Boxes */}
 						<div className="row iobio-container">
