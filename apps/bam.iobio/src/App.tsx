@@ -29,7 +29,8 @@ import { defaultBamContext, histogramKeys, iobioURL, isOutlierKey, percentKeys }
 const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox, BamDisplayNames, BamKeys } =
 	IobioComponents;
 
-const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue'];
+const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue', 'purple'];
+const secondaryColors = ['lightpink', 'peachpuff', 'lemonchiffon', 'palegreen', 'powderblue', 'lavender'];
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: BamKey, value: boolean) => void) => (
 	<div style={{ margin: '15px' }}>
@@ -117,9 +118,20 @@ function App() {
 						{/* Percent Boxes */}
 						<div className="row iobio-container">
 							{percentKeys.map(
-								(key) =>
+								(key, index) =>
 									bamContext[key] && (
-										<IobioPercentBox label={BamDisplayNames[key]} percentKey={key} totalKey="total_reads" key={key} />
+										<IobioPercentBox
+											label={BamDisplayNames[key]}
+											percentKey={key}
+											styles={`
+											:host {
+												--iobio-data-color: ${colors[index]};
+												--iobio-data-color-secondary: ${secondaryColors[index]};
+											}
+											`}
+											totalKey="total_reads"
+											key={key}
+										/>
 									),
 							)}
 						</div>
