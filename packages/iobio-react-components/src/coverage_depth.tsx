@@ -19,8 +19,8 @@
  *
  */
 
-function IobioCoverageDepth() {
-	return <iobio-coverage-depth />;
+function IobioCoverageDepth({ label }: { label?: string }) {
+	return <iobio-coverage-depth label={label} />;
 }
 
 export default IobioCoverageDepth;
