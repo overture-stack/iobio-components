@@ -82,6 +82,6 @@ export const statisticKeys = [
 	'reverse_strands',
 	'second_mates',
 	'total_reads',
-];
+] as const;
 
 export type StatisticKey = (typeof statisticKeys)[number];

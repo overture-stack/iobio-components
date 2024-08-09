@@ -47,13 +47,21 @@ db.addEventListener('stats-stream-end', () => {
 	console.log(latestUpdate);
 
 	const statistics = [...percentKeys, ...statisticKeys].reduce((acc, val) => {
-		const stats = { ...acc, [val]: latestUpdate[val] };
+		const value = latestUpdate[val];
+		const stats: { [k: string]: number } = { ...acc, [val]: value };
+
+		if (percentKeys.some((percentKey) => percentKey === val)) {
+			const percentage = Number((value / latestUpdate['total_reads']).toPrecision(4));
+			const key = `${val}_percentage`;
+			stats[key] = percentage;
+		}
 		return stats;
 	}, {});
 
 	console.log(statistics);
+	const fileData = { statistics, latestUpdate };
 
-	const file = JSON.stringify(latestUpdate);
+	const file = JSON.stringify(fileData);
 
 	fs.writeFile('NA12878.autsome.bam.json', file, (err) => {
 		if (err) {
