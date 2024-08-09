@@ -24,7 +24,7 @@ import fs from 'fs';
 // Requires Node 19
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
-import { percentKeys, statisticKeys } from './constants.ts';
+import { histogramKeys, percentKeys, statisticKeys } from './constants.ts';
 
 const db = new DataBroker('https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam');
 
@@ -58,8 +58,14 @@ db.addEventListener('stats-stream-end', () => {
 		return stats;
 	}, {});
 
+	const histograms = [...histogramKeys].reduce((acc, val) => {
+		const value = latestUpdate[val];
+		const stats: { [k: string]: number } = { ...acc, [val]: value };
+		return stats;
+	}, {});
+
 	console.log(statistics);
-	const fileData = { statistics, latestUpdate };
+	const fileData = { statistics, histograms };
 
 	const file = JSON.stringify(fileData);
 
