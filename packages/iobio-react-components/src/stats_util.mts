@@ -44,8 +44,6 @@ db.addEventListener('stats-stream-end', () => {
 
 	const latestUpdate = data[data.length - 1];
 
-	console.log(latestUpdate);
-
 	const statistics = [...percentKeys, ...statisticKeys].reduce((acc, val) => {
 		const value = latestUpdate[val];
 		const stats: { [k: string]: number } = { ...acc, [val]: value };
@@ -64,7 +62,6 @@ db.addEventListener('stats-stream-end', () => {
 		return stats;
 	}, {});
 
-	console.log(statistics);
 	const fileData = { statistics, histograms };
 
 	const file = JSON.stringify(fileData);
