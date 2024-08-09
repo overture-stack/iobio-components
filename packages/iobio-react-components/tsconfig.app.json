@@ -9,7 +9,6 @@
 		"skipLibCheck": true,
 		"paths": {
 			"iobio-charts/*": ["./src/iobio.d.ts"]
-			// "iobio-charts": ["./src/iobio.d.ts"]
 		},
 
 		/* Bundler mode */
