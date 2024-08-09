@@ -73,3 +73,15 @@ export const percentKeys = [
 ] as const satisfies Array<BamKey>;
 
 export type BamPercentKey = (typeof percentKeys)[number];
+
+export const statisticKeys = [
+	'failed_qc',
+	'first_mates',
+	'last_read_position',
+	'paired_end_reads',
+	'reverse_strands',
+	'second_mates',
+	'total_reads',
+];
+
+export type StatisticKey = (typeof statisticKeys)[number];
