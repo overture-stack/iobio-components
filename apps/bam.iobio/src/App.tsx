@@ -22,9 +22,10 @@
 import clsx from 'clsx';
 import IobioComponents from 'iobio-react-components';
 import type { BamContext, BamKey } from 'iobio-react-components/src/constants';
+import { histogramKeys, percentKeys } from 'iobio-react-components/src/constants';
 import { useEffect, useState } from 'react';
 import './App.css';
-import { defaultBamContext, histogramKeys, iobioURL, isOutlierKey, percentKeys } from './util';
+import { defaultBamContext, iobioURL, isOutlierKey } from './util';
 
 const { IobioCoverageDepth, IobioDataBroker, IobioHistogram, IobioPercentBox, BamDisplayNames, BamKeys } =
 	IobioComponents;

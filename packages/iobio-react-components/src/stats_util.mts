@@ -24,25 +24,34 @@ import fs from 'fs';
 // Requires Node 19
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
+import { percentKeys } from './constants.ts';
+
 const db = new DataBroker('https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam');
 
-const data = [];
+const data: any[] = [];
 
-db.addEventListener('stats-stream-start', (evt) => {
+db.addEventListener('stats-stream-start', () => {
 	console.log('Streaming started');
 });
 
-db.addEventListener('stats-stream-data', (evt) => {
+db.addEventListener('stats-stream-data', (evt: any) => {
 	console.log(evt.detail);
 	data.push(evt.detail);
 });
 
-db.addEventListener('stats-stream-end', (evt) => {
+db.addEventListener('stats-stream-end', () => {
 	console.log('\n Streaming ended \n');
 
 	const latestUpdate = data[data.length - 1];
 
 	console.log(latestUpdate);
+
+	const statistics = percentKeys.reduce((acc, val) => {
+		const stats = { ...acc, [val]: latestUpdate[val] };
+		return stats;
+	}, {});
+
+	console.log(statistics);
 
 	const file = JSON.stringify(latestUpdate);
 

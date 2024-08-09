@@ -2,18 +2,21 @@
 	"name": "iobio-react-components",
 	"private": true,
 	"version": "0.0.1",
-	"type": "module",
 	"main": "src/index",
+	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"stats": "pnpm exec ts-node -P tsconfig.app.json --esm src/stats_util.mts"
 	},
 	"dependencies": {
+		"@types/node": "^22.2.0",
 		"iobio-charts": "^0.20.0",
 		"react": "^18.3.1",
-		"react-dom": "^18.3.1"
+		"react-dom": "^18.3.1",
+		"ts-node": "^10.9.2"
 	},
 	"devDependencies": {
 		"@types/react": "^18.3.3",
