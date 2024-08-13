@@ -19,6 +19,15 @@
  *
  */
 
+import {
+	BamHistogramKey,
+	BamPercentKey,
+	histogramKeys,
+	percentKeys,
+	StatisticKey,
+	statisticKeys,
+} from './constants.ts';
+
 /**
  * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not
  * False values are removed, truthy values returned as { key: boolean }
@@ -45,4 +54,39 @@ export const setElementStyles = (element: Element, styles: string) => {
 		elementStyles.replaceSync(styles);
 		element.shadowRoot.adoptedStyleSheets = [elementStyles];
 	}
+};
+
+/**
+ * Obtain BAM statistical data from Data Broker data events
+ * @param dataEvent { [BamKey]: number  }
+ */
+
+type StatisticsData = { [K in StatisticKey]: number };
+type PercentData = { [K in BamPercentKey]: number };
+type HistogramData = { [K in BamHistogramKey]: number };
+
+type DataUpdate = StatisticsData & PercentData;
+
+export const getBamStatistics = (dataEvent: DataUpdate) => {
+	[...percentKeys, ...statisticKeys].reduce((acc, val) => {
+		const value = dataEvent[val];
+		const stats: { [k: string]: number } = { ...acc, [val]: value };
+
+		if (percentKeys.some((percentKey) => percentKey === val)) {
+			const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
+			const key = `${val}_percentage`;
+			stats[key] = percentage;
+		}
+		return stats;
+	}, {});
+};
+
+export const getHistogramData = (dataEvent: HistogramData) => {
+	const histogramData = [...histogramKeys].reduce((acc, val) => {
+		const value: number = dataEvent[val];
+		const stats: { [k in BamHistogramKey]: number } = { ...acc, [val]: value };
+		return stats;
+	}, {} as HistogramData);
+
+	return histogramData;
 };

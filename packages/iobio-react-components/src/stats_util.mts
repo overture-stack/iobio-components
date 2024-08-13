@@ -24,9 +24,11 @@ import fs from 'fs';
 // Requires Node 19
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
-import { histogramKeys, percentKeys, statisticKeys } from './constants.ts';
+import { getBamStatistics } from './utils';
 
-const db = new DataBroker('https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam');
+const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+
+const db = new DataBroker(fileUrl);
 
 const data: any[] = [];
 
@@ -44,29 +46,15 @@ db.addEventListener('stats-stream-end', () => {
 
 	const latestUpdate = data[data.length - 1];
 
-	const statistics = [...percentKeys, ...statisticKeys].reduce((acc, val) => {
-		const value = latestUpdate[val];
-		const stats: { [k: string]: number } = { ...acc, [val]: value };
+	const statistics = getBamStatistics(latestUpdate);
 
-		if (percentKeys.some((percentKey) => percentKey === val)) {
-			const percentage = Number((value / latestUpdate['total_reads']).toPrecision(4));
-			const key = `${val}_percentage`;
-			stats[key] = percentage;
-		}
-		return stats;
-	}, {});
-
-	const histograms = [...histogramKeys].reduce((acc, val) => {
-		const value = latestUpdate[val];
-		const stats: { [k: string]: number } = { ...acc, [val]: value };
-		return stats;
-	}, {});
-
-	const fileData = { statistics, histograms };
+	const fileData = { statistics };
 
 	const file = JSON.stringify(fileData);
 
-	fs.writeFile('NA12878.autsome.bam.json', file, (err) => {
+	const fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+
+	fs.writeFile(`${fileName} statistics.json`, file, (err) => {
 		if (err) {
 			console.error(err);
 		} else {
