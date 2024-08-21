@@ -27,5 +27,5 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src/*", "./dist/index.d.ts"]
+	"include": ["src/*"]
 }
