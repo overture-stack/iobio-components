@@ -47,3 +47,5 @@ function IobioHistogram({
 }
 
 export default IobioHistogram;
+
+export type IobioHistogramType = typeof IobioHistogram;
