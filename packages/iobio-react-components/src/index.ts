@@ -26,4 +26,12 @@ export { default as IobioDataBroker, type IobioDataBrokerType } from './data_bro
 export { default as IobioHistogram, type IobioHistogramType } from './histogram';
 export { default as IobioPercentBox, type IobioPercentBoxType } from './percent_box';
 
-export { BamDisplayNames, BamKeys, histogramKeys, percentKeys } from './constants';
+export {
+	BamDisplayNames,
+	BamKeys,
+	histogramKeys,
+	percentKeys,
+	type BamHistogramKey,
+	type BamKey,
+	type BamPercentKey,
+} from './constants';
