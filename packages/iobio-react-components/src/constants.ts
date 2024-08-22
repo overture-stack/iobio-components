@@ -52,3 +52,24 @@ export const BamDisplayNames = {
 	mapq_hist: 'Mapping Quality',
 	baseq_hist: 'Base Quality',
 } as const satisfies Record<BamKey, string>;
+
+export const histogramKeys = [
+	'coverage_hist',
+	'frag_hist',
+	'length_hist',
+	'mapq_hist',
+	'baseq_hist',
+] as const satisfies Array<BamKey>;
+
+export type BamHistogramKey = (typeof histogramKeys)[number];
+
+export const percentKeys = [
+	'mapped_reads',
+	'forward_strands',
+	'proper_pairs',
+	'singletons',
+	'both_mates_mapped',
+	'duplicates',
+] as const satisfies Array<BamKey>;
+
+export type BamPercentKey = (typeof percentKeys)[number];

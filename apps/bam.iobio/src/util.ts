@@ -38,27 +38,6 @@ export const defaultBamContext = {
 	baseq_hist: true,
 } as const satisfies BamContext;
 
-export const histogramKeys = [
-	'coverage_hist',
-	'frag_hist',
-	'length_hist',
-	'mapq_hist',
-	'baseq_hist',
-] as const satisfies Array<BamKey>;
-
-export type BamHistogramKey = (typeof histogramKeys)[number];
-
-export const percentKeys = [
-	'mapped_reads',
-	'forward_strands',
-	'proper_pairs',
-	'singletons',
-	'both_mates_mapped',
-	'duplicates',
-] as const satisfies Array<BamKey>;
-
-export type BamPercentKey = (typeof percentKeys)[number];
-
 const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
 
 type outlierKey = (typeof ignoreOutlierKeys)[number];
