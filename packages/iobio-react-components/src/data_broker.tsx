@@ -24,3 +24,5 @@ function IobioDataBroker({ alignmentUrl }: { alignmentUrl: string }) {
 }
 
 export default IobioDataBroker;
+
+export type IobioDataBrokerType = typeof IobioDataBroker;

@@ -46,3 +46,5 @@ function IobioPercentBox({
 }
 
 export default IobioPercentBox;
+
+export type IobioPercentBoxType = typeof IobioPercentBox;

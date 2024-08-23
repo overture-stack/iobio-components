@@ -21,20 +21,17 @@
 
 import 'iobio-charts';
 
-import { BamDisplayNames, BamKeys } from './constants.ts';
+export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './coverage_depth';
+export { default as IobioDataBroker, type IobioDataBrokerType } from './data_broker';
+export { default as IobioHistogram, type IobioHistogramType } from './histogram';
+export { default as IobioPercentBox, type IobioPercentBoxType } from './percent_box';
 
-import IobioCoverageDepth from './coverage_depth.tsx';
-import IobioDataBroker from './data_broker.tsx';
-import IobioHistogram from './histogram.tsx';
-import IobioPercentBox from './percent_box.tsx';
-
-const IobioComponents = {
-	IobioCoverageDepth,
-	IobioDataBroker,
-	IobioHistogram,
-	IobioPercentBox,
-	BamKeys,
+export {
 	BamDisplayNames,
-};
-
-export default IobioComponents;
+	BamKeys,
+	histogramKeys,
+	percentKeys,
+	type BamHistogramKey,
+	type BamKey,
+	type BamPercentKey,
+} from './constants';

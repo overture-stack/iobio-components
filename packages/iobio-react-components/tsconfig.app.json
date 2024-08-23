@@ -10,15 +10,15 @@
 		"paths": {
 			"iobio-charts": ["./src/iobio.d.ts"]
 		},
+		"outDir": "./dist",
 
 		/* Bundler mode */
 		"allowJs": true,
 		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": true,
+		"allowImportingTsExtensions": false,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"moduleDetection": "force",
-		"noEmit": true,
 		"jsx": "react-jsx",
 
 		/* Linting */
