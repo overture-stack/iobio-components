@@ -63,9 +63,6 @@ importers:
 
   packages/iobio-react-components:
     dependencies:
-      '@types/node':
-        specifier: ^22.2.0
-        version: 22.2.0
       iobio-charts:
         specifier: ^0.22.0
         version: 0.22.0
@@ -79,6 +76,9 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.2.0)(typescript@5.5.2)
     devDependencies:
+      '@types/node':
+        specifier: ^22.2.0
+        version: 22.2.0
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.3
