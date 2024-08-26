@@ -11,7 +11,6 @@
 		"noEmit": true,
 		"paths": {
 			"iobio-charts/*": ["./src/iobio.d.ts"],
-			"fs": ["./node_modules/@types/node/fs.d.ts"],
 			"vite-plugin-dts": ["./node_modules/vite-plugin-dts/dist/index.d.ts"]
 		}
 	},
