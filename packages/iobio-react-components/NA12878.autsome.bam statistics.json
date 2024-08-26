@@ -1,1 +1,1 @@
-{}
+{"statistics":{"mapped_reads":89988,"mapped_reads_percentage":0.9972,"forward_strands":45254,"forward_strands_percentage":0.5015,"proper_pairs":88192,"proper_pairs_percentage":0.9773,"singletons":265,"singletons_percentage":0.002937,"both_mates_mapped":89723,"both_mates_mapped_percentage":0.9942,"duplicates":422,"duplicates_percentage":0.004676,"failed_qc":0,"first_mates":44990,"last_read_position":140394619,"paired_end_reads":90242,"reverse_strands":44988,"second_mates":45252,"total_reads":90242}}

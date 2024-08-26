@@ -68,7 +68,7 @@ type HistogramData = { [K in BamHistogramKey]: number };
 type DataUpdate = StatisticsData & PercentData;
 
 export const getBamStatistics = (dataEvent: DataUpdate) => {
-	[...percentKeys, ...statisticKeys].reduce((acc, val) => {
+	return [...percentKeys, ...statisticKeys].reduce((acc, val) => {
 		const value = dataEvent[val];
 		const stats: { [k: string]: number } = { ...acc, [val]: value };
 
