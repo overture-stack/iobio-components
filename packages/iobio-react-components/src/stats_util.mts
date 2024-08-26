@@ -24,7 +24,7 @@ import fs from 'fs';
 // Requires Node 19
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
-import { getBamStatistics } from './utils';
+import { getBamStatistics } from './utils.ts';
 
 const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
 

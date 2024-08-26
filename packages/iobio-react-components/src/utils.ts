@@ -19,7 +19,14 @@
  *
  */
 
-import { BamHistogramKey, BamPercentKey, histogramKeys, percentKeys, StatisticKey, statisticKeys } from './constants';
+import {
+	BamHistogramKey,
+	BamPercentKey,
+	histogramKeys,
+	percentKeys,
+	StatisticKey,
+	statisticKeys,
+} from './constants.ts';
 
 /**
  * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not

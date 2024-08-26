@@ -118,6 +118,7 @@ function App() {
 				{showBam ? (
 					<>
 						<h3>Bam.Iobio</h3>
+
 						<IobioDataBroker alignmentUrl={iobioURL} />
 
 						{/* Percent Boxes */}
