@@ -30,8 +30,11 @@ export {
 	BamDisplayNames,
 	BamKeys,
 	histogramKeys,
+	ignoreOutlierKeys,
+	isOutlierKey,
 	percentKeys,
 	type BamHistogramKey,
 	type BamKey,
+	type BamOutlierKey,
 	type BamPercentKey,
 } from './constants';

@@ -73,3 +73,11 @@ export const percentKeys = [
 ] as const satisfies Array<BamKey>;
 
 export type BamPercentKey = (typeof percentKeys)[number];
+
+export const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
+
+export type BamOutlierKey = (typeof ignoreOutlierKeys)[number];
+
+export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
+	return ignoreOutlierKeys.includes(key as BamOutlierKey);
+};

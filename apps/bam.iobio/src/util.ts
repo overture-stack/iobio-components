@@ -19,7 +19,7 @@
  *
  */
 
-import type { BamContext, BamKey } from 'iobio-react-components/src/constants';
+import type { BamContext } from 'iobio-react-components/src/constants';
 
 export const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
 
@@ -37,11 +37,3 @@ export const defaultBamContext = {
 	mapq_hist: true,
 	baseq_hist: true,
 } as const satisfies BamContext;
-
-const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
-
-type outlierKey = (typeof ignoreOutlierKeys)[number];
-
-export const isOutlierKey = (key: BamKey): key is outlierKey => {
-	return ignoreOutlierKeys.includes(key as outlierKey);
-};
