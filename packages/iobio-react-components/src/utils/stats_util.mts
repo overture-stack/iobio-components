@@ -19,32 +19,46 @@
  *
  */
 
-import { useEffect } from 'react';
-import { setElementStyles } from './utils';
+import fs from 'fs';
 
-function IobioPercentBox({
-	percentKey,
-	label,
-	styles,
-	totalKey,
-}: {
-	percentKey: string;
-	label?: string;
-	styles?: string;
-	totalKey: string;
-}) {
-	useEffect(() => {
-		const selector = `iobio-percent-box[percent-key=${percentKey}][total-key=${totalKey}]`;
-		const element = document.querySelector(selector);
+// Requires Node 19
+import { DataBroker } from 'iobio-charts/data_broker.js';
 
-		if (element && styles) {
-			setElementStyles(element, styles);
+import { getBamStatistics } from './index.ts';
+
+const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+
+const db = new DataBroker(fileUrl);
+
+const data: any[] = [];
+
+db.addEventListener('stats-stream-start', () => {
+	console.log('Streaming started');
+});
+
+db.addEventListener('stats-stream-data', (evt: any) => {
+	console.log(evt.detail);
+	data.push(evt.detail);
+});
+
+db.addEventListener('stats-stream-end', () => {
+	console.log('\n Streaming ended \n');
+
+	const latestUpdate = data[data.length - 1];
+
+	const statistics = getBamStatistics(latestUpdate);
+
+	const fileData = { statistics };
+
+	const file = JSON.stringify(fileData);
+
+	const fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+
+	fs.writeFile(`${fileName} statistics.json`, file, (err) => {
+		if (err) {
+			console.error(err);
+		} else {
+			console.log('\n File output to NA12878.autsome.bam.json \n');
 		}
-	}, []);
-
-	return <iobio-percent-box percent-key={percentKey} label={label} total-key={totalKey} />;
-}
-
-export default IobioPercentBox;
-
-export type IobioPercentBoxType = typeof IobioPercentBox;
+	});
+});

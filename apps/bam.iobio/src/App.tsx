@@ -30,7 +30,7 @@ import {
 	histogramKeys,
 	percentKeys,
 } from 'iobio-react-components';
-import type { BamContext, BamKey } from 'iobio-react-components/src/constants';
+import type { BamContext, BamKey } from 'iobio-react-components/src/utils/constants';
 import { useEffect, useState } from 'react';
 import './App.css';
 import { defaultBamContext, iobioURL, isOutlierKey } from './util';

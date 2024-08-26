@@ -19,46 +19,33 @@
  *
  */
 
-import fs from 'fs';
+import { useEffect } from 'react';
+import { getBooleanAttributes, setElementStyles } from '../utils';
 
-// Requires Node 19
-import { DataBroker } from 'iobio-charts/data_broker.js';
+function IobioHistogram({
+	brokerKey,
+	ignoreOutliers = false,
+	label,
+	styles,
+}: {
+	brokerKey: string;
+	ignoreOutliers?: boolean;
+	label?: string;
+	styles?: string;
+}) {
+	useEffect(() => {
+		const selector = `iobio-histogram[broker-key=${brokerKey}]`;
+		const element = document.querySelector(selector);
 
-import { getBamStatistics } from './utils.ts';
-
-const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
-
-const db = new DataBroker(fileUrl);
-
-const data: any[] = [];
-
-db.addEventListener('stats-stream-start', () => {
-	console.log('Streaming started');
-});
-
-db.addEventListener('stats-stream-data', (evt: any) => {
-	console.log(evt.detail);
-	data.push(evt.detail);
-});
-
-db.addEventListener('stats-stream-end', () => {
-	console.log('\n Streaming ended \n');
-
-	const latestUpdate = data[data.length - 1];
-
-	const statistics = getBamStatistics(latestUpdate);
-
-	const fileData = { statistics };
-
-	const file = JSON.stringify(fileData);
-
-	const fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-
-	fs.writeFile(`${fileName} statistics.json`, file, (err) => {
-		if (err) {
-			console.error(err);
-		} else {
-			console.log('\n File output to NA12878.autsome.bam.json \n');
+		if (element && styles) {
+			setElementStyles(element, styles);
 		}
-	});
-});
+	}, []);
+
+	const booleanAttributes = getBooleanAttributes({ 'ignore-outliers': ignoreOutliers });
+	return <iobio-histogram broker-key={brokerKey} label={label} {...booleanAttributes} />;
+}
+
+export default IobioHistogram;
+
+export type IobioHistogramType = typeof IobioHistogram;

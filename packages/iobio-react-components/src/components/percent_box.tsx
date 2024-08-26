@@ -20,21 +20,21 @@
  */
 
 import { useEffect } from 'react';
-import { getBooleanAttributes, setElementStyles } from './utils';
+import { setElementStyles } from '../utils';
 
-function IobioHistogram({
-	brokerKey,
-	ignoreOutliers = false,
+function IobioPercentBox({
+	percentKey,
 	label,
 	styles,
+	totalKey,
 }: {
-	brokerKey: string;
-	ignoreOutliers?: boolean;
+	percentKey: string;
 	label?: string;
 	styles?: string;
+	totalKey: string;
 }) {
 	useEffect(() => {
-		const selector = `iobio-histogram[broker-key=${brokerKey}]`;
+		const selector = `iobio-percent-box[percent-key=${percentKey}][total-key=${totalKey}]`;
 		const element = document.querySelector(selector);
 
 		if (element && styles) {
@@ -42,10 +42,9 @@ function IobioHistogram({
 		}
 	}, []);
 
-	const booleanAttributes = getBooleanAttributes({ 'ignore-outliers': ignoreOutliers });
-	return <iobio-histogram broker-key={brokerKey} label={label} {...booleanAttributes} />;
+	return <iobio-percent-box percent-key={percentKey} label={label} total-key={totalKey} />;
 }
 
-export default IobioHistogram;
+export default IobioPercentBox;
 
-export type IobioHistogramType = typeof IobioHistogram;
+export type IobioPercentBoxType = typeof IobioPercentBox;
