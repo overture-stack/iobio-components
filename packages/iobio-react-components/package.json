@@ -2,7 +2,7 @@
 	"name": "iobio-react-components",
 	"private": true,
 	"version": "0.0.1",
-	"main": "src/index",
+	"main": "dist/index.js",
 	"type": "module",
 	"types": "./dist/index.d.ts",
 	"scripts": {
