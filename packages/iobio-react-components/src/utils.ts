@@ -63,30 +63,48 @@ export const setElementStyles = (element: Element, styles: string) => {
 
 type StatisticsData = { [K in StatisticKey]: number };
 type PercentData = { [K in BamPercentKey]: number };
-type HistogramData = { [K in BamHistogramKey]: number };
+type HistogramData = { [K in BamHistogramKey]: { [key: string]: number } };
 
 type DataUpdate = StatisticsData & PercentData;
 
 export const getBamStatistics = (dataEvent: DataUpdate) => {
-	return [...percentKeys, ...statisticKeys].reduce((acc, val) => {
-		const value = dataEvent[val];
-		const stats: { [k: string]: number } = { ...acc, [val]: value };
+	return [...percentKeys, ...statisticKeys].reduce(
+		(acc, val) => {
+			const value = dataEvent[val];
+			const stats: { [k: string]: number } = { ...acc, [val]: value };
 
-		if (percentKeys.some((percentKey) => percentKey === val)) {
-			const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
-			const key = `${val}_percentage`;
-			stats[key] = percentage;
-		}
-		return stats;
-	}, {});
+			if (percentKeys.some((percentKey) => percentKey === val)) {
+				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
+				const key = `${val}_percentage`;
+				stats[key] = percentage;
+			}
+			return stats;
+		},
+		{} as { [k: string]: number },
+	);
 };
 
 export const getHistogramData = (dataEvent: HistogramData) => {
-	const histogramData = [...histogramKeys].reduce((acc, val) => {
-		const value: number = dataEvent[val];
-		const stats: { [k in BamHistogramKey]: number } = { ...acc, [val]: value };
+	const histogramData = histogramKeys.reduce((acc, val) => {
+		const value = dataEvent[val];
+		const stats: HistogramData = { ...acc, [val]: value };
 		return stats;
 	}, {} as HistogramData);
 
 	return histogramData;
+};
+
+export const calculateMeanCoverage = (dataEvent: HistogramData) => {
+	const coverageData = dataEvent.coverage_hist;
+
+	let coverageMean = 0;
+	for (const coverage in coverageData) {
+		const freq = coverageData[coverage];
+		const coverageVal = parseInt(coverage);
+
+		coverageMean += coverageVal * freq;
+	}
+	const meanCoverage = Math.floor(coverageMean);
+
+	return meanCoverage;
 };

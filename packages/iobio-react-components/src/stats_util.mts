@@ -24,7 +24,7 @@ import fs from 'fs';
 // Requires Node 19
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
-import { getBamStatistics } from './utils.ts';
+import { calculateMeanCoverage, getBamStatistics } from './utils.ts';
 
 const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
 
@@ -47,6 +47,9 @@ db.addEventListener('stats-stream-end', () => {
 	const latestUpdate = data[data.length - 1];
 
 	const statistics = getBamStatistics(latestUpdate);
+
+	const meanReadCoverage = calculateMeanCoverage(latestUpdate);
+	statistics['mean_read_coverage'] = meanReadCoverage;
 
 	const fileData = { statistics };
 
