@@ -101,7 +101,10 @@ export const getHistogramData = (dataEvent: HistogramData) => {
 	return histogramData;
 };
 
-// Src: /iobio-charts/coverage/src/BamViewChart.js
+/**
+ * Obtain Mean Read Coverage from Coverage Histogram data
+ * Src: iobio-charts/coverage/src/BamViewChart.js L259
+ */
 
 export const calculateMeanCoverage = (dataEvent: HistogramData) => {
 	const coverageData = dataEvent.coverage_hist;
