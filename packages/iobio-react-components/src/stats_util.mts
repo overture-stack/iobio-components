@@ -61,7 +61,7 @@ db.addEventListener('stats-stream-end', () => {
 		if (err) {
 			console.error(err);
 		} else {
-			console.log('\n File output to NA12878.autsome.bam.json \n');
+			console.log(`\n File output to ${fileName} statistics.json \n`);
 		}
 	});
 });
