@@ -63,7 +63,6 @@ export const setElementStyles = (element: Element, styles: string) => {
 
 type StatisticsData = { [K in StatisticKey]: number };
 type PercentData = { [K in BamPercentKey]: number };
-type HistogramData = { [K in BamHistogramKey]: { [key: string]: number } };
 
 type DataUpdate = StatisticsData & PercentData;
 
@@ -84,6 +83,14 @@ export const getBamStatistics = (dataEvent: DataUpdate) => {
 	);
 };
 
+/**
+ * Obtain BAM Histogram data from Data Broker data events
+ * @param dataEvent { [K in BamHistogramKey]: { [numKey: string]: number } }
+ * where numKey parses to an Integer
+ */
+
+type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
+
 export const getHistogramData = (dataEvent: HistogramData) => {
 	const histogramData = histogramKeys.reduce((acc, val) => {
 		const value = dataEvent[val];
@@ -93,6 +100,8 @@ export const getHistogramData = (dataEvent: HistogramData) => {
 
 	return histogramData;
 };
+
+// Src: /iobio-charts/coverage/src/BamViewChart.js
 
 export const calculateMeanCoverage = (dataEvent: HistogramData) => {
 	const coverageData = dataEvent.coverage_hist;
