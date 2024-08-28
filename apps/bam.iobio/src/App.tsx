@@ -20,7 +20,7 @@
  */
 
 import clsx from 'clsx';
-import initIobio, {
+import {
 	BamDisplayNames,
 	BamKeys,
 	IobioCoverageDepth,
@@ -36,8 +36,6 @@ import initIobio, {
 import { useEffect, useState } from 'react';
 import './App.css';
 import { defaultBamContext, iobioURL, isOutlierKey } from './util';
-
-initIobio();
 
 const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue', 'purple'];
 const secondaryColors = ['lightpink', 'peachpuff', 'lemonchiffon', 'palegreen', 'powderblue', 'lavender'];
