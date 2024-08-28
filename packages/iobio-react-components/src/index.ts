@@ -19,45 +19,24 @@
  *
  */
 
-import { default as IobioCoverageDepth, IobioCoverageDepthType } from './coverage_depth';
-import { default as IobioDataBroker, IobioDataBrokerType } from './data_broker';
-import { default as IobioHistogram, IobioHistogramType } from './histogram';
-import { default as IobioPercentBox, IobioPercentBoxType } from './percent_box';
+export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './coverage_depth';
+export { default as IobioDataBroker, type IobioDataBrokerType } from './data_broker';
+export { default as IobioHistogram, type IobioHistogramType } from './histogram';
+export { default as IobioPercentBox, type IobioPercentBoxType } from './percent_box';
 
-import { BamDisplayNames, BamKeys, histogramKeys, percentKeys } from './constants';
+export {
+	BamDisplayNames,
+	BamKeys,
+	histogramKeys,
+	percentKeys,
+	type BamContext,
+	type BamHistogramKey,
+	type BamKey,
+	type BamPercentKey,
+} from './constants';
 
-type IobioComponents = {
-	IobioCoverageDepth: IobioCoverageDepthType;
-	IobioDataBroker: IobioDataBrokerType;
-	IobioHistogram: IobioHistogramType;
-	IobioPercentBox: IobioPercentBoxType;
-	// TODO: consistent key naming
-	BamDisplayNames: typeof BamDisplayNames;
-	BamKeys: typeof BamKeys;
-	histogramKeys: typeof histogramKeys;
-	percentKeys: typeof percentKeys;
-};
-
-const iobio = () => {
-	import('iobio-charts');
-
-	return {
-		IobioCoverageDepth,
-		IobioDataBroker,
-		IobioHistogram,
-		IobioPercentBox,
-		BamDisplayNames,
-		BamKeys,
-		histogramKeys,
-		percentKeys,
-	} as IobioComponents;
+const iobio = async () => {
+	await import('iobio-charts');
 };
 
 export default iobio;
-
-export { type IobioCoverageDepthType } from './coverage_depth';
-export { type IobioDataBrokerType } from './data_broker';
-export { type IobioHistogramType } from './histogram';
-export { type IobioPercentBoxType } from './percent_box';
-
-export { type BamHistogramKey, type BamKey, type BamPercentKey } from './constants';

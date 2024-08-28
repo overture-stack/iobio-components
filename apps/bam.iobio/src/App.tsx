@@ -20,13 +20,7 @@
  */
 
 import clsx from 'clsx';
-import iobio from 'iobio-react-components';
-import type { BamContext, BamKey } from 'iobio-react-components/src/constants';
-import { useEffect, useState } from 'react';
-import './App.css';
-import { defaultBamContext, iobioURL, isOutlierKey } from './util';
-
-const {
+import initIobio, {
 	BamDisplayNames,
 	BamKeys,
 	IobioCoverageDepth,
@@ -35,7 +29,15 @@ const {
 	IobioPercentBox,
 	histogramKeys,
 	percentKeys,
-} = iobio();
+	type BamContext,
+	type BamKey,
+} from 'iobio-react-components';
+
+import { useEffect, useState } from 'react';
+import './App.css';
+import { defaultBamContext, iobioURL, isOutlierKey } from './util';
+
+initIobio();
 
 const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue', 'purple'];
 const secondaryColors = ['lightpink', 'peachpuff', 'lemonchiffon', 'palegreen', 'powderblue', 'lavender'];
