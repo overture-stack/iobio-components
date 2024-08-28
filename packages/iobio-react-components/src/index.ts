@@ -35,8 +35,10 @@ export {
 	type BamPercentKey,
 } from './constants';
 
-const iobio = async () => {
-	await import('iobio-charts');
-};
+// Init Iobio Charts
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only
+// Multiple Iobio Charts imports can trigger errors in related DOM APIs
 
-export default iobio;
+(async () => {
+	await import('iobio-charts');
+})();
