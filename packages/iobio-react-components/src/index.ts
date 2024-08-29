@@ -19,8 +19,6 @@
  *
  */
 
-import 'iobio-charts';
-
 export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './coverage_depth';
 export { default as IobioDataBroker, type IobioDataBrokerType } from './data_broker';
 export { default as IobioHistogram, type IobioHistogramType } from './histogram';
@@ -30,8 +28,22 @@ export {
 	BamDisplayNames,
 	BamKeys,
 	histogramKeys,
+	ignoreOutlierKeys,
 	percentKeys,
+	type BamContext,
 	type BamHistogramKey,
 	type BamKey,
+	type BamOutlierKey,
 	type BamPercentKey,
 } from './constants';
+
+export { getBooleanAttributes, isOutlierKey, setElementStyles } from './utils';
+
+// Init Iobio Charts
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only
+// Multiple Iobio Charts imports can trigger errors in related DOM APIs.
+// This "lazy loading" prevents setups like NextJS from doing that, by importing only client-side.
+
+(async () => {
+	await import('iobio-charts');
+})();
