@@ -37,7 +37,8 @@ export {
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only
-// Multiple Iobio Charts imports can trigger errors in related DOM APIs
+// Multiple Iobio Charts imports can trigger errors in related DOM APIs.
+// This "lazy loading" prevents setups like NextJS from doing that, by importing only client-side.
 
 (async () => {
 	await import('iobio-charts');
