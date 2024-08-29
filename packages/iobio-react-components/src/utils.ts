@@ -19,6 +19,12 @@
  *
  */
 
+import { ignoreOutlierKeys, type BamKey, type BamOutlierKey } from './constants';
+
+export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
+	return ignoreOutlierKeys.includes(key as BamOutlierKey);
+};
+
 /**
  * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not
  * False values are removed, truthy values returned as { key: boolean }

@@ -28,12 +28,16 @@ export {
 	BamDisplayNames,
 	BamKeys,
 	histogramKeys,
+	ignoreOutlierKeys,
 	percentKeys,
 	type BamContext,
 	type BamHistogramKey,
 	type BamKey,
+	type BamOutlierKey,
 	type BamPercentKey,
 } from './constants';
+
+export { getBooleanAttributes, isOutlierKey, setElementStyles } from './utils';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only

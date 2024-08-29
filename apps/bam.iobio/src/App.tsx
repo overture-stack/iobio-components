@@ -28,6 +28,7 @@ import {
 	IobioHistogram,
 	IobioPercentBox,
 	histogramKeys,
+	isOutlierKey,
 	percentKeys,
 	type BamContext,
 	type BamKey,
@@ -35,7 +36,7 @@ import {
 
 import { useEffect, useState } from 'react';
 import './App.css';
-import { defaultBamContext, iobioURL, isOutlierKey } from './util';
+import { defaultBamContext, iobioURL } from './util';
 
 const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue', 'purple'];
 const secondaryColors = ['lightpink', 'peachpuff', 'lemonchiffon', 'palegreen', 'powderblue', 'lavender'];
