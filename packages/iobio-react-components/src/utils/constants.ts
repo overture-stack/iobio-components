@@ -85,3 +85,7 @@ export const statisticKeys = [
 ] as const;
 
 export type StatisticKey = (typeof statisticKeys)[number];
+
+export const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
+
+export type BamOutlierKey = (typeof ignoreOutlierKeys)[number];
