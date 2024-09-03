@@ -38,6 +38,21 @@ export type BamKey = (typeof BamKeys)[number];
 
 export type BamContext = Record<BamKey, boolean>;
 
+export const defaultBamContext = {
+	mapped_reads: true,
+	forward_strands: true,
+	proper_pairs: true,
+	singletons: true,
+	both_mates_mapped: true,
+	duplicates: true,
+	coverage_depth: true,
+	coverage_hist: true,
+	frag_hist: true,
+	length_hist: true,
+	mapq_hist: true,
+	baseq_hist: true,
+} as const;
+
 export const BamDisplayNames = {
 	mapped_reads: 'Mapped Reads',
 	forward_strands: 'Forward Strands',
