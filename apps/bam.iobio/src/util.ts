@@ -19,21 +19,4 @@
  *
  */
 
-import type { BamContext } from 'iobio-react-components/';
-
 export const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
-
-export const defaultBamContext = {
-	mapped_reads: true,
-	forward_strands: true,
-	proper_pairs: true,
-	singletons: true,
-	both_mates_mapped: true,
-	duplicates: true,
-	coverage_depth: true,
-	coverage_hist: true,
-	frag_hist: true,
-	length_hist: true,
-	mapq_hist: true,
-	baseq_hist: true,
-} as const satisfies BamContext;

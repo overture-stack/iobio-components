@@ -51,7 +51,7 @@ export const defaultBamContext = {
 	length_hist: true,
 	mapq_hist: true,
 	baseq_hist: true,
-} as const;
+} as const satisfies BamContext;
 
 export const BamDisplayNames = {
 	mapped_reads: 'Mapped Reads',
