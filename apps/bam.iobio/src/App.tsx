@@ -37,7 +37,8 @@ import {
 
 import { useEffect, useState } from 'react';
 import './App.css';
-import { iobioURL } from './util';
+
+const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
 
 const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue', 'purple'];
 const secondaryColors = ['lightpink', 'peachpuff', 'lemonchiffon', 'palegreen', 'powderblue', 'lavender'];
