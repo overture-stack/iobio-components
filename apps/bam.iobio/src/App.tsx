@@ -38,6 +38,7 @@ import {
 import { useEffect, useState } from 'react';
 import './App.css';
 
+// WIP: constant to be abstracted/injected in a later PR
 const iobioURL = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
 
 const colors = ['red', 'orange', 'gold', 'aquamarine', 'cornflowerblue', 'purple'];
