@@ -26,7 +26,9 @@ import { DataBroker } from 'iobio-charts/data_broker.js';
 
 import { calculateMeanCoverage, getBamStatistics } from './utils.ts';
 
-const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+// const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+const fileUrl =
+	'https://s3.amazonaws.com/giab/data_RNAseq/ChineseTrio/HG005_NA24631_son/Mason_ONT-directRNA/alignments/HG005_GM24631_directRNA_ONT_Mason_20230526.sorted.bam';
 
 const db = new DataBroker(fileUrl);
 
@@ -37,7 +39,7 @@ db.addEventListener('stats-stream-start', () => {
 });
 
 db.addEventListener('stats-stream-data', (evt: any) => {
-	console.log(evt.detail);
+	// console.log(evt.detail);
 	data.push(evt.detail);
 });
 
@@ -45,19 +47,27 @@ db.addEventListener('stats-stream-end', () => {
 	console.log('\n Streaming ended \n');
 
 	const latestUpdate = data[data.length - 1];
-
+	console.log(latestUpdate);
 	const statistics = getBamStatistics(latestUpdate);
+
+	const readDepthData: { [k: string]: {}[] } = {};
+
+	for (const [key, data] of Object.entries(db.readDepth)) {
+		const filtered = data.filter((read) => read.avgCoverage > 0);
+
+		readDepthData[key] = filtered;
+	}
 
 	const meanReadCoverage = calculateMeanCoverage(latestUpdate);
 	statistics['mean_read_coverage'] = meanReadCoverage;
 
-	const fileData = { statistics };
+	const fileData = { statistics, readDepthData };
 
 	const file = JSON.stringify(fileData);
 
 	const fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
 
-	fs.writeFile(`${fileName} statistics.json`, file, (err) => {
+	fs.writeFile(`${fileName} statistics - covg@1000.json`, file, (err) => {
 		if (err) {
 			console.error(err);
 		} else {

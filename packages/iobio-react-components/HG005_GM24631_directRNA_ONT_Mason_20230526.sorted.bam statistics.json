@@ -1,0 +1,24 @@
+{
+	"statistics": {
+		"mapped_reads": 9,
+		"mapped_reads_percentage": 1,
+		"forward_strands": 7,
+		"forward_strands_percentage": 0.7778,
+		"proper_pairs": 0,
+		"proper_pairs_percentage": 0,
+		"singletons": 0,
+		"singletons_percentage": 0,
+		"both_mates_mapped": 0,
+		"both_mates_mapped_percentage": 0,
+		"duplicates": 0,
+		"duplicates_percentage": 0,
+		"failed_qc": 0,
+		"first_mates": 0,
+		"last_read_position": 167929351,
+		"paired_end_reads": 0,
+		"reverse_strands": 2,
+		"second_mates": 0,
+		"total_reads": 9,
+		"mean_read_coverage": 0
+	}
+}
