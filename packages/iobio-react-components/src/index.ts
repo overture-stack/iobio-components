@@ -27,6 +27,7 @@ export { default as IobioPercentBox, type IobioPercentBoxType } from './percent_
 export {
 	BamDisplayNames,
 	BamKeys,
+	defaultBamContext,
 	histogramKeys,
 	ignoreOutlierKeys,
 	percentKeys,
