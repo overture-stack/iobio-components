@@ -26,7 +26,10 @@ import { DataBroker } from 'iobio-charts/data_broker.js';
 
 import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
-const fileUrl = 'https://s3.amazonaws.com/iobio/NA12878/NA12878.autsome.bam';
+// TODO: Add env support
+const fileUrl = process.argv[2];
+
+if (!fileUrl) throw new Error('No File URL passed in arguments \nusage: pnpm run stats ${url}');
 
 const db = new DataBroker(fileUrl);
 
@@ -37,12 +40,12 @@ db.addEventListener('stats-stream-start', () => {
 });
 
 db.addEventListener('stats-stream-data', (evt: any) => {
-	console.log(evt.detail);
+	process.stdout.write('*');
 	data.push(evt.detail);
 });
 
 db.addEventListener('stats-stream-end', () => {
-	console.log('\n Streaming ended \n');
+	console.log('\nStreaming ended \n');
 
 	const latestUpdate = data[data.length - 1];
 
@@ -51,17 +54,24 @@ db.addEventListener('stats-stream-end', () => {
 	const meanReadCoverage = calculateMeanCoverage(latestUpdate);
 	statistics['mean_read_coverage'] = meanReadCoverage;
 
+	console.log(statistics);
+
 	const fileData = { statistics };
 
 	const file = JSON.stringify(fileData);
 
-	const fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+	// TODO: Update to fit different urls
+	const sourceFileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
 
-	fs.writeFile(`${fileName} statistics.json`, file, (err) => {
+	const date = new Date().toISOString().split('T')[0];
+
+	const fileName = `statistics-${sourceFileName}-${date}.json`;
+
+	fs.writeFile(fileName, file, (err) => {
 		if (err) {
 			console.error(err);
 		} else {
-			console.log(`\n File output to ${fileName} statistics.json \n`);
+			console.log(`\nFile output to ${fileName}\n`);
 		}
 	});
 });
