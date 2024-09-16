@@ -19,9 +19,8 @@
  *
  */
 
-import fs from 'fs';
+import fs from 'node:fs';
 
-// Requires Node 20
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
 import { calculateMeanCoverage, getBamStatistics } from './utils.ts';
@@ -44,7 +43,7 @@ db.addEventListener('stats-stream-data', (event: any) => {
 	data.push(event.detail);
 });
 
-db.addEventListener('stats-stream-end', () => {
+db.addEventListener('stats-stream-end', async () => {
 	console.log('\nStreaming ended \n');
 
 	const latestUpdate = data[data.length - 1];
