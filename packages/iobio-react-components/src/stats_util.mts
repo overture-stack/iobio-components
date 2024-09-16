@@ -39,9 +39,9 @@ db.addEventListener('stats-stream-start', () => {
 	console.log('Streaming started');
 });
 
-db.addEventListener('stats-stream-data', (evt: any) => {
+db.addEventListener('stats-stream-data', (event: any) => {
 	process.stdout.write('*');
-	data.push(evt.detail);
+	data.push(event.detail);
 });
 
 db.addEventListener('stats-stream-end', () => {
