@@ -21,7 +21,7 @@
 
 import fs from 'fs';
 
-// Requires Node 19
+// Requires Node 20
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
 import { calculateMeanCoverage, getBamStatistics } from './utils.ts';
