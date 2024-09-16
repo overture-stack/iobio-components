@@ -75,13 +75,13 @@ type DataUpdate = StatisticsData & PercentData;
 
 export const getBamStatistics = (dataEvent: DataUpdate) => {
 	return [...percentKeys, ...statisticKeys].reduce(
-		(acc, val) => {
-			const value = dataEvent[val];
-			const stats: { [k: string]: number } = { ...acc, [val]: value };
+		(statsData, dataKey) => {
+			const value = dataEvent[dataKey];
+			const stats: { [k: string]: number } = { ...statsData, [dataKey]: value };
 
-			if (percentKeys.some((percentKey) => percentKey === val)) {
+			if (percentKeys.some((percentKey) => percentKey === dataKey)) {
 				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
-				const key = `${val}_percentage`;
+				const key = `${dataKey}_percentage`;
 				stats[key] = percentage;
 			}
 			return stats;
