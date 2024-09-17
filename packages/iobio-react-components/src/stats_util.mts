@@ -43,7 +43,7 @@ db.addEventListener('stats-stream-data', (event: any) => {
 	data.push(event.detail);
 });
 
-db.addEventListener('stats-stream-end', async () => {
+db.addEventListener('stats-stream-end', () => {
 	console.log('\nStreaming ended \n');
 
 	const latestUpdate = data[data.length - 1];
