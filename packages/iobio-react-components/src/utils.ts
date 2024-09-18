@@ -99,9 +99,9 @@ export const getBamStatistics = (dataEvent: DataUpdate) => {
 type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
 
 export const getHistogramData = (dataEvent: HistogramData) => {
-	const histogramData = histogramKeys.reduce((acc, val) => {
-		const value = dataEvent[val];
-		const stats: HistogramData = { ...acc, [val]: value };
+	const histogramData = histogramKeys.reduce((statsData, dataKey) => {
+		const value = dataEvent[dataKey];
+		const stats: HistogramData = { ...statsData, [dataKey]: value };
 		return stats;
 	}, {} as HistogramData);
 
