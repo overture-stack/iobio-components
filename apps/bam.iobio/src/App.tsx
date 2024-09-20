@@ -34,7 +34,6 @@ import {
 	type BamContext,
 	type BamKey,
 } from 'iobio-react-components';
-
 import { useEffect, useState } from 'react';
 import './App.css';
 

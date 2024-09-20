@@ -28,6 +28,6 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src/*"],
-	"exclude": ["src/stats_util.mts"]
+	"include": ["src/**/*"],
+	"exclude": ["src/utils/stats.mts"]
 }

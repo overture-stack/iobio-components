@@ -23,7 +23,7 @@ import fs from 'node:fs';
 
 import { DataBroker } from 'iobio-charts/data_broker.js';
 
-import { calculateMeanCoverage, getBamStatistics } from './utils.ts';
+import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
 // TODO: Add env support
 const fileUrl = process.argv[2];

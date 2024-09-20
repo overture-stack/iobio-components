@@ -19,10 +19,10 @@
  *
  */
 
-export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './coverage_depth';
-export { default as IobioDataBroker, type IobioDataBrokerType } from './data_broker';
-export { default as IobioHistogram, type IobioHistogramType } from './histogram';
-export { default as IobioPercentBox, type IobioPercentBoxType } from './percent_box';
+export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './components/coverageDepth';
+export { default as IobioDataBroker, type IobioDataBrokerType } from './components/dataBroker';
+export { default as IobioHistogram, type IobioHistogramType } from './components/histogram';
+export { default as IobioPercentBox, type IobioPercentBoxType } from './components/percentBox';
 
 export {
 	BamDisplayNames,
@@ -36,7 +36,7 @@ export {
 	type BamKey,
 	type BamOutlierKey,
 	type BamPercentKey,
-} from './constants';
+} from './utils/constants';
 
 export { getBooleanAttributes, isOutlierKey, setElementStyles } from './utils';
 
