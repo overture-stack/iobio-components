@@ -8,14 +8,15 @@
 		"module": "ESNext",
 		"skipLibCheck": true,
 		"paths": {
-			"iobio-charts": ["./src/iobio.d.ts"]
+			"iobio-charts/*": ["./src/iobio.d.ts"]
 		},
 		"outDir": "./dist",
 
 		/* Bundler mode */
 		"allowJs": true,
 		"moduleResolution": "bundler",
-		"allowImportingTsExtensions": false,
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"moduleDetection": "force",
@@ -27,5 +28,6 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src/*"]
+	"include": ["src/*"],
+	"exclude": ["src/stats_util.mts"]
 }

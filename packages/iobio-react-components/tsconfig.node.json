@@ -6,11 +6,13 @@
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"allowSyntheticDefaultImports": true,
+		"allowImportingTsExtensions": true,
 		"strict": true,
 		"noEmit": true,
 		"paths": {
+			"iobio-charts/*": ["./src/iobio.d.ts"],
 			"vite-plugin-dts": ["./node_modules/vite-plugin-dts/dist/index.d.ts"]
 		}
 	},
-	"include": ["vite.config.ts"]
+	"include": ["vite.config.ts", "src/stats_util.mts", "src/utils.ts", "src/constants.ts"]
 }
