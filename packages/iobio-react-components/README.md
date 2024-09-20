@@ -6,6 +6,20 @@
 
 - Import components in consumer app as `import IobioComponents from '@overture-stack/iobio-components/components/src/index';`
 
+## React Components
+
+- Stub for React Component documentation.
+<!-- TODO: Write Docs (include pnpm, monorepo, etc) -->
+
+## Statistics Generation
+
+- This package provides a command line utility function for obtaining BAM File statistics by querying the Iobio server. Provide a BAM/CRAM file URL to obtain mean read coverage and other statistics on sampled regions of the file. Values will vary depending on the number of reads performed and regions sampled.
+
+- Usage: `pnpm run stats ${url}`
+
+- This feature relies on Node web streams, and use of Node v22 is enforced in package.json engines field and .npmrc.
+
+
 ## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

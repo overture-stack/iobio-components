@@ -75,13 +75,13 @@ type DataUpdate = StatisticsData & PercentData;
 
 export const getBamStatistics = (dataEvent: DataUpdate) => {
 	return [...percentKeys, ...statisticKeys].reduce(
-		(acc, val) => {
-			const value = dataEvent[val];
-			const stats: { [k: string]: number } = { ...acc, [val]: value };
+		(statsData, dataKey) => {
+			const value = dataEvent[dataKey];
+			const stats: { [k: string]: number } = { ...statsData, [dataKey]: value };
 
-			if (percentKeys.some((percentKey) => percentKey === val)) {
+			if (percentKeys.some((percentKey) => percentKey === dataKey)) {
 				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
-				const key = `${val}_percentage`;
+				const key = `${dataKey}_percentage`;
 				stats[key] = percentage;
 			}
 			return stats;
@@ -99,9 +99,9 @@ export const getBamStatistics = (dataEvent: DataUpdate) => {
 type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
 
 export const getHistogramData = (dataEvent: HistogramData) => {
-	const histogramData = histogramKeys.reduce((acc, val) => {
-		const value = dataEvent[val];
-		const stats: HistogramData = { ...acc, [val]: value };
+	const histogramData = histogramKeys.reduce((statsData, dataKey) => {
+		const value = dataEvent[dataKey];
+		const stats: HistogramData = { ...statsData, [dataKey]: value };
 		return stats;
 	}, {} as HistogramData);
 
