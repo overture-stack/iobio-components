@@ -29,5 +29,5 @@
 		"noFallthroughCasesInSwitch": true
 	},
 	"include": ["src/**/*"],
-	"exclude": ["src/utils/stats_util.mts"]
+	"exclude": ["src/utils/stats.mts"]
 }
