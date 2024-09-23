@@ -19,7 +19,17 @@
  *
  */
 
-import { ignoreOutlierKeys, type BamKey, type BamOutlierKey } from './constants';
+import {
+	BamHistogramKey,
+	BamPercentKey,
+	histogramKeys,
+	ignoreOutlierKeys,
+	percentKeys,
+	StatisticKey,
+	statisticKeys,
+	type BamKey,
+	type BamOutlierKey,
+} from './constants.ts';
 
 export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
 	return ignoreOutlierKeys.includes(key as BamOutlierKey);
@@ -51,4 +61,69 @@ export const setElementStyles = (element: Element, styles: string) => {
 		elementStyles.replaceSync(styles);
 		element.shadowRoot.adoptedStyleSheets = [elementStyles];
 	}
+};
+
+/**
+ * Obtain BAM statistical data from Data Broker data events
+ * @param dataEvent { [BamKey]: number  }
+ */
+
+type StatisticsData = { [K in StatisticKey]: number };
+type PercentData = { [K in BamPercentKey]: number };
+
+type DataUpdate = StatisticsData & PercentData;
+
+export const getBamStatistics = (dataEvent: DataUpdate) => {
+	return [...percentKeys, ...statisticKeys].reduce(
+		(statsData, dataKey) => {
+			const value = dataEvent[dataKey];
+			const stats: { [k: string]: number } = { ...statsData, [dataKey]: value };
+
+			if (percentKeys.some((percentKey) => percentKey === dataKey)) {
+				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
+				const key = `${dataKey}_percentage`;
+				stats[key] = percentage;
+			}
+			return stats;
+		},
+		{} as { [k: string]: number },
+	);
+};
+
+/**
+ * Obtain BAM Histogram data from Data Broker data events
+ * @param dataEvent { [K in BamHistogramKey]: { [numKey: string]: number } }
+ * where numKey parses to an Integer
+ */
+
+type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
+
+export const getHistogramData = (dataEvent: HistogramData) => {
+	const histogramData = histogramKeys.reduce((statsData, dataKey) => {
+		const value = dataEvent[dataKey];
+		const stats: HistogramData = { ...statsData, [dataKey]: value };
+		return stats;
+	}, {} as HistogramData);
+
+	return histogramData;
+};
+
+/**
+ * Obtain Mean Read Coverage from Coverage Histogram data
+ * Src: iobio-charts/coverage/src/BamViewChart.js L259
+ */
+
+export const calculateMeanCoverage = (dataEvent: HistogramData) => {
+	const coverageData = dataEvent.coverage_hist;
+
+	let coverageMean = 0;
+	for (const coverage in coverageData) {
+		const freq = coverageData[coverage];
+		const coverageVal = parseInt(coverage);
+
+		coverageMean += coverageVal * freq;
+	}
+	const meanCoverage = Math.floor(coverageMean);
+
+	return meanCoverage;
 };

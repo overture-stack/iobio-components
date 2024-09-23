@@ -20,3 +20,8 @@
  */
 
 declare module 'iobio-charts';
+declare module 'iobio-charts/data_broker.js' {
+	export class DataBroker extends EventTarget {
+		constructor(url: string);
+	}
+}
