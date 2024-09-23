@@ -2,14 +2,52 @@
 
 ## Setup + Local Development
 
+### Requirements:
+
+- PNPM 9+
+- Node 20+
+
 - Install dependencies: `pnpm i`
 
-- Import components in consumer app as `import IobioComponents from '@overture-stack/iobio-components/components/src/index';`
+- Import components in consumer app as `import { IobioDataBroker } from '@overture-stack/iobio-components/packages/iobio-react-components/;`
+
+### Build Package
+
+- `pnpm run build`
 
 ## React Components
 
-- Stub for React Component documentation.
-<!-- TODO: Write Docs (include pnpm, monorepo, etc) -->
+- This package exports a set of React + Typescript components for integrating the iobio-charts library. Iobio Charts are using Web Components and Custom Elements in their implementation which need adaptation to work with React.
+
+- The Demo App at `iobio-components/apps/bam.iobio` shows an example integration which closely mirrors the integration at bam.iobio.io
+
+- The `<IobioDataBroker />` component is necessary to analyze a given file. It receives an `alignmentUrl` string prop which should point to a BAM/CRAM file URL. The Iobio server performs an analysis on the given file, and the other Iobio components read this data.
+
+- Some visualization components (`histogram` and `percentBox`) require data keys that correspond to this analysis to know what data to read. These values can be found in `/utils/constants`
+
+- The Overture `Iobio React Components` library also adds basic Typescript definitions in iobio.d.ts. `iobio-charts` is not typed.
+
+### SSR Integrations
+
+- Integrations with Overture Stage revealed conflicts between web component usage in `iobio-charts` and Next.js server side rendering, which may be an issue in future projects. Iobio Charts uses DOM APIs that are not available when rendered on the server, and which create conflicts when rendered multiple times.
+
+- These APIs include (but are not limited to `customElements`, `HTMLElement`, `Element` and `CssStyleSheet`.
+
+- The Stage solution is to leverage `JSDOM` and add DOM shims to handle the server side code. `Iobio React Components` also exports an IIFE async import to enforce asynchronous imports.
+
+- example: 
+
+// next.config.js
+`
+module.exports = withPlugins([withTranspileModules], {
+	webpack: (config, options) => {
+		if (options.isServer) {
+			const { JSDOM } = jsdom;
+			const dom = new JSDOM('', { url: 'http://localhost/' });
+      global.customElements = global.window.customElements;
+`
+
+- This solution works in Next 12.1 and may be updated in future iterations.
 
 ## Statistics Generation
 
