@@ -25,7 +25,7 @@
 
 - Some visualization components (`histogram` and `percentBox`) require data keys that correspond to this analysis to know what data to read. These values can be found in `/utils/constants`
 
-- The Overture `Iobio React Components` library also adds basic Typescript definitions in iobio.d.ts. `iobio-charts` is not typed.
+- The Overture `Iobio React Components` library also adds basic TypeScript definitions in iobio.d.ts; complementing the `iobio-charts` library, which is not "typed".
 
 ### SSR Integrations
 
