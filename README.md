@@ -80,3 +80,7 @@ The Overture Platform includes the following Overture Components:
 |[Stage](https://github.com/overture-stack/stage)| A React-based front-data portal UI |
 |[Lyric](https://github.com/overture-stack/lyric)| A data-agnostic tabular data submission system |
 |[Lectern](https://github.com/overture-stack/lectern)| A simple web browser UI that integrates Ego and Arranger |
+
+## Acknowledgements
+
+- Overture is supported by grant #U24CA253529 from the National Cancer Institute at the US National Institutes of Health.
