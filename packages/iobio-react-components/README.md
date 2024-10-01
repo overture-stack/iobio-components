@@ -17,7 +17,7 @@
 
 ## React Components
 
-- This package exports a set of React + Typescript components for integrating the iobio-charts library. Iobio Charts are using Web Components and Custom Elements in their implementation which need adaptation to work with React.
+- This package exports a set of React + TypeScript components to facilitate the integration of the Iobio Charts library of "web components" into your UI app.
 
 - The Demo App at `iobio-components/apps/bam.iobio` shows an example integration which closely mirrors the integration at bam.iobio.io
 
@@ -29,9 +29,9 @@
 
 ### SSR Integrations
 
-- Integrations with Overture Stage revealed conflicts between web component usage in `iobio-charts` and Next.js server side rendering, which may be an issue in future projects. Iobio Charts uses DOM APIs that are not available when rendered on the server, and which create conflicts when rendered multiple times.
+- Integrations with Overture Stage revealed conflicts between web component usage in `iobio-charts` and Next.js server side rendering, which may be an issue in future projects. Iobio Charts uses a DOM API that is not available when rendered on the server, and which create conflicts when rendered multiple times.
 
-- These APIs include (but are not limited to `customElements`, `HTMLElement`, `Element` and `CssStyleSheet`.
+- This API is used by (but not limited to) `customElements`, `HTMLElement`, `Element` and `CssStyleSheet`.
 
 - The Stage solution is to leverage `JSDOM` and add DOM shims to handle the server side code. `Iobio React Components` also exports an IIFE async import to enforce asynchronous imports.
 
