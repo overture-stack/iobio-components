@@ -37,15 +37,15 @@
 
 - example: 
 
+```
 // next.config.js
-`
 module.exports = withPlugins([withTranspileModules], {
 	webpack: (config, options) => {
 		if (options.isServer) {
 			const { JSDOM } = jsdom;
 			const dom = new JSDOM('', { url: 'http://localhost/' });
       global.customElements = global.window.customElements;
-`
+```
 
 - This solution works in Next 12.1 and may be updated in future iterations.
 
