@@ -1,6 +1,6 @@
 # Overture Iobio Components
 
-- A set of reusable React components and command line tools for integrating the visualization and analysis software originally created by https://iobio.io/
+- A set of reusable React components and command line tools for integrating the visualization and analysis software originally created by [IOBIO](https://iobio.io/).
 
 - This project is part of the [Overture](https://www.overture.bio/) research software ecosystem. See our [related products](#related-products) for more information on how Overture is helping organize data and enable discovery.
 
