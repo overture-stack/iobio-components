@@ -62,6 +62,7 @@ The modules in the monorepo are organized into two categories:
 ## Support & Contributions
 
 - Filing an [issue](https://github.com/overture-stack/iobio-components/issues)
+- Making a [contribution](https://github.com/overture-stack/.github/blob/master/CONTRIBUTING.md)
 - Connect with us on [Slack](http://slack.overture.bio)
 
 ## Related Software 
