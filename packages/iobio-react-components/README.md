@@ -21,7 +21,7 @@
 
 - The Demo App at `iobio-components/apps/bam.iobio` shows an example integration which closely mirrors the integration at bam.iobio.io
 
-- The `<IobioDataBroker />` component is necessary to analyze a given file. It receives an `alignmentUrl` string prop which should point to a BAM/CRAM file URL. The Iobio server performs an analysis on the given file, and the other Iobio components read this data.
+- The `<IobioDataBroker />` component is necessary to analyze a given file. It receives an `alignmentUrl` string prop which should point to a BAM/CRAM file URL. The Iobio server performs an analysis on the given file, and streams data back to the Data Broker web component. The other Iobio web components read from the Data Broker and render updates appropriately.
 
 - Some visualization components (`histogram` and `percentBox`) require data keys that correspond to this analysis to know what data to read. These values can be found in `/utils/constants`
 
