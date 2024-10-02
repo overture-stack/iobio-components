@@ -29,11 +29,9 @@
 
 ### SSR Integrations
 
-- Integrations with Overture Stage revealed conflicts between web component usage in `iobio-charts` and Next.js server side rendering, which may be an issue in future projects. Iobio Charts uses a DOM API that is not available when rendered on the server, and which create conflicts when rendered multiple times.
+- Iobio Components currently only supports client-side rendering. The 'iobio-charts' web components rely on DOM APIs including `customElements`, `HTMLElement`, `Element` and `CssStyleSheet`.
 
-- This API is used by (but not limited to) `customElements`, `HTMLElement`, `Element` and `CssStyleSheet`.
-
-- The Stage solution is to leverage `JSDOM` and add DOM shims to handle the server side code. `Iobio React Components` also exports an IIFE async import to enforce asynchronous imports.
+- A solution currently used in Overture Stage is to leverage `JSDOM` and add DOM shims to handle the server side code. `Iobio React Components` also exports an IIFE async import to enforce asynchronous imports.
 
 - example: 
 
