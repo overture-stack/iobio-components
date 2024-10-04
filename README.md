@@ -1,17 +1,15 @@
 # Overture Iobio Components
 
-- A set of reusable React components and command line tools for integrating the visualization and analysis software originally created by [IOBIO](https://iobio.io/).
-
-- This project is part of the [Overture](https://www.overture.bio/) research software ecosystem. See our [related products](#related-products) for more information on how Overture is helping organize data and enable discovery.
+A set of reusable React components and command line tools for integrating the visualization and analysis software originally created by [IOBIO](https://iobio.io/).
 
 </br>
 
 > 
 > <div>
-> <img align="left" src="ov-logo.png" height="90"/>
+> <img align="left" src="ov-logo.png" height="50"/>
 > </div>
 > 
-> *Overture Iobio Components is part of [Overture](https://www.overture.bio/), a collection of open-source software microservices used to create platforms for researchers to organize and share genomics data.*
+> *Overture Iobio Components is part of [Overture](https://www.overture.bio/), a collection of open-source software microservices used to create platforms for researchers to organize and share genomics data. See our [related products](#related-products) for more information on how Overture is helping organize data and enable discovery.*
 > 
 > 
 
@@ -38,15 +36,13 @@ The modules in the monorepo are organized into two categories:
 
 ### Development tools
 
-- [PNPM](https://pnpm.io/) Project manager
+- [PNPM](https://pnpm.io/) This project is a monorepo managed by PNPM
 - [Node.js](https://nodejs.org/en) Runtime environment (v20 or higher)
 - [VS Code](https://code.visualstudio.com/) As recommended code editor. Plugins recommended: ESLint, Prettier - Code formatter, Mocha Test Explorer, Monorepo Workspace
 
 ### Setup
 
 1. Install the dependencies
-
-- This project is a monorepo managed by [PNPM](https://pnpm.io)
 
 ```shell
   npm i pnpm -g
@@ -83,4 +79,4 @@ The Overture Platform includes the following Overture Components:
 
 ## Acknowledgements
 
-- Overture is supported by grant #U24CA253529 from the National Cancer Institute at the US National Institutes of Health.
+Overture is supported by grant #U24CA253529 from the National Cancer Institute at the US National Institutes of Health.
