@@ -2,14 +2,50 @@
 
 ## Setup + Local Development
 
+### Requirements:
+
+- PNPM 9+
+- Node 20+
+
 - Install dependencies: `pnpm i`
 
-- Import components in consumer app as `import IobioComponents from '@overture-stack/iobio-components/components/src/index';`
+- Import components in consumer app as `import { IobioDataBroker } from '@overture-stack/iobio-components/packages/iobio-react-components/;`
+
+### Build Package
+
+- `pnpm run build`
 
 ## React Components
 
-- Stub for React Component documentation.
-<!-- TODO: Write Docs (include pnpm, monorepo, etc) -->
+- This package exports a set of React + TypeScript components to facilitate the integration of the Iobio Charts library of "web components" into your UI app.
+
+- The Demo App at `iobio-components/apps/bam.iobio` shows an example integration which closely mirrors the integration at bam.iobio.io
+
+- The `<IobioDataBroker />` component is necessary to analyze a given file. It receives an `alignmentUrl` string prop which should point to a BAM/CRAM file URL. The Iobio server performs an analysis on the given file, and streams data back to the Data Broker web component. The other Iobio web components read from the Data Broker and render updates appropriately.
+
+- Some visualization components (`histogram` and `percentBox`) require data keys that correspond to this analysis to know what data to read. These values can be found in `/utils/constants`
+
+- The Overture `Iobio React Components` library also adds basic TypeScript definitions in iobio.d.ts; complementing the `iobio-charts` library, which is not "typed".
+
+### SSR Integrations
+
+- Iobio Components currently only supports client-side rendering. The 'iobio-charts' web components rely on DOM APIs including `customElements`, `HTMLElement`, `Element` and `CssStyleSheet`.
+
+- A solution currently used in Overture Stage is to leverage `JSDOM` and add DOM shims to handle the server side code. `Iobio React Components` also exports an IIFE async import to enforce asynchronous imports.
+
+- example: 
+
+```
+// next.config.js
+module.exports = withPlugins([withTranspileModules], {
+	webpack: (config, options) => {
+		if (options.isServer) {
+			const { JSDOM } = jsdom;
+			const dom = new JSDOM('', { url: 'http://localhost/' });
+      global.customElements = global.window.customElements;
+```
+
+- This solution works in Next 12.1 and may be updated in future iterations.
 
 ## Statistics Generation
 
