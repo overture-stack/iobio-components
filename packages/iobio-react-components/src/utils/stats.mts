@@ -27,10 +27,13 @@ import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
 // TODO: Add env support
 const fileUrl = process.argv[2];
+const options = {
+	indexUrl: process.argv[3],
+};
 
 if (!fileUrl) throw new Error('No File URL passed in arguments \nusage: pnpm run stats ${url}');
 
-const db = new DataBroker(fileUrl);
+const db = new DataBroker(fileUrl, options);
 
 const data: any[] = [];
 
@@ -48,19 +51,21 @@ db.addEventListener('stats-stream-end', () => {
 
 	const latestUpdate = data[data.length - 1];
 
+	// TODO: Handle latestUpdate undefined
 	const statistics = getBamStatistics(latestUpdate);
 
 	const meanReadCoverage = calculateMeanCoverage(latestUpdate);
 	statistics['mean_read_coverage'] = meanReadCoverage;
 
-	console.log(statistics);
+	console.log('statistics', statistics);
 
 	const fileData = { statistics };
 
 	const file = JSON.stringify(fileData);
 
 	// TODO: Update to fit different urls
-	const sourceFileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+	// Use URL() to parse, similar to data_broker
+	const sourceFileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1).split('?')[0];
 
 	const date = new Date().toISOString().split('T')[0];
 
