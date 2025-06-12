@@ -27,13 +27,13 @@ import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
 // TODO: Add env support
 const fileUrl = process.argv[2];
-const options = {
-	indexUrl: process.argv[3],
-};
+const indexUrl = process.argv[3];
 
 if (!fileUrl) throw new Error('No File URL passed in arguments \nusage: pnpm run stats ${url}');
 
-const db = new DataBroker(fileUrl, options);
+// TODO: Use env var
+const db = new DataBroker(fileUrl, { server: 'http://localhost:9001' });
+db.indexUrl = indexUrl;
 
 const data: any[] = [];
 
