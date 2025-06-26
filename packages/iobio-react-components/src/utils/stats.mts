@@ -19,10 +19,8 @@
  *
  */
 
-import fs from 'node:fs';
-
 import { DataBroker } from 'iobio-charts/data_broker.js';
-
+import fs from 'node:fs';
 import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
 if (!process.argv[2])
@@ -49,24 +47,19 @@ db.addEventListener('stats-stream-data', (event: any) => {
 db.addEventListener('stats-stream-end', () => {
 	console.log('\nStreaming ended \n');
 
+	// Finalize Data
 	const latestUpdate = data[data.length - 1];
-
-	// TODO: Handle latestUpdate undefined
 	const statistics = getBamStatistics(latestUpdate);
-
 	const meanReadCoverage = calculateMeanCoverage(latestUpdate);
 	statistics['mean_read_coverage'] = meanReadCoverage;
 
 	console.log('statistics', statistics);
 
+	// Output File
 	const fileData = { statistics };
-
 	const file = JSON.stringify(fileData);
-
 	const sourceFileName = fileUrl.pathname.split('/').pop();
-
 	const date = new Date().toISOString().split('T')[0];
-
 	const fileName = `statistics-${sourceFileName}-${date}.json`;
 
 	fs.writeFile(fileName, file, (err) => {
