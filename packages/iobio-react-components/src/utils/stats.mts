@@ -25,13 +25,14 @@ import { DataBroker } from 'iobio-charts/data_broker.js';
 
 import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
-const fileUrl = process.argv[2];
-const indexUrl = process.argv[3];
+if (!process.argv[2])
+	throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
+
+const fileUrl = new URL(process.argv[2]);
+const indexUrl = process.argv[3] ? new URL(process.argv[3]).href : '';
 const serverUrl = process.env.IOBIO_SERVER_URL;
 
-if (!fileUrl) throw new Error('No File URL passed in arguments \nusage: pnpm run stats ${url}');
-
-const db = new DataBroker(fileUrl, { server: serverUrl });
+const db = new DataBroker(fileUrl.href, { server: serverUrl });
 db.indexUrl = indexUrl;
 
 const data: any[] = [];
@@ -62,9 +63,7 @@ db.addEventListener('stats-stream-end', () => {
 
 	const file = JSON.stringify(fileData);
 
-	// TODO: Update to fit different urls
-	// Use URL() to parse, similar to data_broker
-	const sourceFileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1).split('?')[0];
+	const sourceFileName = fileUrl.pathname.split('/').pop();
 
 	const date = new Date().toISOString().split('T')[0];
 
