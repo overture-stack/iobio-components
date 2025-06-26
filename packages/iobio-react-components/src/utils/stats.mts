@@ -25,14 +25,13 @@ import { DataBroker } from 'iobio-charts/data_broker.js';
 
 import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
-// TODO: Add env support
 const fileUrl = process.argv[2];
 const indexUrl = process.argv[3];
+const serverUrl = process.env.IOBIO_SERVER_URL;
 
 if (!fileUrl) throw new Error('No File URL passed in arguments \nusage: pnpm run stats ${url}');
 
-// TODO: Use env var
-const db = new DataBroker(fileUrl, { server: 'http://localhost:9001' });
+const db = new DataBroker(fileUrl, { server: serverUrl });
 db.indexUrl = indexUrl;
 
 const data: any[] = [];
