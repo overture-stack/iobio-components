@@ -28,10 +28,16 @@ declare global {
 			label?: string;
 		}
 
+		interface IobioDataBrokerProps extends IobioElementProps {
+			'alignment-url': string;
+			'index-url'?: string;
+			server?: string;
+		}
+
 		interface IntrinsicElements {
 			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
 			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-data-broker': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-data-broker': DetailedHTMLProps<IobioDataBrokerProps, HTMLElement>;
 			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
 		}
 	}
