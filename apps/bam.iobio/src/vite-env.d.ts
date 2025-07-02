@@ -27,4 +27,5 @@ interface ImportMeta {
 
 interface ImportMetaEnv {
 	readonly VITE_PORT: string;
+	readonly IOBIO_SERVER_URL: string;
 }
