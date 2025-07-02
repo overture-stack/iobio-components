@@ -19,18 +19,19 @@
  *
  */
 
-import fs from 'node:fs';
-
 import { DataBroker } from 'iobio-charts/data_broker.js';
-
+import fs from 'node:fs';
 import { calculateMeanCoverage, getBamStatistics } from './index.ts';
 
-// TODO: Add env support
-const fileUrl = process.argv[2];
+if (!process.argv[2])
+	throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
 
-if (!fileUrl) throw new Error('No File URL passed in arguments \nusage: pnpm run stats ${url}');
+const fileUrl = new URL(process.argv[2]);
+const indexUrl = process.argv[3] ? new URL(process.argv[3]).href : '';
+const serverUrl = process.env.IOBIO_SERVER_URL;
 
-const db = new DataBroker(fileUrl);
+const db = new DataBroker(fileUrl.href, { server: serverUrl });
+db.indexUrl = indexUrl;
 
 const data: any[] = [];
 
@@ -46,24 +47,19 @@ db.addEventListener('stats-stream-data', (event: any) => {
 db.addEventListener('stats-stream-end', () => {
 	console.log('\nStreaming ended \n');
 
+	// Finalize Data
 	const latestUpdate = data[data.length - 1];
-
 	const statistics = getBamStatistics(latestUpdate);
-
 	const meanReadCoverage = calculateMeanCoverage(latestUpdate);
 	statistics['mean_read_coverage'] = meanReadCoverage;
 
-	console.log(statistics);
+	console.log('statistics', statistics);
 
+	// Output File
 	const fileData = { statistics };
-
 	const file = JSON.stringify(fileData);
-
-	// TODO: Update to fit different urls
-	const sourceFileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-
+	const sourceFileName = fileUrl.pathname.split('/').pop();
 	const date = new Date().toISOString().split('T')[0];
-
 	const fileName = `statistics-${sourceFileName}-${date}.json`;
 
 	fs.writeFile(fileName, file, (err) => {
