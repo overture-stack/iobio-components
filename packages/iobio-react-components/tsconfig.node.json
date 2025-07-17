@@ -14,5 +14,5 @@
 			"vite-plugin-dts": ["./node_modules/vite-plugin-dts/dist/index.d.ts"]
 		}
 	},
-	"include": ["vite.config.ts", "src/utils/stats.mts", "src/utils/index.ts", "src/utils/constants.ts"]
+	"include": ["vite.config.ts", "src/utils"]
 }

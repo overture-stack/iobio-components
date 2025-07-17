@@ -26,10 +26,14 @@ import { calculateMeanCoverage, getBamStatistics } from './functions.ts';
 if (!process.argv[2])
 	throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
 
+// Script Start
+console.log('***** Overture Components: Iobio Metadata Generator *****');
+
 const fileUrl = new URL(process.argv[2]);
 const indexUrl = process.argv[3] ? new URL(process.argv[3]).href : '';
 const serverUrl = process.env.IOBIO_SERVER_URL;
 
+// Generate Statistics
 const db = new DataBroker(fileUrl.href, { server: serverUrl });
 db.indexUrl = indexUrl;
 
