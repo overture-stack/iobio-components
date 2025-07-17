@@ -19,6 +19,7 @@
  *
  */
 
+// Iobio
 export const BamKeys = [
 	'mapped_reads',
 	'forward_strands',
@@ -33,9 +34,7 @@ export const BamKeys = [
 	'mapq_hist',
 	'baseq_hist',
 ] as const;
-
 export type BamKey = (typeof BamKeys)[number];
-
 export type BamContext = Record<BamKey, boolean>;
 
 export const defaultBamContext = {
@@ -76,8 +75,6 @@ export const histogramKeys = [
 	'baseq_hist',
 ] as const satisfies Array<BamKey>;
 
-export type BamHistogramKey = (typeof histogramKeys)[number];
-
 export const percentKeys = [
 	'mapped_reads',
 	'forward_strands',
@@ -86,8 +83,6 @@ export const percentKeys = [
 	'both_mates_mapped',
 	'duplicates',
 ] as const satisfies Array<BamKey>;
-
-export type BamPercentKey = (typeof percentKeys)[number];
 
 export const statisticKeys = [
 	'failed_qc',
@@ -99,8 +94,22 @@ export const statisticKeys = [
 	'total_reads',
 ] as const;
 
+export type BamHistogramKey = (typeof histogramKeys)[number];
+export type BamPercentKey = (typeof percentKeys)[number];
 export type StatisticKey = (typeof statisticKeys)[number];
+export type BamOutlierKey = (typeof ignoreOutlierKeys)[number];
 
 export const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
 
-export type BamOutlierKey = (typeof ignoreOutlierKeys)[number];
+// Files
+export const bamFileExtension = 'BAM';
+export const cramFileExtension = 'CRAM';
+export const BamFileExtensions = [bamFileExtension, cramFileExtension];
+
+// Score
+export const SCORE_API_DOWNLOAD_PATH = '/download';
+export const baseScoreDownloadParams = {
+	external: 'true',
+	offset: '0',
+	'User-Agent': 'unknown',
+};

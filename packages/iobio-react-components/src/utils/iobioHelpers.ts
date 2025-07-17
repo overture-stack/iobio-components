@@ -20,16 +20,14 @@
  */
 
 import {
-	BamHistogramKey,
-	BamPercentKey,
 	histogramKeys,
 	ignoreOutlierKeys,
 	percentKeys,
-	StatisticKey,
 	statisticKeys,
 	type BamKey,
 	type BamOutlierKey,
 } from './constants.ts';
+import { type DataUpdate, type HistogramData } from './iobioTypes.ts';
 
 export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
 	return ignoreOutlierKeys.includes(key as BamOutlierKey);
@@ -67,12 +65,6 @@ export const setElementStyles = (element: Element, styles: string) => {
  * Obtain BAM statistical data from Data Broker data events
  * @param dataEvent { [BamKey]: number  }
  */
-
-type StatisticsData = { [K in StatisticKey]: number };
-type PercentData = { [K in BamPercentKey]: number };
-
-type DataUpdate = StatisticsData & PercentData;
-
 export const getBamStatistics = (dataEvent: DataUpdate) => {
 	return [...percentKeys, ...statisticKeys].reduce(
 		(statsData, dataKey) => {
@@ -95,8 +87,6 @@ export const getBamStatistics = (dataEvent: DataUpdate) => {
  * @param dataEvent { [K in BamHistogramKey]: { [numKey: string]: number } }
  * where numKey parses to an Integer
  */
-
-type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
 
 export const getHistogramData = (dataEvent: HistogramData) => {
 	const histogramData = histogramKeys.reduce((statsData, dataKey) => {

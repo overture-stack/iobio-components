@@ -22,7 +22,7 @@
 import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
 import readline from 'node:readline/promises';
-import { calculateMeanCoverage, getBamStatistics } from './functions.ts';
+import { calculateMeanCoverage, getBamStatistics } from './iobioHelpers.ts';
 
 // Script Start
 console.log('***** Overture Components: Iobio Metadata Generator *****');

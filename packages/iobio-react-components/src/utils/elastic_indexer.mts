@@ -20,6 +20,8 @@
  */
 
 import readline from 'node:readline/promises';
+import { BamFileExtensions } from './constants';
+import { getFileMetaData } from './scoreFileHelpers';
 
 // Config
 const authKey = process.env.ES_AUTH_KEY;
@@ -58,21 +60,6 @@ const iobioProperties = JSON.stringify({
 	},
 });
 
-const requestOptions = {
-	headers: {
-		Authorization: `ApiKey ${authKey}`,
-	},
-};
-
-const updateMappingRequestOptions = {
-	headers: {
-		'Content-Type': 'application/json',
-		...requestOptions.headers,
-	},
-	method: 'PUT',
-	body: iobioProperties,
-};
-
 // Script Start
 console.log('***** Overture Components: Iobio Metadata ElasticSearch Indexer *****');
 
@@ -87,15 +74,68 @@ const documentId = await readlineInterface.question('\nDocument Id: ');
 readlineInterface.close();
 if (!(index && documentId)) throw new Error('ElasticSearch index and documentId are required');
 
-// Index Mapping
+// Validate Index & Document exist
+const requestOptions = {
+	headers: {
+		Authorization: `ApiKey ${authKey}`,
+	},
+};
+
 const mappingUrl = new URL(`${index}/_mapping`, esHost);
 const indexResponse = await fetch(mappingUrl, requestOptions).then((response) => response.json());
 const indexProperties = indexResponse[index]?.mappings.properties;
 if (!indexProperties) throw new Error(`Error retrieving field mapping for ElasticSearch index ${index}`);
 
+const searchUrl = new URL(`${index}/_search`, esHost);
+const searchQuery = JSON.stringify({
+	query: {
+		simple_query_string: {
+			query: documentId,
+			fields: ['object_id'],
+		},
+	},
+});
+
+const searchRequestOptions = {
+	headers: {
+		'Content-Type': 'application/json',
+		...requestOptions.headers,
+	},
+	method: 'POST',
+	body: searchQuery,
+};
+
+const searchResponse = await fetch(searchUrl, searchRequestOptions).then((response) => response.json());
+const searchResult = searchResponse.hits.hits[0];
+
+if (searchResult === undefined) {
+	throw new Error(`No document found with id ${documentId}`);
+}
+
+// File Handling
+const { file, file_type } = searchResult;
+
+if (!BamFileExtensions.includes(file_type)) {
+	throw new Error(`File is not a BAM or CRAM file, found extension ${file_type}`);
+}
+
+const { name, index_file } = file;
+const metadata = getFileMetaData(file, index_file);
+
+// Update Index Mapping
 const hasIobioMapping = indexProperties.hasOwnProperty('iobio_metadata');
 if (!hasIobioMapping) {
 	console.log(`Updating Index ${index}`);
+
+	const updateMappingRequestOptions = {
+		headers: {
+			'Content-Type': 'application/json',
+			...requestOptions.headers,
+		},
+		method: 'PUT',
+		body: iobioProperties,
+	};
+
 	await fetch(mappingUrl, updateMappingRequestOptions).then((response) => response.json());
 }
 
