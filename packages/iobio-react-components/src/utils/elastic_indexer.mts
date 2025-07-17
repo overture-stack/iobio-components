@@ -82,8 +82,8 @@ const readlineInterface = readline.createInterface({
 	output: process.stdout,
 });
 
-const index = await readlineInterface.question('ElasticSearch Index: ');
-const documentId = await readlineInterface.question('Document Id: ');
+const index = await readlineInterface.question('\nElasticSearch Index: ');
+const documentId = await readlineInterface.question('\nDocument Id: ');
 readlineInterface.close();
 if (!(index && documentId)) throw new Error('ElasticSearch index and documentId are required');
 
@@ -93,11 +93,14 @@ const indexResponse = await fetch(mappingUrl, requestOptions).then((response) =>
 const indexProperties = indexResponse[index]?.mappings.properties;
 if (!indexProperties) throw new Error(`Error retrieving field mapping for ElasticSearch index ${index}`);
 
-const hasIobioMapping = indexProperties.hasOwnProperty('iobio-metadata');
+const hasIobioMapping = indexProperties.hasOwnProperty('iobio_metadata');
 if (!hasIobioMapping) {
 	console.log(`Updating Index ${index}`);
 	await fetch(mappingUrl, updateMappingRequestOptions).then((response) => response.json());
 }
+
+// Generate Stats
+// todo
 
 // Update Document
 // todo

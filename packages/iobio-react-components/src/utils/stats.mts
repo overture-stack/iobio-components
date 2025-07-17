@@ -21,20 +21,26 @@
 
 import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
+import readline from 'node:readline/promises';
 import { calculateMeanCoverage, getBamStatistics } from './functions.ts';
-
-if (!process.argv[2])
-	throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
 
 // Script Start
 console.log('***** Overture Components: Iobio Metadata Generator *****');
 
-const fileUrl = new URL(process.argv[2]);
-const indexUrl = process.argv[3] ? new URL(process.argv[3]).href : '';
 const serverUrl = process.env.IOBIO_SERVER_URL;
+const readlineInterface = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout,
+});
+
+const fileUrl = await readlineInterface.question('\nBam File URL: ');
+if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
+
+const indexUrl = await readlineInterface.question('\nIndex File URL (optional): ');
+readlineInterface.close();
 
 // Generate Statistics
-const db = new DataBroker(fileUrl.href, { server: serverUrl });
+const db = new DataBroker(fileUrl, { server: serverUrl });
 db.indexUrl = indexUrl;
 
 const data: any[] = [];
@@ -62,7 +68,7 @@ db.addEventListener('stats-stream-end', () => {
 	// Output File
 	const fileData = { statistics };
 	const file = JSON.stringify(fileData);
-	const sourceFileName = fileUrl.pathname.split('/').pop();
+	const sourceFileName = new URL(fileUrl).pathname.split('/').pop();
 	const date = new Date().toISOString().split('T')[0];
 	const fileName = `statistics-${sourceFileName}-${date}.json`;
 
