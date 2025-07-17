@@ -21,7 +21,7 @@
 
 import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
-import { calculateMeanCoverage, getBamStatistics } from './index.ts';
+import { calculateMeanCoverage, getBamStatistics } from './functions.ts';
 
 if (!process.argv[2])
 	throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
