@@ -21,7 +21,9 @@
 
 import readline from 'node:readline/promises';
 import { BamFileExtensions } from './constants';
-import { getFileMetaData } from './scoreFileHelpers';
+import { getFileMetadata } from './scoreFileHelpers.mts';
+import { type ElasticSearchResult } from './scoreFileTypes';
+import { generateIobioStats } from './stats.mts';
 
 // Config
 const authKey = process.env.ES_AUTH_KEY;
@@ -106,21 +108,25 @@ const searchRequestOptions = {
 };
 
 const searchResponse = await fetch(searchUrl, searchRequestOptions).then((response) => response.json());
-const searchResult = searchResponse.hits.hits[0];
+const searchResult: ElasticSearchResult = searchResponse.hits.hits[0];
 
 if (searchResult === undefined) {
 	throw new Error(`No document found with id ${documentId}`);
 }
 
 // File Handling
-const { file, file_type } = searchResult;
-
-if (!BamFileExtensions.includes(file_type)) {
-	throw new Error(`File is not a BAM or CRAM file, found extension ${file_type}`);
+const elasticDocument = searchResult._source;
+if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
+	throw new Error(`File is not a BAM or CRAM file, found extension ${elasticDocument.file_type}`);
 }
 
-const { name, index_file } = file;
-const metadata = getFileMetaData(file, index_file);
+const fileName = elasticDocument.file?.name;
+const { fileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
+const fileUrl = fileMetadata?.parts[0]?.url || null;
+if (!fileUrl) {
+	throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
+}
+const indexFileUrl = indexFileMetadata?.parts[0]?.url || null;
 
 // Update Index Mapping
 const hasIobioMapping = indexProperties.hasOwnProperty('iobio_metadata');
@@ -139,8 +145,27 @@ if (!hasIobioMapping) {
 	await fetch(mappingUrl, updateMappingRequestOptions).then((response) => response.json());
 }
 
-// Generate Stats
-// todo
+// Generate Stats & Update Document
+const iobio_metadata = await generateIobioStats({
+	fileUrl,
+	fileName,
+	indexFileUrl,
+	enableFileOutput: true,
+});
 
-// Update Document
-// todo
+const updateUrl = new URL(`${index}/_doc/${documentId}`, esHost);
+const updateBody = JSON.stringify({
+	iobio_metadata,
+});
+
+const updateDocumentRequestOptions = {
+	headers: {
+		'Content-Type': 'application/json',
+		...requestOptions.headers,
+	},
+	method: 'POST',
+	body: updateBody,
+};
+
+const updateResponse = await fetch(updateUrl, updateDocumentRequestOptions).then((response) => response.json());
+console.log('updateResponse', updateResponse);

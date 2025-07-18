@@ -52,7 +52,10 @@ export type IndexFile = {
 };
 
 export type FileDocument = {
-	id: string;
+	object_id: string;
+	data_type?: string;
+	file_access?: string;
+	file_type?: string;
 	analysis?: {
 		collaborator?: {
 			hits: {
@@ -67,7 +70,6 @@ export type FileDocument = {
 		};
 		experiment?: { experimentalStrategy: string; platform: string };
 	};
-	data_type?: string;
 	donors?: {
 		hits: {
 			edges: [
@@ -79,8 +81,6 @@ export type FileDocument = {
 			];
 		};
 	};
-	file_access?: string;
-	file_type?: string;
 	file: {
 		size: number;
 		name: string;
@@ -90,6 +90,15 @@ export type FileDocument = {
 	};
 };
 
+// ElasticSearch
+export type ElasticSearchResult = {
+	_index: string;
+	_id: string;
+	_score: number;
+	_source: FileDocument;
+};
+
+// Score API File Query
 export type FileNode = {
 	node: {
 		file: {
@@ -102,7 +111,6 @@ export type FileNode = {
 	};
 };
 
-// Score API File Query Response
 export type FileResponse = {
 	data: {
 		file: {

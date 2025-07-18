@@ -22,13 +22,7 @@
 import urlJoin from 'url-join';
 
 import { baseScoreDownloadParams, SCORE_API_DOWNLOAD_PATH } from './constants';
-import {
-	type FileDocument,
-	type FileMetaData,
-	type FileNode,
-	type FileResponse,
-	type ScoreDownloadParams,
-} from './scoreFileTypes';
+import { type FileDocument, type FileMetaData, type FileResponse, type ScoreDownloadParams } from './scoreFileTypes';
 
 // Type Checks for Score Data response
 export const isFileMetaData = (file: unknown): file is FileMetaData => {
@@ -55,7 +49,8 @@ export const getScoreFile = async ({
 	};
 	const urlParams = new URLSearchParams(scoreDownloadParams).toString();
 	try {
-		const response = await fetch(urlJoin(SCORE_API_URL, SCORE_API_DOWNLOAD_PATH, object_id, `?${urlParams}`), {
+		const scoreUrl = urlJoin(SCORE_API_URL, SCORE_API_DOWNLOAD_PATH, object_id, `?${urlParams}`);
+		const response = await fetch(scoreUrl, {
 			headers: { accept: '*/*' },
 		});
 
@@ -69,17 +64,19 @@ export const getScoreFile = async ({
 };
 
 // Get required properties for Score Download
-export const getFileMetaData = async (selectedFile: FileDocument, indexFileNode: FileNode) => {
+export const getFileMetadata = async (selectedFile: FileDocument) => {
 	// Base BAM File download
-	const fileSize = selectedFile.file.size.toString();
-	const fileObjectId = selectedFile.id;
-	// const fileMetaData = await getScoreFile({ length: fileSize, object_id: fileObjectId });
-	const fileMetaData = { fileSize, fileObjectId };
+	const fileObjectId = selectedFile.object_id;
+	const fileData = selectedFile.file;
+	const fileSize = fileData.size.toString();
+	const fileMetadata = await getScoreFile({ length: fileSize, object_id: fileObjectId });
+	if (!isFileMetaData(fileMetadata)) throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
 
 	// Related Index File download
-	const { object_id: indexObjectId, size: indexFileSize } = indexFileNode.node.file.index_file;
-	// const indexFileMetaData = await getScoreFile({ length: indexFileSize.toString(), object_id: indexObjectId });
-	const indexFileMetaData = { indexFileSize, indexObjectId };
+	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
+	const indexFileMetadata = await getScoreFile({ length: indexFileSize.toString(), object_id: indexObjectId });
+	if (!isFileMetaData(indexFileMetadata))
+		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
 
-	return { fileMetaData, indexFileMetaData };
+	return { fileMetadata, indexFileMetadata };
 };

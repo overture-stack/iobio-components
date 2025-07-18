@@ -23,55 +23,78 @@ import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
 import readline from 'node:readline/promises';
 import { calculateMeanCoverage, getBamStatistics } from './iobioHelpers.ts';
+import { type StatsOutput } from './iobioTypes.ts';
 
-// Script Start
-console.log('***** Overture Components: Iobio Metadata Generator *****');
+export const statisticsCLI = async () => {
+	const readlineInterface = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
+	console.log('***** Overture Components: Iobio Metadata Generator *****');
 
-const serverUrl = process.env.IOBIO_SERVER_URL;
-const readlineInterface = readline.createInterface({
-	input: process.stdin,
-	output: process.stdout,
-});
+	const fileUrl = await readlineInterface.question('\nBam File URL: ');
+	if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
 
-const fileUrl = await readlineInterface.question('\nBam File URL: ');
-if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
+	const indexFileUrl = await readlineInterface.question('\nIndex File URL (optional): ');
+	const outputOption = await readlineInterface.question('\nOutput as JSON? (Y/N): ');
+	const enableFileOutput = outputOption.toLowerCase() === 'y';
+	readlineInterface.close();
 
-const indexUrl = await readlineInterface.question('\nIndex File URL (optional): ');
-readlineInterface.close();
+	generateIobioStats({ fileUrl, indexFileUrl, enableFileOutput });
+};
 
-// Generate Statistics
-const db = new DataBroker(fileUrl, { server: serverUrl });
-db.indexUrl = indexUrl;
+export const generateIobioStats = async ({
+	fileUrl,
+	fileName,
+	indexFileUrl = '',
+	enableFileOutput = false,
+}: {
+	fileUrl: string;
+	fileName?: string;
+	indexFileUrl?: string | null;
+	enableFileOutput?: boolean;
+}) => {
+	// Generate Statistics
+	const serverUrl = process.env.IOBIO_SERVER_URL;
+	const db = new DataBroker(fileUrl, { server: serverUrl });
+	if (indexFileUrl) db.indexUrl = indexFileUrl;
 
-const data: any[] = [];
+	const data: any[] = [];
 
-db.addEventListener('stats-stream-start', () => {
-	console.log('Streaming started');
-});
+	db.addEventListener('stats-stream-start', () => {
+		console.log('Streaming started');
+	});
 
-db.addEventListener('stats-stream-data', (event: any) => {
-	process.stdout.write('*');
-	data.push(event.detail);
-});
+	db.addEventListener('stats-stream-data', (event: any) => {
+		process.stdout.write('*');
+		data.push(event.detail);
+	});
 
-db.addEventListener('stats-stream-end', () => {
-	console.log('\nStreaming ended \n');
+	db.addEventListener('stats-stream-end', () => {
+		console.log('\nStreaming ended \n');
 
-	// Finalize Data
-	const latestUpdate = data[data.length - 1];
-	const statistics = getBamStatistics(latestUpdate);
-	const meanReadCoverage = calculateMeanCoverage(latestUpdate);
-	statistics['mean_read_coverage'] = meanReadCoverage;
+		// Finalize Data
+		const latestUpdate = data[data.length - 1];
+		const statistics = getBamStatistics(latestUpdate);
+		const meanReadCoverage = calculateMeanCoverage(latestUpdate);
+		statistics['mean_read_coverage'] = meanReadCoverage;
 
-	console.log('statistics', statistics);
+		console.log('statistics', statistics);
 
+		// Output File
+		const fileData = { statistics };
+		const urlFileName = new URL(fileUrl).pathname.split('/').pop();
+		const date = new Date().toISOString().split('T')[0];
+		const outputFileName = fileName ? `statistics-${fileName}-${date}.json` : `statistics-${urlFileName}-${date}.json`;
+
+		if (enableFileOutput) outputFile(outputFileName, fileData);
+		return fileData;
+	});
+};
+
+export const outputFile = (fileName: string, fileData: StatsOutput) => {
 	// Output File
-	const fileData = { statistics };
 	const file = JSON.stringify(fileData);
-	const sourceFileName = new URL(fileUrl).pathname.split('/').pop();
-	const date = new Date().toISOString().split('T')[0];
-	const fileName = `statistics-${sourceFileName}-${date}.json`;
-
 	fs.writeFile(fileName, file, (err) => {
 		if (err) {
 			console.error(err);
@@ -79,4 +102,4 @@ db.addEventListener('stats-stream-end', () => {
 			console.log(`\nFile output to ${fileName}\n`);
 		}
 	});
-});
+};
