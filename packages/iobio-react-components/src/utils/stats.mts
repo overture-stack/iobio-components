@@ -25,34 +25,20 @@ import readline from 'node:readline/promises';
 import { calculateMeanCoverage, getBamStatistics } from './iobioHelpers.ts';
 import { type StatsOutput } from './iobioTypes.ts';
 
-export const statisticsCLI = async () => {
-	const readlineInterface = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout,
-	});
-	console.log('***** Overture Components: Iobio Metadata Generator *****');
-
-	const fileUrl = await readlineInterface.question('\nBam File URL: ');
-	if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
-
-	const indexFileUrl = await readlineInterface.question('\nIndex File URL (optional): ');
-	const outputOption = await readlineInterface.question('\nOutput as JSON? (Y/N): ');
-	const enableFileOutput = outputOption.toLowerCase() === 'y';
-	readlineInterface.close();
-
-	generateIobioStats({ fileUrl, indexFileUrl, enableFileOutput });
-};
+export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
 
 export const generateIobioStats = async ({
 	fileUrl,
 	fileName,
 	indexFileUrl = '',
 	enableFileOutput = false,
+	onComplete,
 }: {
 	fileUrl: string;
 	fileName?: string;
 	indexFileUrl?: string | null;
 	enableFileOutput?: boolean;
+	onComplete?: CompleteCallback | null;
 }) => {
 	// Generate Statistics
 	const serverUrl = process.env.IOBIO_SERVER_URL;
@@ -75,20 +61,20 @@ export const generateIobioStats = async ({
 
 		// Finalize Data
 		const latestUpdate = data[data.length - 1];
-		const statistics = getBamStatistics(latestUpdate);
+		const iobio_metadata = getBamStatistics(latestUpdate);
 		const meanReadCoverage = calculateMeanCoverage(latestUpdate);
-		statistics['mean_read_coverage'] = meanReadCoverage;
+		iobio_metadata['mean_read_coverage'] = meanReadCoverage;
 
-		console.log('statistics', statistics);
+		console.log('Statistics:', iobio_metadata);
 
 		// Output File
-		const fileData = { statistics };
+		const fileData: StatsOutput = { iobio_metadata };
 		const urlFileName = new URL(fileUrl).pathname.split('/').pop();
 		const date = new Date().toISOString().split('T')[0];
 		const outputFileName = fileName ? `statistics-${fileName}-${date}.json` : `statistics-${urlFileName}-${date}.json`;
 
 		if (enableFileOutput) outputFile(outputFileName, fileData);
-		return fileData;
+		if (onComplete) onComplete(fileData);
 	});
 };
 
@@ -102,4 +88,22 @@ export const outputFile = (fileName: string, fileData: StatsOutput) => {
 			console.log(`\nFile output to ${fileName}\n`);
 		}
 	});
+};
+
+export const statisticsCLI = async () => {
+	const readlineInterface = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
+	console.log('***** Overture Components: Iobio Metadata Generator *****');
+
+	const fileUrl = await readlineInterface.question('\nBam File URL: ');
+	if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
+
+	const indexFileUrl = await readlineInterface.question('\nIndex File URL (optional): ');
+	const outputOption = await readlineInterface.question('\nOutput as JSON? (Y/N): ');
+	const enableFileOutput = outputOption.toLowerCase() === 'y';
+	readlineInterface.close();
+
+	generateIobioStats({ fileUrl, indexFileUrl, enableFileOutput });
 };

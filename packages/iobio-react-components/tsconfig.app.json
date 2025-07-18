@@ -29,5 +29,10 @@
 		"noFallthroughCasesInSwitch": true
 	},
 	"include": ["src/**/*"],
-	"exclude": ["src/utils/stats.mts", "src/utils/launchStats.mts", "src/utils/indexer.mts"]
+	"exclude": [
+		"src/utils/stats.mts",
+		"src/utils/launchStats.mts",
+		"src/utils/indexerHelpers.mts",
+		"src/utils/launchIndexer.mts"
+	]
 }

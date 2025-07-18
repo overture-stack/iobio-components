@@ -19,12 +19,6 @@
  *
  */
 
-import { BamHistogramKey, BamPercentKey, StatisticKey } from './constants';
+import { indexerCLI } from './indexerHelpers.mjs';
 
-export type DataUpdate = StatisticsData & PercentData;
-export type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
-export type StatisticsData = { [K in StatisticKey]: number };
-export type PercentData = { [K in BamPercentKey]: number };
-export type StatsOutput = {
-	iobio_metadata: { [k: string]: number };
-};
+indexerCLI();
