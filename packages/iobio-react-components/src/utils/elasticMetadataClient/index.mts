@@ -19,6 +19,6 @@
  *
  */
 
-import { indexerCLI } from './indexerHelpers.mjs';
+import { indexerCLI } from './indexerHelpers.mts';
 
 indexerCLI();

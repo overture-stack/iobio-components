@@ -3,8 +3,8 @@
 		"allowSyntheticDefaultImports": true,
 		"allowImportingTsExtensions": true,
 		"composite": true,
-		"module": "ESNext",
-		"moduleResolution": "bundler",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"noEmit": true,
 		"paths": {
 			"iobio-charts/*": ["./src/iobio.d.ts"],
@@ -15,5 +15,5 @@
 		"target": "esnext",
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
 	},
-	"include": ["vite.config.ts", "src/utils/*"]
+	"include": ["vite.config.ts", "src/utils/**/*"]
 }

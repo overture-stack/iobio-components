@@ -22,8 +22,8 @@
 import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
 import readline from 'node:readline/promises';
-import { calculateMeanCoverage, getBamStatistics } from './iobioHelpers.ts';
-import { type StatsOutput } from './iobioTypes.ts';
+import { calculateMeanCoverage, getBamStatistics } from '../iobioHelpers.mts';
+import { type StatsOutput } from '../iobioTypes.ts';
 
 export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
 
@@ -78,8 +78,8 @@ export const generateIobioStats = async ({
 	});
 };
 
+// Write Iobio Metadata as a JSON File
 export const outputFile = (fileName: string, fileData: StatsOutput) => {
-	// Output File
 	const file = JSON.stringify(fileData);
 	fs.writeFile(fileName, file, (err) => {
 		if (err) {

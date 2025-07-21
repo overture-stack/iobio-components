@@ -8,10 +8,10 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
-		"indexer": "pnpm exec tsx --env-file=.env src/utils/launchIndexer.mts",
+		"indexer": "pnpm exec tsx --env-file=.env src/utils/elasticMetadataClient/index.mts",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
-		"stats": "pnpm exec tsx --env-file=.env src/utils/launchStats.mts"
+		"stats": "pnpm exec tsx --env-file=.env src/utils/index.mts"
 	},
 	"dependencies": {
 		"iobio-charts": "^0.25.0",

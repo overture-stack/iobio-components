@@ -21,10 +21,10 @@
 
 import urlJoin from 'url-join';
 
-import { baseScoreDownloadParams, SCORE_API_DOWNLOAD_PATH } from './constants';
-import { type FileDocument, type FileMetaData, type FileResponse, type ScoreDownloadParams } from './scoreFileTypes';
+import { baseScoreDownloadParams, SCORE_API_DOWNLOAD_PATH } from '../constants.ts';
+import { type FileDocument, type FileMetaData, type FileResponse, type ScoreDownloadParams } from './scoreFileTypes.ts';
 
-// Type Checks for Score Data response
+/** Type Checks for Score Data response */
 export const isFileMetaData = (file: unknown): file is FileMetaData => {
 	return Boolean((file as FileMetaData)?.objectId && (file as FileMetaData)?.parts[0]?.url);
 };
@@ -33,7 +33,7 @@ export const isFileResponse = (response: unknown): response is FileResponse => {
 	return Boolean((response as FileResponse)?.data?.file.hits);
 };
 
-// Request File from Score API
+/** Request File from Score API */
 export const getScoreFile = async ({
 	length,
 	object_id,
@@ -63,16 +63,16 @@ export const getScoreFile = async ({
 	}
 };
 
-// Get required properties for Score Download
+/** Get required properties for Score Download */
 export const getFileMetadata = async (selectedFile: FileDocument) => {
-	// Base BAM File download
+	// Base BAM/CRAM File download
 	const fileObjectId = selectedFile.object_id;
 	const fileData = selectedFile.file;
 	const fileSize = fileData.size.toString();
 	const fileMetadata = await getScoreFile({ length: fileSize, object_id: fileObjectId });
 	if (!isFileMetaData(fileMetadata)) throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
 
-	// Related Index File download
+	/**  Related Index File download */
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
 	const indexFileMetadata = await getScoreFile({ length: indexFileSize.toString(), object_id: indexObjectId });
 	if (!isFileMetaData(indexFileMetadata))

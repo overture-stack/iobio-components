@@ -19,7 +19,7 @@
  *
  */
 
-import { BamHistogramKey, BamPercentKey, StatisticKey } from './constants';
+import { BamHistogramKey, BamPercentKey, StatisticKey } from './constants.ts';
 
 export type DataUpdate = StatisticsData & PercentData;
 export type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };

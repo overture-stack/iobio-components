@@ -20,7 +20,7 @@
  */
 
 import { useEffect } from 'react';
-import { setElementStyles } from '../utils/iobioHelpers';
+import { setElementStyles } from '../utils/iobioHelpers.mts';
 
 function IobioPercentBox({
 	percentKey,

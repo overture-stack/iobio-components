@@ -34,13 +34,6 @@ export type FileMetaData = {
 	uploadId?: string;
 };
 
-export type ScoreDownloadParams = {
-	'User-Agent': string;
-	external: string;
-	length: string;
-	offset: string;
-};
-
 export type IndexFile = {
 	object_id: string;
 	name: string;
@@ -90,7 +83,6 @@ export type FileDocument = {
 	};
 };
 
-// ElasticSearch
 export type ElasticSearchResult = {
 	_index: string;
 	_id: string;
@@ -99,14 +91,17 @@ export type ElasticSearchResult = {
 };
 
 // Score API File Query
+export type ScoreDownloadParams = {
+	'User-Agent': string;
+	external: string;
+	length: string;
+	offset: string;
+};
+
 export type FileNode = {
 	node: {
 		file: {
-			index_file: {
-				name: string;
-				object_id: string;
-				size: number;
-			};
+			index_file: IndexFile;
 		};
 	};
 };

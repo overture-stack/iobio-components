@@ -20,12 +20,13 @@
  */
 
 import readline from 'node:readline/promises';
-import { BamFileExtensions } from './constants';
-import { StatsOutput } from './iobioTypes';
+import { BamFileExtensions } from '../constants.ts';
+import { StatsOutput } from '../iobioTypes.ts';
+import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statsHelpers.mts';
 import { getFileMetadata } from './scoreFileHelpers.mts';
-import { type ElasticSearchResult } from './scoreFileTypes';
-import { generateIobioStats, type CompleteCallback } from './stats.mts';
+import { type ElasticSearchResult } from './scoreFileTypes.ts';
 
+/** Base ElasticSearch arguments */
 export type EsConfig = {
 	index: string;
 	esHost: string;
@@ -39,6 +40,7 @@ export type EsConfig = {
 
 const integer = 'integer';
 const float = 'float';
+/** Iobio Field Mapping Template */
 const iobioProperties = JSON.stringify({
 	properties: {
 		iobio_metadata: {
@@ -68,6 +70,11 @@ const iobioProperties = JSON.stringify({
 	},
 });
 
+/**
+ * Confirm requested index exists, and add Iobio Field Mappings if needed
+ * @param esConfig Base ElasticSearch arguments
+ * @returns { Promise<void> }
+ */
 export const validateAndUpdateIndex = async (esConfig: EsConfig) => {
 	const { index, esHost, requestOptions } = esConfig;
 	const mappingUrl = new URL(`${index}/_mapping`, esHost);
@@ -81,6 +88,11 @@ export const validateAndUpdateIndex = async (esConfig: EsConfig) => {
 	}
 };
 
+/**
+ * Add Iobio Metadata Fields to given Index Mapping
+ * @param esConfig Base ElasticSearch arguments
+ * @returns { Promise<void> }
+ */
 export const updateIndexMapping = async (esConfig: EsConfig) => {
 	const { index, esHost, requestOptions } = esConfig;
 	console.log(`Updating Index ${index}`);
@@ -97,6 +109,11 @@ export const updateIndexMapping = async (esConfig: EsConfig) => {
 	await fetch(mappingUrl, updateMappingRequestOptions).then((response) => response.json());
 };
 
+/**
+ * Find a specific ElasticSearch Document with given object_id
+ * @param esConfig Base ElasticSearch arguments
+ * @returns { Promise<ElasticSearchResult> }
+ */
 export const searchDocument = async ({ index, documentId, esHost, requestOptions }: EsConfig) => {
 	const searchUrl = new URL(`${index}/_search`, esHost);
 	const searchQuery = JSON.stringify({
@@ -126,6 +143,12 @@ export const searchDocument = async ({ index, documentId, esHost, requestOptions
 	return searchResult;
 };
 
+/**
+ * Get Score File URLs and additional File metadata from Elastic Document
+ * @param esConfig Base ElasticSearch arguments
+ * @param searchResult ElasticSearch Document
+ * @returns { fileUrl, fileName, indexFileUrl }
+ */
 export const getFileDetails = async ({
 	searchResult,
 	esConfig,
@@ -150,12 +173,18 @@ export const getFileDetails = async ({
 	return { fileUrl, fileName, indexFileUrl };
 };
 
+/**
+ * Add Iobio Metadata to a specific Elastic Document
+ * @param esConfig Base ElasticSearch arguments
+ * @param iobio_metadata Generated Iobio Statistics data for the current file
+ * @returns { Promise<void> }
+ */
 export const updateElasticDocument = async ({
-	iobio_metadata,
 	esConfig,
+	iobio_metadata,
 }: {
-	iobio_metadata: StatsOutput;
 	esConfig: EsConfig;
+	iobio_metadata: StatsOutput;
 }) => {
 	const { index, documentId, esHost, requestOptions } = esConfig;
 	const updateUrl = new URL(`${index}/_update/${documentId}`, esHost);
@@ -177,6 +206,11 @@ export const updateElasticDocument = async ({
 	console.log(`Successfully updated document with id ${documentId}`);
 };
 
+/**
+ * Elastic Indexing Utility Main CLI function
+ * Captures User Input, Validates Index & Document, Updates Mapping if needed,
+ * Generates Iobio Statistics, then updates the Document
+ */
 export const indexerCLI = async () => {
 	const authKey = process.env.ES_AUTH_KEY;
 	const esHost = process.env.ES_HOST_URL;
@@ -205,6 +239,7 @@ export const indexerCLI = async () => {
 	};
 	const esConfig: EsConfig = { documentId, esHost, index, requestOptions };
 
+	// Validate & Retrieve Data
 	console.log('Validating Index');
 	await validateAndUpdateIndex(esConfig);
 	console.log('Retrieving Document');
@@ -212,6 +247,8 @@ export const indexerCLI = async () => {
 	console.log('Getting Score File Data');
 	const { fileUrl, fileName, indexFileUrl } = await getFileDetails({ esConfig, searchResult });
 
+	// Iobio Data Broker relies on event listeners and executes this callback function when streaming is complete
+	// This callback captures the statistics output and adds it to ElasticSearch
 	const onComplete: CompleteCallback = async (iobio_metadata: StatsOutput) => {
 		console.log('Updating Document');
 		await updateElasticDocument({ iobio_metadata, esConfig });
