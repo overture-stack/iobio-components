@@ -90,7 +90,7 @@ export const validateAndUpdateIndex = async (esConfig: EsConfig) => {
 
 /**
  * Add Iobio Metadata Fields to given Index Mapping
- * @param esConfig Base ElasticSearch arguments
+ * @param esConfig Base ElasticSearch config
  * @returns { Promise<void> }
  */
 export const updateIndexMapping = async (esConfig: EsConfig) => {
@@ -111,7 +111,7 @@ export const updateIndexMapping = async (esConfig: EsConfig) => {
 
 /**
  * Find a specific ElasticSearch Document with given object_id
- * @param esConfig Base ElasticSearch arguments
+ * @param esConfig Base ElasticSearch config
  * @returns { Promise<ElasticSearchResult> }
  */
 export const searchDocument = async ({ index, documentId, esHost, requestOptions }: EsConfig) => {
@@ -145,7 +145,7 @@ export const searchDocument = async ({ index, documentId, esHost, requestOptions
 
 /**
  * Get Score File URLs and additional File metadata from Elastic Document
- * @param esConfig Base ElasticSearch arguments
+ * @param esConfig Base ElasticSearch config
  * @param searchResult ElasticSearch Document
  * @returns { fileUrl, fileName, indexFileUrl }
  */
@@ -175,7 +175,7 @@ export const getFileDetails = async ({
 
 /**
  * Add Iobio Metadata to a specific Elastic Document
- * @param esConfig Base ElasticSearch arguments
+ * @param esConfig Base ElasticSearch config
  * @param iobio_metadata Generated Iobio Statistics data for the current file
  * @returns { Promise<void> }
  */

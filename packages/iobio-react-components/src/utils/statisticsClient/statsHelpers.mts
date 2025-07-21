@@ -27,6 +27,13 @@ import { type StatsOutput } from '../iobioTypes.ts';
 
 export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
 
+/** Generate Iobio metadata using data broker
+ * @param fileUrl Url for the BAM/CRAM file to target
+ * @param fileName Name of target read file, added to output JSON file name
+ * @param indexFileUrl Url for the index file related to the target BAM. Optional
+ * @param enableFileOutput Enable/Disable writing a JSON file with metadata contents
+ * @param onComplete Callback function for when stats-stream finishes. Used to pass stats data to another process. Optional
+ */
 export const generateIobioStats = async ({
 	fileUrl,
 	fileName,
@@ -71,14 +78,16 @@ export const generateIobioStats = async ({
 		const fileData: StatsOutput = { iobio_metadata };
 		const urlFileName = new URL(fileUrl).pathname.split('/').pop();
 		const date = new Date().toISOString().split('T')[0];
-		const outputFileName = fileName ? `statistics-${fileName}-${date}.json` : `statistics-${urlFileName}-${date}.json`;
+		const outputFileName = fileName
+			? `iobio-metadata-${fileName}-${date}.json`
+			: `iobio-metadata-${urlFileName}-${date}.json`;
 
 		if (enableFileOutput) outputFile(outputFileName, fileData);
 		if (onComplete) onComplete(fileData);
 	});
 };
 
-// Write Iobio Metadata as a JSON File
+/** Write Iobio Metadata as a JSON File */
 export const outputFile = (fileName: string, fileData: StatsOutput) => {
 	const file = JSON.stringify(fileData);
 	fs.writeFile(fileName, file, (err) => {
@@ -90,6 +99,7 @@ export const outputFile = (fileName: string, fileData: StatsOutput) => {
 	});
 };
 
+/** Launch command line prompt for user input, then generate stats */
 export const statisticsCLI = async () => {
 	const readlineInterface = readline.createInterface({
 		input: process.stdin,
