@@ -22,8 +22,8 @@
 import readline from 'node:readline/promises';
 import { BamFileExtensions } from '../constants.ts';
 import { StatsOutput } from '../iobioTypes.ts';
-import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statsHelpers.mts';
-import { getFileMetadata } from './scoreFileHelpers.mts';
+import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statisticsTools.mts';
+import { getFileMetadata } from './scoreFileTools.mts';
 import { type ElasticSearchResult } from './scoreFileTypes.ts';
 
 /** Base ElasticSearch arguments */

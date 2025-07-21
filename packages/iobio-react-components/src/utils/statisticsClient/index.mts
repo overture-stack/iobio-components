@@ -19,6 +19,6 @@
  *
  */
 
-import { statisticsCLI } from './statsHelpers.mts';
+import { statisticsCLI } from './statisticsTools.mts';
 
 statisticsCLI();

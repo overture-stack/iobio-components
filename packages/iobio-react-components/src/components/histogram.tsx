@@ -20,7 +20,7 @@
  */
 
 import { useEffect } from 'react';
-import { getBooleanAttributes, setElementStyles } from '../utils/iobioHelpers.mts';
+import { getBooleanAttributes, setElementStyles } from '../utils/iobioTools.mts';
 
 function IobioHistogram({
 	brokerKey,
