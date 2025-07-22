@@ -105,11 +105,3 @@ export const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies
 export const bamFileExtension = 'BAM';
 export const cramFileExtension = 'CRAM';
 export const BamFileExtensions = [bamFileExtension, cramFileExtension];
-
-// Score
-export const SCORE_API_DOWNLOAD_PATH = '/download';
-export const baseScoreDownloadParams = {
-	external: 'true',
-	offset: '0',
-	'User-Agent': 'unknown',
-};

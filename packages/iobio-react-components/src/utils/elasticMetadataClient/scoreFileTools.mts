@@ -20,9 +20,13 @@
  */
 
 import urlJoin from 'url-join';
-
-import { baseScoreDownloadParams, SCORE_API_DOWNLOAD_PATH } from '../constants.ts';
 import { type FileDocument, type FileMetaData, type FileResponse, type ScoreDownloadParams } from './scoreFileTypes.ts';
+
+const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
+	external: 'true',
+	offset: '0',
+	'User-Agent': 'unknown',
+};
 
 /** Type Checks for Score Data response */
 export const isFileMetaData = (file: unknown): file is FileMetaData => {
@@ -41,8 +45,8 @@ export const getScoreFile = async ({
 	length: string;
 	object_id: string;
 }): Promise<FileMetaData | undefined> => {
-	const { SCORE_API_URL } = process.env;
-	if (!SCORE_API_URL) throw new Error('Score API URL is missing in .env');
+	const { SCORE_API_URL, SCORE_API_DOWNLOAD_PATH } = process.env;
+	if (!(SCORE_API_URL && SCORE_API_DOWNLOAD_PATH)) throw new Error('Score API URL is missing in .env');
 	const scoreDownloadParams: ScoreDownloadParams = {
 		...baseScoreDownloadParams,
 		length,
