@@ -26,6 +26,8 @@ import {
 	statisticKeys,
 	type BamKey,
 	type BamOutlierKey,
+	type BamPercentKey,
+	type percentageStatsKey,
 } from './constants.ts';
 import { type DataUpdate, type HistogramData } from './iobioTypes.ts';
 
@@ -69,16 +71,19 @@ export const getBamStatistics = (dataEvent: DataUpdate) => {
 	return [...percentKeys, ...statisticKeys].reduce(
 		(statsData, dataKey) => {
 			const value = dataEvent[dataKey];
-			const stats: { [k: string]: number } = { ...statsData, [dataKey]: value };
+			const stats: { [k in BamKey]: number } = { ...statsData, [dataKey]: value };
 
-			if (percentKeys.some((percentKey) => percentKey === dataKey)) {
+			const isPercentKey = (key: keyof DataUpdate): key is BamPercentKey =>
+				percentKeys.some((percentKey) => percentKey === key);
+
+			if (isPercentKey(dataKey)) {
 				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
-				const key = `${dataKey}_percentage`;
-				stats[key] = percentage;
+				const displayKey: percentageStatsKey = `${dataKey}_percentage`;
+				stats[displayKey] = percentage;
 			}
 			return stats;
 		},
-		{} as { [k: string]: number },
+		{} as { [k in BamKey]: number },
 	);
 };
 

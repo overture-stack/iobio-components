@@ -22,6 +22,7 @@
 // Iobio
 export const BamKeys = [
 	'mapped_reads',
+	'mean_read_coverage',
 	'forward_strands',
 	'proper_pairs',
 	'singletons',
@@ -33,9 +34,15 @@ export const BamKeys = [
 	'length_hist',
 	'mapq_hist',
 	'baseq_hist',
+	'mapped_reads_percentage',
+	'forward_strands_percentage',
+	'proper_pairs_percentage',
+	'singletons_percentage',
+	'both_mates_mapped_percentage',
+	'duplicates_percentage',
 ] as const;
 export type BamKey = (typeof BamKeys)[number];
-export type BamContext = Record<BamKey, boolean>;
+export type BamContext = Partial<Record<BamKey, boolean>>;
 
 export const defaultBamContext = {
 	mapped_reads: true,
@@ -54,6 +61,7 @@ export const defaultBamContext = {
 
 export const BamDisplayNames = {
 	mapped_reads: 'Mapped Reads',
+	mean_read_coverage: 'Mean Read Coverage',
 	forward_strands: 'Forward Strands',
 	proper_pairs: 'Proper Pairs',
 	singletons: 'Singletons',
@@ -65,6 +73,12 @@ export const BamDisplayNames = {
 	length_hist: 'Read Length',
 	mapq_hist: 'Mapping Quality',
 	baseq_hist: 'Base Quality',
+	mapped_reads_percentage: 'Mapped Reads Percentage',
+	forward_strands_percentage: 'Forward Strands Percentage',
+	proper_pairs_percentage: 'Proper Pairs Percentage',
+	singletons_percentage: 'Singletons Percentage',
+	both_mates_mapped_percentage: 'Both Mates Mapped Percentage',
+	duplicates_percentage: 'Duplicates Percentage',
 } as const satisfies Record<BamKey, string>;
 
 export const histogramKeys = [
@@ -75,6 +89,15 @@ export const histogramKeys = [
 	'baseq_hist',
 ] as const satisfies Array<BamKey>;
 
+export const metadataPercentageKeys = [
+	'mapped_reads_percentage',
+	'forward_strands_percentage',
+	'proper_pairs_percentage',
+	'singletons_percentage',
+	'both_mates_mapped_percentage',
+	'duplicates_percentage',
+] as const satisfies Array<BamKey>;
+
 export const percentKeys = [
 	'mapped_reads',
 	'forward_strands',
@@ -83,11 +106,13 @@ export const percentKeys = [
 	'both_mates_mapped',
 	'duplicates',
 ] as const satisfies Array<BamKey>;
+export type percentageStatsKey = `${(typeof percentKeys)[number]}_percentage`;
 
 export const statisticKeys = [
 	'failed_qc',
 	'first_mates',
 	'last_read_position',
+	'mean_read_coverage',
 	'paired_end_reads',
 	'reverse_strands',
 	'second_mates',
