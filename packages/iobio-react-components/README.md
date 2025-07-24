@@ -5,7 +5,7 @@
 ### Requirements:
 
 - PNPM 9+
-- Node 20+
+- Node 22+
 
 - Install dependencies: `pnpm i`
 
@@ -49,7 +49,7 @@ module.exports = withPlugins([withTranspileModules], {
 
 ## Node Iobio Metadata Utilities
 
-These features rely on Node web streams, and use of Node v22 is enforced in package.json engines field and .npmrc.
+These features rely on the [Node web streams API](https://nodejs.org/api/webstreams.html#web-streams-api), and use of Node v22 is enforced in package.json engines field and .npmrc.
 
 ### ElasticSearch Index Updater Utility
 
