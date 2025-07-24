@@ -51,7 +51,7 @@ module.exports = withPlugins([withTranspileModules], {
 
 These features rely on the [Node web streams API](https://nodejs.org/api/webstreams.html#web-streams-api), and use of Node v22 is enforced in package.json engines field and .npmrc.
 
-### ElasticSearch Index Updater Utility
+### ElasticSearch Index Updater
 
 A command line script for updating an ElasticSearch document with metadata generated using the Iobio tools. ElasticSearch Index field mappings are updated as needed. This function is built for Overture Score-based file systems. This script executes the Statistics Generation script and allows for outputting the metadata result as JSON.
 
