@@ -114,9 +114,10 @@ export const statisticsCLI = async () => {
 	if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
 
 	const indexFileUrl = await readlineInterface.question('\nIndex File URL (optional): ');
+	const bedFileUrl = await readlineInterface.question('\nBed File URL (optional): ');
 	const outputOption = await readlineInterface.question('\nOutput as JSON? (Y/N): ');
 	const enableFileOutput = outputOption.toLowerCase() === 'y';
 	readlineInterface.close();
 
-	generateIobioStats({ fileUrl, indexFileUrl, enableFileOutput });
+	generateIobioStats({ fileUrl, indexFileUrl, bedFileUrl, enableFileOutput });
 };
