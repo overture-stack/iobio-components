@@ -77,10 +77,10 @@ type DefaultBedUrls = {
 	[K in FileStrategyKey]: string;
 };
 const bedUrls: DefaultBedUrls = {
-	WGS: '',
-	WXS: '',
-	ChipSeq: '',
-	'RNA-Seq': '',
+	WGS: 'http://localhost:9080/1k_flank_hg38_shuffled1.bed',
+	WXS: 'http://localhost:9080/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed',
+	ChipSeq: 'http://localhost:9080/1k_flank_hg38_shuffled2.bed',
+	'RNA-Seq': 'http://localhost:9080/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed',
 };
 
 /**
@@ -186,9 +186,9 @@ export const getFileDetails = async ({
 	/** Lookup Default Bed File */
 	const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
 	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
-	const bedUrl = isValidStrategy ? bedUrls[fileStrategy] : '';
+	const bedFileUrl = isValidStrategy ? bedUrls[fileStrategy] : '';
 
-	return { fileUrl, fileName, indexFileUrl, bedUrl };
+	return { fileUrl, fileName, indexFileUrl, bedFileUrl };
 };
 
 /**
@@ -263,7 +263,7 @@ export const indexerCLI = async () => {
 	console.log('Retrieving Document');
 	const searchResult = await searchDocument(esConfig);
 	console.log('Getting Score File Data');
-	const { fileUrl, fileName, indexFileUrl } = await getFileDetails({ esConfig, searchResult });
+	const { fileUrl, fileName, indexFileUrl, bedFileUrl } = await getFileDetails({ esConfig, searchResult });
 
 	// Iobio Data Broker relies on event listeners and executes this callback function when streaming is complete
 	// This callback captures the statistics output and adds it to ElasticSearch
@@ -274,6 +274,7 @@ export const indexerCLI = async () => {
 
 	console.log('Generating Iobio Statistics');
 	await generateIobioStats({
+		bedFileUrl,
 		fileUrl,
 		fileName,
 		indexFileUrl,
