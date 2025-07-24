@@ -24,7 +24,7 @@ import { BamFileExtensions } from '../constants.ts';
 import { type StatsOutput } from '../iobioTypes.ts';
 import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statisticsTools.mts';
 import { getFileMetadata } from './scoreFileTools.mts';
-import { type ElasticSearchResult } from './scoreFileTypes.ts';
+import { type ElasticSearchResult, type FileDocument } from './scoreFileTypes.ts';
 
 /** Base ElasticSearch arguments */
 export type EsConfig = {
@@ -156,6 +156,17 @@ export const searchDocument = async ({ index, documentId, esHost, requestOptions
 	return searchResult;
 };
 
+/** Lookup Default Bed File
+ * @param elasticDocument File Centric ElasticSearch document
+ * @returns bedFileUrl - string
+ */
+export const getBedFileUrl = (elasticDocument: FileDocument) => {
+	const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
+	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
+	const bedFileUrl = isValidStrategy ? bedUrls[fileStrategy] : '';
+	return bedFileUrl;
+};
+
 /**
  * Get Score File URLs and additional File metadata from Elastic Document
  * @param esConfig Base ElasticSearch config
@@ -182,11 +193,7 @@ export const getFileDetails = async ({
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
 	}
 	const indexFileUrl = indexFileMetadata?.parts[0]?.url || undefined;
-
-	/** Lookup Default Bed File */
-	const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
-	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
-	const bedFileUrl = isValidStrategy ? bedUrls[fileStrategy] : '';
+	const bedFileUrl = getBedFileUrl(elasticDocument);
 
 	return { fileUrl, fileName, indexFileUrl, bedFileUrl };
 };
