@@ -69,7 +69,7 @@ export const getScoreFile = async ({
 
 /** Get required properties for Score Download */
 export const getFileMetadata = async (selectedFile: FileDocument) => {
-	// Base BAM/CRAM File download
+	/* Base BAM/CRAM File download */
 	const fileObjectId = selectedFile.object_id;
 	const fileData = selectedFile.file;
 	const fileSize = fileData.size.toString();

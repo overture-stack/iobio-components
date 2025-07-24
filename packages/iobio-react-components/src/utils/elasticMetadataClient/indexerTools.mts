@@ -21,7 +21,7 @@
 
 import readline from 'node:readline/promises';
 import { BamFileExtensions } from '../constants.ts';
-import { StatsOutput } from '../iobioTypes.ts';
+import { type StatsOutput } from '../iobioTypes.ts';
 import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statisticsTools.mts';
 import { getFileMetadata } from './scoreFileTools.mts';
 import { type ElasticSearchResult } from './scoreFileTypes.ts';
@@ -38,9 +38,9 @@ export type EsConfig = {
 	};
 };
 
+/** Iobio Field Mapping Template */
 const integer = 'integer';
 const float = 'float';
-/** Iobio Field Mapping Template */
 const iobioProperties = JSON.stringify({
 	properties: {
 		iobio_metadata: {
@@ -69,6 +69,19 @@ const iobioProperties = JSON.stringify({
 		},
 	},
 });
+
+/** File Strategy & Bed URL */
+const fileStrategies = ['WGS', 'WXS', 'ChipSeq', 'RNA-Seq'];
+type FileStrategyKey = (typeof fileStrategies)[number];
+type DefaultBedUrls = {
+	[K in FileStrategyKey]: string;
+};
+const bedUrls: DefaultBedUrls = {
+	WGS: '',
+	WXS: '',
+	ChipSeq: '',
+	'RNA-Seq': '',
+};
 
 /**
  * Confirm requested index exists, and add Iobio Field Mappings if needed
@@ -147,14 +160,14 @@ export const searchDocument = async ({ index, documentId, esHost, requestOptions
  * Get Score File URLs and additional File metadata from Elastic Document
  * @param esConfig Base ElasticSearch config
  * @param searchResult ElasticSearch Document
- * @returns { fileUrl, fileName, indexFileUrl }
+ * @returns { fileUrl, fileName, indexFileUrl, bedUrl }
  */
 export const getFileDetails = async ({
-	searchResult,
 	esConfig,
+	searchResult,
 }: {
-	searchResult: ElasticSearchResult;
 	esConfig: EsConfig;
+	searchResult: ElasticSearchResult;
 }) => {
 	const { documentId } = esConfig;
 	const elasticDocument = searchResult._source;
@@ -168,9 +181,14 @@ export const getFileDetails = async ({
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
 	}
-	const indexFileUrl = indexFileMetadata?.parts[0]?.url || null;
+	const indexFileUrl = indexFileMetadata?.parts[0]?.url || undefined;
 
-	return { fileUrl, fileName, indexFileUrl };
+	/** Lookup Default Bed File */
+	const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
+	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
+	const bedUrl = isValidStrategy ? bedUrls[fileStrategy] : '';
+
+	return { fileUrl, fileName, indexFileUrl, bedUrl };
 };
 
 /**

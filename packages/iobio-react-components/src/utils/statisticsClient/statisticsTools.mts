@@ -31,26 +31,29 @@ export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
  * @param fileUrl Url for the BAM/CRAM file to target
  * @param fileName Name of target read file, added to output JSON file name
  * @param indexFileUrl Url for the index file related to the target BAM. Optional
+ * @param bedFileUrl Url for a Bed file to obtain more accurate output. Optional
  * @param enableFileOutput Enable/Disable writing a JSON file with metadata contents
  * @param onComplete Callback function for when stats-stream finishes. Used to pass stats data to another process. Optional
  */
 export const generateIobioStats = async ({
 	fileUrl,
 	fileName,
-	indexFileUrl = '',
+	bedFileUrl,
+	indexFileUrl,
 	enableFileOutput = false,
 	onComplete,
 }: {
 	fileUrl: string;
 	fileName?: string;
-	indexFileUrl?: string | null;
+	bedFileUrl?: string;
+	indexFileUrl?: string;
 	enableFileOutput?: boolean;
 	onComplete?: CompleteCallback | null;
 }) => {
 	// Generate Statistics
 	const serverUrl = process.env.IOBIO_SERVER_URL;
-	const db = new DataBroker(fileUrl, { server: serverUrl });
-	if (indexFileUrl) db.indexUrl = indexFileUrl;
+	const db = new DataBroker(fileUrl, { server: serverUrl, bedUrl: bedFileUrl });
+	if (!!indexFileUrl) db.indexUrl = indexFileUrl;
 
 	const data: any[] = [];
 
