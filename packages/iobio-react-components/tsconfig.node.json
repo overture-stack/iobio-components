@@ -15,5 +15,5 @@
 		"target": "esnext",
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
 	},
-	"include": ["vite.config.ts", "src/utils/**/*"]
+	"include": ["vite.config.ts", "src/vite-env.d.ts", "src/utils/**/*"]
 }

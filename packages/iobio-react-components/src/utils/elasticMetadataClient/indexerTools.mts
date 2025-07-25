@@ -21,9 +21,9 @@
 
 import readline from 'node:readline/promises';
 import { type StatsOutput } from '../iobioTypes.ts';
+import { BamFileExtensions, getFileMetadata } from '../scoreFileTools.mts';
+import { type ElasticSearchResult, type FileDocument } from '../scoreFileTypes.ts';
 import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statisticsTools.mts';
-import { BamFileExtensions, getFileMetadata } from './scoreFileTools.mts';
-import { type ElasticSearchResult, type FileDocument } from './scoreFileTypes.ts';
 
 /** Base ElasticSearch arguments */
 export type EsConfig = {

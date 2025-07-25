@@ -50,7 +50,8 @@ export const getScoreFile = async ({
 	length: string;
 	object_id: string;
 }): Promise<FileMetaData | undefined> => {
-	const { SCORE_API_URL, SCORE_API_DOWNLOAD_PATH } = process.env;
+	const SCORE_API_URL = import.meta.env.VITE_SCORE_API_URL;
+	const SCORE_API_DOWNLOAD_PATH = import.meta.env.VITE_SCORE_API_DOWNLOAD_PATH;
 	if (!(SCORE_API_URL && SCORE_API_DOWNLOAD_PATH)) throw new Error('Score API URL is missing in .env');
 	const scoreDownloadParams: ScoreDownloadParams = {
 		...baseScoreDownloadParams,

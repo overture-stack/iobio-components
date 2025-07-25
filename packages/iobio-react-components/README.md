@@ -62,8 +62,8 @@ Arguments:
 - `documentId` Elastic document Id to update with statistics
 
 Env Config: 
-- `SCORE_API_URL` Score file server URL for retrieving BAM files
-- `SCORE_API_DOWNLOAD_PATH` Path for file download from Score
+- `VITE_SCORE_API_URL` Score file server URL for retrieving BAM files
+- `VITE_SCORE_API_DOWNLOAD_PATH` Path for file download from Score
 - `ES_AUTH_KEY` ElasticSearch Authorization header string
 - `ES_HOST_URL` ElasticSearch instance url
 
