@@ -19,7 +19,6 @@
  *
  */
 
-// Iobio
 export const BamKeys = [
 	'mapped_reads',
 	'mean_read_coverage',
@@ -125,8 +124,3 @@ export type StatisticKey = (typeof statisticKeys)[number];
 export type BamOutlierKey = (typeof ignoreOutlierKeys)[number];
 
 export const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
-
-// Files
-export const bamFileExtension = 'BAM';
-export const cramFileExtension = 'CRAM';
-export const BamFileExtensions = [bamFileExtension, cramFileExtension];
