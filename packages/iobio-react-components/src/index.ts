@@ -40,6 +40,7 @@ export {
 
 export { getBooleanAttributes, isOutlierKey, setElementStyles } from './utils/iobioTools.mts';
 export { getFileMetadata, isFileMetaData, isFileResponse } from './utils/scoreFileTools.mts';
+export { type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only
