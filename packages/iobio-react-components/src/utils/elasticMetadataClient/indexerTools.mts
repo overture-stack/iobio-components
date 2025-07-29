@@ -72,10 +72,10 @@ const iobioProperties = JSON.stringify({
 
 /**
  * Confirm requested index exists, and add Iobio Field Mappings if needed
+ * No return value if successful, throws error when index does not exist or on conflict with ElasticSearch
  * @param esConfig Base ElasticSearch arguments
- * @returns { Promise<void> }
  */
-export const validateAndUpdateIndex = async (esConfig: EsConfig) => {
+export const validateAndUpdateIndex = async (esConfig: EsConfig): Promise<void> => {
 	const { index, esHost, requestOptions } = esConfig;
 	const mappingUrl = new URL(`${index}/_mapping`, esHost);
 	const indexResponse = await fetch(mappingUrl, requestOptions).then((response) => response.json());
@@ -91,9 +91,8 @@ export const validateAndUpdateIndex = async (esConfig: EsConfig) => {
 /**
  * Add Iobio Metadata Fields to given Index Mapping
  * @param esConfig Base ElasticSearch config
- * @returns { Promise<void> }
  */
-export const updateIndexMapping = async (esConfig: EsConfig) => {
+export const updateIndexMapping = async (esConfig: EsConfig): Promise<void> => {
 	const { index, esHost, requestOptions } = esConfig;
 	console.log(`Updating Index ${index}`);
 	const mappingUrl = new URL(`${index}/_mapping`, esHost);
