@@ -76,14 +76,19 @@ export const generateIobioStats = async ({
 
 		// Output File
 		const fileData: StatsOutput = { iobio_metadata };
-		const urlFileName = new URL(fileUrl).pathname.split('/').pop();
-		const date = new Date().toISOString().split('T')[0];
-		const outputFileName = fileName
-			? `iobio-metadata-${fileName}-${date}.json`
-			: `iobio-metadata-${urlFileName}-${date}.json`;
 
-		if (enableFileOutput) outputFile(outputFileName, fileData);
-		if (onComplete) onComplete(fileData);
+		if (enableFileOutput) {
+			const urlFileName = new URL(fileUrl).pathname.split('/').pop();
+			const date = new Date().toISOString().split('T')[0];
+			const outputFileName = fileName
+				? `iobio-metadata-${fileName}-${date}.json`
+				: `iobio-metadata-${urlFileName}-${date}.json`;
+			outputFile(outputFileName, fileData);
+		}
+
+		if (onComplete) {
+			onComplete(fileData);
+		}
 	});
 };
 
