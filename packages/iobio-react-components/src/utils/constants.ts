@@ -19,7 +19,11 @@
  *
  */
 
-// Iobio
+import { type DataUpdate } from './iobioTypes.ts';
+
+/* ========================== *
+ *  Iobio Component Constants  *
+ * ========================== */
 export const BamKeys = [
 	'mapped_reads',
 	'mean_read_coverage',
@@ -126,7 +130,16 @@ export type BamOutlierKey = (typeof ignoreOutlierKeys)[number];
 
 export const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
 
-// Files
+export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
+	return ignoreOutlierKeys.includes(key as BamOutlierKey);
+};
+
+export const isPercentKey = (key: keyof DataUpdate): key is BamPercentKey =>
+	percentKeys.some((percentKey) => percentKey === key);
+
+/* ========================= *
+ *  BAM/CRAM File Constants  *
+ * ========================= */
 export const bamFileExtension = 'BAM';
 export const cramFileExtension = 'CRAM';
 export const BamFileExtensions = [bamFileExtension, cramFileExtension];

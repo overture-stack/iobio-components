@@ -21,19 +21,13 @@
 
 import {
 	histogramKeys,
-	ignoreOutlierKeys,
+	isPercentKey,
 	percentKeys,
 	statisticKeys,
 	type BamKey,
-	type BamOutlierKey,
-	type BamPercentKey,
 	type PercentageStatsKey,
 } from './constants.ts';
 import { type DataUpdate, type HistogramData } from './iobioTypes.ts';
-
-export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
-	return ignoreOutlierKeys.includes(key as BamOutlierKey);
-};
 
 /**
  * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not
@@ -72,9 +66,6 @@ export const getBamStatistics = (dataEvent: DataUpdate) => {
 		(statsData, dataKey) => {
 			const value = dataEvent[dataKey];
 			const stats: { [k in BamKey]: number } = { ...statsData, [dataKey]: value };
-
-			const isPercentKey = (key: keyof DataUpdate): key is BamPercentKey =>
-				percentKeys.some((percentKey) => percentKey === key);
 
 			if (isPercentKey(dataKey)) {
 				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
