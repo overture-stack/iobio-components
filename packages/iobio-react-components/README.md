@@ -58,8 +58,8 @@ A command line script for updating an ElasticSearch document with metadata gener
 - Usage: `pnpm run indexer`
 
 Arguments:
-- `index` ElasticSearch index containing target file
-- `documentId` Elastic document Id to update with statistics
+- `index` ElasticSearch index containing target file, example: 'file_centric'
+- `documentId` Elastic document Id to update with statistics, example: '16983cb5-7590-5a10-90b4-7587285145a7'
 
 Env Config: 
 - `SCORE_API_URL` Score file server URL for retrieving BAM files
