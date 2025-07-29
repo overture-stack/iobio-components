@@ -111,9 +111,13 @@ export const updateIndexMapping = async (esConfig: EsConfig): Promise<void> => {
 /**
  * Find a specific ElasticSearch Document with given object_id
  * @param esConfig Base ElasticSearch config
- * @returns { Promise<ElasticSearchResult> }
  */
-export const searchDocument = async ({ index, documentId, esHost, requestOptions }: EsConfig) => {
+export const searchDocument = async ({
+	index,
+	documentId,
+	esHost,
+	requestOptions,
+}: EsConfig): Promise<ElasticSearchResult> => {
 	const searchUrl = new URL(`${index}/_search`, esHost);
 	const searchQuery = JSON.stringify({
 		query: {
@@ -146,7 +150,6 @@ export const searchDocument = async ({ index, documentId, esHost, requestOptions
  * Get Score File URLs and additional File metadata from Elastic Document
  * @param esConfig Base ElasticSearch config
  * @param searchResult ElasticSearch Document
- * @returns { fileUrl, fileName, indexFileUrl }
  */
 export const getFileDetails = async ({
 	searchResult,
@@ -154,7 +157,7 @@ export const getFileDetails = async ({
 }: {
 	searchResult: ElasticSearchResult;
 	esConfig: EsConfig;
-}) => {
+}): Promise<{ fileUrl: string; fileName?: string; indexFileUrl: string | null }> => {
 	const { documentId } = esConfig;
 	const elasticDocument = searchResult._source;
 	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
@@ -176,7 +179,6 @@ export const getFileDetails = async ({
  * Add Iobio Metadata to a specific Elastic Document
  * @param esConfig Base ElasticSearch config
  * @param iobio_metadata Generated Iobio Statistics data for the current file
- * @returns { Promise<void> }
  */
 export const updateElasticDocument = async ({
 	esConfig,
@@ -184,7 +186,7 @@ export const updateElasticDocument = async ({
 }: {
 	esConfig: EsConfig;
 	iobio_metadata: StatsOutput;
-}) => {
+}): Promise<void> => {
 	const { index, documentId, esHost, requestOptions } = esConfig;
 	const updateUrl = new URL(`${index}/_update/${documentId}`, esHost);
 	const updateBody = JSON.stringify({ doc: iobio_metadata });
@@ -210,7 +212,7 @@ export const updateElasticDocument = async ({
  * Captures User Input, Validates Index & Document, Updates Mapping if needed,
  * Generates Iobio Statistics, then updates the Document
  */
-export const indexerCLI = async () => {
+export const indexerCLI = async (): Promise<void> => {
 	const authKey = process.env.ES_AUTH_KEY;
 	const esHost = process.env.ES_HOST_URL;
 	if (!(authKey && esHost)) throw new Error('Required .env configuration values are missing');

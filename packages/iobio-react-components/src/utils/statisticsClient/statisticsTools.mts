@@ -46,7 +46,7 @@ export const generateIobioStats = async ({
 	indexFileUrl?: string | null;
 	enableFileOutput?: boolean;
 	onComplete?: CompleteCallback | null;
-}) => {
+}): Promise<void> => {
 	// Generate Statistics
 	const serverUrl = process.env.IOBIO_SERVER_URL;
 	const db = new DataBroker(fileUrl, { server: serverUrl });
@@ -88,7 +88,7 @@ export const generateIobioStats = async ({
 };
 
 /** Write Iobio Metadata as a JSON File */
-export const outputFile = (fileName: string, fileData: StatsOutput) => {
+export const outputFile = (fileName: string, fileData: StatsOutput): void => {
 	const file = JSON.stringify(fileData);
 	fs.writeFile(fileName, file, (err) => {
 		if (err) {
@@ -100,7 +100,7 @@ export const outputFile = (fileName: string, fileData: StatsOutput) => {
 };
 
 /** Launch command line prompt for user input, then generate stats */
-export const statisticsCLI = async () => {
+export const statisticsCLI = async (): Promise<void> => {
 	const readlineInterface = readline.createInterface({
 		input: process.stdin,
 		output: process.stdout,
