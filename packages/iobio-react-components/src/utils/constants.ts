@@ -106,7 +106,7 @@ export const percentKeys = [
 	'both_mates_mapped',
 	'duplicates',
 ] as const satisfies Array<BamKey>;
-export type percentageStatsKey = `${(typeof percentKeys)[number]}_percentage`;
+export type PercentageStatsKey = `${(typeof percentKeys)[number]}_percentage`;
 
 export const statisticKeys = [
 	'failed_qc',
