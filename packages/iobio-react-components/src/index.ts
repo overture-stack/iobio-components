@@ -30,6 +30,8 @@ export {
 	defaultBamContext,
 	histogramKeys,
 	ignoreOutlierKeys,
+	isOutlierKey,
+	isPercentKey,
 	percentKeys,
 	type BamContext,
 	type BamHistogramKey,
@@ -38,7 +40,7 @@ export {
 	type BamPercentKey,
 } from './utils/constants';
 
-export { getBooleanAttributes, isOutlierKey, setElementStyles } from './utils/iobioTools.mts';
+export { getBooleanAttributes, setElementStyles } from './utils/webComponentTools.mts';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only

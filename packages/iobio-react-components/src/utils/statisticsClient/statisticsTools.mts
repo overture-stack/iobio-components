@@ -21,10 +21,66 @@
 
 import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
-import { calculateMeanCoverage, getBamStatistics } from '../iobioTools.mts';
-import { type StatsOutput } from '../iobioTypes.ts';
+import { histogramKeys, isPercentKey, percentKeys, statisticKeys, type PercentageStatsKey } from '../constants.ts';
+import { IobioMetaData, type DataUpdate, type HistogramData, type StatsOutput } from '../iobioTypes.ts';
+percentKeys;
 
 export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
+
+/**
+ * Obtain Mean Read Coverage from Coverage Histogram data
+ * Src: iobio-charts/coverage/src/BamViewChart.js L259
+ * @param dataEvent { [BamKey]: number  }
+ */
+
+export const calculateMeanCoverage = (dataEvent: HistogramData) => {
+	const coverageData = dataEvent.coverage_hist;
+
+	let coverageMean = 0;
+	for (const coverage in coverageData) {
+		const freq = coverageData[coverage];
+		const coverageVal = parseInt(coverage);
+
+		coverageMean += coverageVal * freq;
+	}
+	const meanCoverage = Math.floor(coverageMean);
+
+	return meanCoverage;
+};
+
+/**
+ * Obtain BAM statistical data from Data Broker data events
+ * @param dataEvent { [BamKey]: number  }
+ */
+export const getBamStatistics = (dataEvent: DataUpdate) => {
+	return [...percentKeys, ...statisticKeys].reduce((statsData, dataKey) => {
+		const value = dataEvent[dataKey];
+		const stats: IobioMetaData = { ...statsData, [dataKey]: value };
+
+		if (isPercentKey(dataKey)) {
+			const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
+			const displayKey: PercentageStatsKey = `${dataKey}_percentage`;
+			stats[displayKey] = percentage;
+		}
+		return stats;
+	}, {} as IobioMetaData);
+};
+
+/**
+ * Obtain BAM Histogram data from Data Broker data events
+ * @param dataEvent { [K in BamHistogramKey]: { [numKey: string]: number } }
+ * where numKey parses to an Integer
+ */
+
+export const getHistogramData = (dataEvent: HistogramData) => {
+	const histogramData = histogramKeys.reduce((statsData, dataKey) => {
+		const value = dataEvent[dataKey];
+		const stats: HistogramData = { ...statsData, [dataKey]: value };
+		return stats;
+	}, {} as HistogramData);
+
+	return histogramData;
+};
 
 /** Generate Iobio metadata using data broker
  * @param fileUrl Url for the BAM/CRAM file to target
@@ -43,7 +99,7 @@ export const generateIobioStats = async ({
 }: {
 	fileUrl: string;
 	fileName?: string;
-	indexFileUrl?: string | null;
+	indexFileUrl?: string;
 	serverUrl?: string;
 	enableFileOutput?: boolean;
 	onComplete?: CompleteCallback | null;
@@ -92,7 +148,10 @@ export const generateIobioStats = async ({
 	});
 };
 
-/** Write Iobio Metadata as a JSON File */
+/** Write Iobio Metadata as a JSON File
+ * @param fileName Output JSON file name
+ * @param fileData Iobio Metadata to write to file
+ */
 export const outputFile = (fileName: string, fileData: StatsOutput): void => {
 	const file = JSON.stringify(fileData);
 	fs.writeFile(fileName, file, (err) => {

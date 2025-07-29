@@ -155,7 +155,7 @@ export const getFileDetails = async ({
 }: {
 	searchResult: ElasticSearchResult;
 	esConfig: EsConfig;
-}): Promise<{ fileUrl: string; fileName?: string; indexFileUrl: string | null }> => {
+}): Promise<{ fileUrl: string; fileName?: string; indexFileUrl?: string }> => {
 	const { documentId } = esConfig;
 	const elasticDocument = searchResult._source;
 	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
@@ -168,7 +168,7 @@ export const getFileDetails = async ({
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
 	}
-	const indexFileUrl = indexFileMetadata?.parts[0]?.url || null;
+	const indexFileUrl = indexFileMetadata?.parts[0]?.url;
 
 	return { fileUrl, fileName, indexFileUrl };
 };

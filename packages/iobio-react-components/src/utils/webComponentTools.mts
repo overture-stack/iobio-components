@@ -19,15 +19,9 @@
  *
  */
 
-import {
-	histogramKeys,
-	isPercentKey,
-	percentKeys,
-	statisticKeys,
-	type BamKey,
-	type PercentageStatsKey,
-} from './constants.ts';
-import { type DataUpdate, type HistogramData } from './iobioTypes.ts';
+/**
+ * Helper functions for Iobio Charts web component integrations
+ */
 
 /**
  * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not
@@ -55,61 +49,4 @@ export const setElementStyles = (element: Element, styles: string) => {
 		elementStyles.replaceSync(styles);
 		element.shadowRoot.adoptedStyleSheets = [elementStyles];
 	}
-};
-
-/**
- * Obtain BAM statistical data from Data Broker data events
- * @param dataEvent { [BamKey]: number  }
- */
-export const getBamStatistics = (dataEvent: DataUpdate) => {
-	return [...percentKeys, ...statisticKeys].reduce(
-		(statsData, dataKey) => {
-			const value = dataEvent[dataKey];
-			const stats: { [k in BamKey]: number } = { ...statsData, [dataKey]: value };
-
-			if (isPercentKey(dataKey)) {
-				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
-				const displayKey: PercentageStatsKey = `${dataKey}_percentage`;
-				stats[displayKey] = percentage;
-			}
-			return stats;
-		},
-		{} as { [k in BamKey]: number },
-	);
-};
-
-/**
- * Obtain BAM Histogram data from Data Broker data events
- * @param dataEvent { [K in BamHistogramKey]: { [numKey: string]: number } }
- * where numKey parses to an Integer
- */
-
-export const getHistogramData = (dataEvent: HistogramData) => {
-	const histogramData = histogramKeys.reduce((statsData, dataKey) => {
-		const value = dataEvent[dataKey];
-		const stats: HistogramData = { ...statsData, [dataKey]: value };
-		return stats;
-	}, {} as HistogramData);
-
-	return histogramData;
-};
-
-/**
- * Obtain Mean Read Coverage from Coverage Histogram data
- * Src: iobio-charts/coverage/src/BamViewChart.js L259
- */
-
-export const calculateMeanCoverage = (dataEvent: HistogramData) => {
-	const coverageData = dataEvent.coverage_hist;
-
-	let coverageMean = 0;
-	for (const coverage in coverageData) {
-		const freq = coverageData[coverage];
-		const coverageVal = parseInt(coverage);
-
-		coverageMean += coverageVal * freq;
-	}
-	const meanCoverage = Math.floor(coverageMean);
-
-	return meanCoverage;
 };
