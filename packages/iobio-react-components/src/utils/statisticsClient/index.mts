@@ -19,6 +19,24 @@
  *
  */
 
-import { statisticsCLI } from './statisticsTools.mts';
+import readline from 'node:readline/promises';
+import { generateIobioStats } from './statisticsTools.mts';
 
-statisticsCLI();
+/** Launch command line prompt for user input, then generate stats */
+const readlineInterface = readline.createInterface({
+	input: process.stdin,
+	output: process.stdout,
+});
+
+console.log('***** Overture Components: Iobio Metadata Generator *****');
+
+const fileUrl = await readlineInterface.question('\nBam File URL: ');
+if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
+
+const indexFileUrl = await readlineInterface.question('\nIndex File URL (optional): ');
+const outputOption = await readlineInterface.question('\nOutput as JSON? (Y/N): ');
+const enableFileOutput = outputOption.toLowerCase() === 'y';
+readlineInterface.close();
+
+const serverUrl = process.env.IOBIO_SERVER_URL;
+generateIobioStats({ fileUrl, indexFileUrl, enableFileOutput, serverUrl });

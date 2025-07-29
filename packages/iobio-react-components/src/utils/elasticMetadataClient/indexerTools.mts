@@ -19,10 +19,8 @@
  *
  */
 
-import readline from 'node:readline/promises';
 import { BamFileExtensions } from '../constants.ts';
 import { StatsOutput } from '../iobioTypes.ts';
-import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statisticsTools.mts';
 import { getFileMetadata } from './scoreFileTools.mts';
 import { type ElasticSearchResult } from './scoreFileTypes.ts';
 
@@ -205,62 +203,4 @@ export const updateElasticDocument = async ({
 		throw new Error(updateResponse);
 	}
 	console.log(`Successfully updated document with id ${documentId}`);
-};
-
-/**
- * Elastic Indexing Utility Main CLI function
- * Captures User Input, Validates Index & Document, Updates Mapping if needed,
- * Generates Iobio Statistics, then updates the Document
- */
-export const indexerCLI = async (): Promise<void> => {
-	const authKey = process.env.ES_AUTH_KEY;
-	const esHost = process.env.ES_HOST_URL;
-	if (!(authKey && esHost)) throw new Error('Required .env configuration values are missing');
-
-	// Script Start
-	console.log('***** Overture Components: Iobio Metadata ElasticSearch Indexer *****');
-
-	// User Input
-	const readlineInterface = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout,
-	});
-
-	const index = await readlineInterface.question('\nElasticSearch Index: ');
-	const documentId = await readlineInterface.question('Document Id: ');
-	const outputOption = await readlineInterface.question('Output as JSON? (Y/N): ');
-	const enableFileOutput = outputOption.toLowerCase() === 'y';
-	readlineInterface.close();
-	if (!(index && documentId)) throw new Error('ElasticSearch index and documentId are required');
-
-	const requestOptions = {
-		headers: {
-			Authorization: `ApiKey ${authKey}`,
-		},
-	};
-	const esConfig: EsConfig = { documentId, esHost, index, requestOptions };
-
-	// Validate & Retrieve Data
-	console.log('Validating Index');
-	await validateAndUpdateIndex(esConfig);
-	console.log('Retrieving Document');
-	const searchResult = await searchDocument(esConfig);
-	console.log('Getting Score File Data');
-	const { fileUrl, fileName, indexFileUrl } = await getFileDetails({ esConfig, searchResult });
-
-	// Iobio Data Broker relies on event listeners and executes this callback function when streaming is complete
-	// This callback captures the statistics output and adds it to ElasticSearch
-	const onComplete: CompleteCallback = async (iobio_metadata: StatsOutput) => {
-		console.log('Updating Document');
-		await updateElasticDocument({ iobio_metadata, esConfig });
-	};
-
-	console.log('Generating Iobio Statistics');
-	await generateIobioStats({
-		fileUrl,
-		fileName,
-		indexFileUrl,
-		enableFileOutput,
-		onComplete,
-	});
 };
