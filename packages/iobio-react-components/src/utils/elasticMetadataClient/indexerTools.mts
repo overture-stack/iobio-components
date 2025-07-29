@@ -40,7 +40,7 @@ export type EsConfig = {
 
 const integer = 'integer';
 const float = 'float';
-/** Iobio Field Mapping Template */
+/** ElasticSearch Field Mapping Template for iobio_metadata */
 const iobioProperties = JSON.stringify({
 	properties: {
 		iobio_metadata: {
