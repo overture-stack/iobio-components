@@ -21,7 +21,7 @@
 
 import readline from 'node:readline/promises';
 import { StatsOutput } from '../iobioTypes.ts';
-import { generateIobioStats, type CompleteCallback } from '../statisticsClient/statisticsTools.mts';
+import { generateIobioStats, type CompleteCallback } from '../statisticsGenerator/statisticsTools.mts';
 import {
 	getFileDetails,
 	searchDocument,
