@@ -19,6 +19,8 @@
  *
  */
 
+import { type GetResponse } from 'elasticsearch';
+
 export type FileMetaData = {
 	objectId: string;
 	objectKey?: string;
@@ -83,12 +85,7 @@ export type FileDocument = {
 	};
 };
 
-export type ElasticSearchResult = {
-	_index: string;
-	_id: string;
-	_score: number;
-	_source: FileDocument;
-};
+export type ElasticSearchResult = GetResponse<FileDocument>;
 
 // Score API File Query
 export type ScoreDownloadParams = {

@@ -23,7 +23,6 @@ import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
 import { histogramKeys, isPercentKey, percentKeys, statisticKeys, type PercentageStatsKey } from '../constants.ts';
 import { IobioMetaData, type DataUpdate, type HistogramData, type StatsOutput } from '../iobioTypes.ts';
-percentKeys;
 
 export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
 
@@ -32,7 +31,6 @@ export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
  * Src: iobio-charts/coverage/src/BamViewChart.js L259
  * @param dataEvent { [BamKey]: number  }
  */
-
 export const calculateMeanCoverage = (dataEvent: HistogramData) => {
 	const coverageData = dataEvent.coverage_hist;
 
@@ -71,7 +69,6 @@ export const getBamStatistics = (dataEvent: DataUpdate) => {
  * @param dataEvent { [K in BamHistogramKey]: { [numKey: string]: number } }
  * where numKey parses to an Integer
  */
-
 export const getHistogramData = (dataEvent: HistogramData) => {
 	const histogramData = histogramKeys.reduce((statsData, dataKey) => {
 		const value = dataEvent[dataKey];

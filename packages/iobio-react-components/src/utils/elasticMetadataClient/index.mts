@@ -19,8 +19,9 @@
  *
  */
 
+import { Client } from '@elastic/elasticsearch';
 import readline from 'node:readline/promises';
-import { StatsOutput } from '../iobioTypes.ts';
+import { type StatsOutput } from '../iobioTypes.ts';
 import { generateIobioStats, type CompleteCallback } from '../statisticsGenerator/statisticsTools.mts';
 import {
 	getFileDetails,
@@ -56,12 +57,13 @@ const enableFileOutput = outputOption.toLowerCase() === 'y';
 readlineInterface.close();
 if (!(index && documentId)) throw new Error('ElasticSearch index and documentId are required');
 
-const requestOptions = {
-	headers: {
-		Authorization: `ApiKey ${authKey}`,
+const client = new Client({
+	node: esHost,
+	auth: {
+		apiKey: authKey,
 	},
-};
-const esConfig: EsConfig = { documentId, esHost, index, requestOptions };
+});
+const esConfig: EsConfig = { client, documentId, index };
 
 // Validate & Retrieve Data
 console.log('Validating Index');
