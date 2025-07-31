@@ -77,7 +77,7 @@ export const validateAndUpdateIndex = async (esConfig: EsConfig): Promise<void> 
 
 	const hasIobioMapping = indexProperties.hasOwnProperty('iobio_metadata');
 	if (!hasIobioMapping) {
-		updateIndexMapping(esConfig);
+		await updateIndexMapping(esConfig);
 	}
 };
 
