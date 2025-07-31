@@ -30,11 +30,13 @@ const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 
 /** Type Checks for Score Data response */
 export const isFileMetaData = (file: unknown): file is FileMetaData => {
-	return Boolean((file as FileMetaData)?.objectId && (file as FileMetaData)?.parts[0]?.url);
+	return (
+		typeof (file as FileMetaData)?.objectId === 'string' && typeof (file as FileMetaData)?.parts[0]?.url === 'string'
+	);
 };
 
 export const isFileResponse = (response: unknown): response is FileResponse => {
-	return Boolean((response as FileResponse)?.data?.file.hits);
+	return typeof (response as FileResponse)?.data?.file.hits === 'object';
 };
 
 /** Request File from Score API */
@@ -54,16 +56,12 @@ export const getScoreFile = async ({
 	const urlParams = new URLSearchParams(scoreDownloadParams).toString();
 	try {
 		const scoreUrl = urlJoin(SCORE_API_URL, SCORE_API_DOWNLOAD_PATH, object_id, `?${urlParams}`);
-		const response = await fetch(scoreUrl, {
-			headers: { accept: '*/*' },
-		});
+		const response = (await fetch(scoreUrl)).json();
 
-		if (response.status === 200) {
-			return response.json();
-		}
+		return response;
 	} catch (err: unknown) {
 		console.error(`Error at getScoreFile with object_id ${object_id}`);
-		console.error(err);
+		throw err;
 	}
 };
 
@@ -76,13 +74,16 @@ export const getFileMetadata = async (
 	const fileData = selectedFile.file;
 	const fileSize = fileData.size.toString();
 	const fileMetadata = await getScoreFile({ length: fileSize, object_id: fileObjectId });
-	if (!isFileMetaData(fileMetadata)) throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
+	if (!isFileMetaData(fileMetadata)) {
+		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
+	}
 
 	/**  Related Index File download */
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
 	const indexFileMetadata = await getScoreFile({ length: indexFileSize.toString(), object_id: indexObjectId });
-	if (!isFileMetaData(indexFileMetadata))
+	if (!isFileMetaData(indexFileMetadata)) {
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
+	}
 
 	return { fileMetadata, indexFileMetadata };
 };
