@@ -20,7 +20,8 @@
  */
 
 import urlJoin from 'url-join';
-import { type FileDocument, type FileMetaData, type FileResponse, type ScoreDownloadParams } from './scoreFileTypes.ts';
+import * as zod from 'zod';
+import { type FileDocument, type FileMetaData, type ScoreDownloadParams } from './scoreFileTypes.ts';
 
 const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 	external: 'true',
@@ -29,15 +30,22 @@ const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 };
 
 /** Type Checks for Score Data response */
-export const isFileMetaData = (file: unknown): file is FileMetaData => {
-	return (
-		typeof (file as FileMetaData)?.objectId === 'string' && typeof (file as FileMetaData)?.parts[0]?.url === 'string'
-	);
-};
-
-export const isFileResponse = (response: unknown): response is FileResponse => {
-	return typeof (response as FileResponse)?.data?.file.hits === 'object';
-};
+const FileMetaDataSchema = zod.object({
+	objectId: zod.string(),
+	objectKey: zod.string().optional(),
+	objectMd5: zod.string().optional(),
+	objectSize: zod.number().optional(),
+	parts: zod.array(
+		zod.object({
+			md5: zod.string().nullable().optional(),
+			offset: zod.number().optional(),
+			partNumber: zod.number().optional(),
+			partSize: zod.number().optional(),
+			url: zod.string(),
+		}),
+	),
+	uploadId: zod.string().optional(),
+});
 
 /** Request File from Score API */
 export const getScoreFile = async ({
@@ -73,17 +81,19 @@ export const getFileMetadata = async (
 	const fileObjectId = selectedFile.object_id;
 	const fileData = selectedFile.file;
 	const fileSize = fileData.size.toString();
-	const fileMetadata = await getScoreFile({ length: fileSize, object_id: fileObjectId });
-	if (!isFileMetaData(fileMetadata)) {
+	const fileMetadataResponse = await getScoreFile({ length: fileSize, object_id: fileObjectId });
+	const fileMetadataResult = FileMetaDataSchema.safeParse(fileMetadataResponse);
+	if (!fileMetadataResult.success) {
 		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
 	}
 
 	/**  Related Index File download */
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
-	const indexFileMetadata = await getScoreFile({ length: indexFileSize.toString(), object_id: indexObjectId });
-	if (!isFileMetaData(indexFileMetadata)) {
+	const indexFileMetadataResponse = await getScoreFile({ length: indexFileSize.toString(), object_id: indexObjectId });
+	const indexFileMetadataResult = FileMetaDataSchema.safeParse(indexFileMetadataResponse);
+	if (!indexFileMetadataResult.success) {
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
 	}
 
-	return { fileMetadata, indexFileMetadata };
+	return { fileMetadata: fileMetadataResult.data, indexFileMetadata: indexFileMetadataResult.data };
 };
