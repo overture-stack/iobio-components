@@ -20,7 +20,7 @@
  */
 
 import urlJoin from 'url-join';
-import { type FileDocument, type FileMetaData, type FileResponse, type ScoreDownloadParams } from './scoreFileTypes.ts';
+import { type FileDocument, type FileMetaData, type ScoreDownloadParams } from './scoreFileTypes.ts';
 
 const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 	external: 'true',
@@ -36,10 +36,6 @@ export const BamFileExtensions = [bamFileExtension, cramFileExtension];
 /** Type Checks for Score Data response */
 export const isFileMetaData = (file: unknown): file is FileMetaData => {
 	return Boolean((file as FileMetaData)?.objectId && (file as FileMetaData)?.parts[0]?.url);
-};
-
-export const isFileResponse = (response: unknown): response is FileResponse => {
-	return Boolean((response as FileResponse)?.data?.file.hits);
 };
 
 /** Request File from Score API */

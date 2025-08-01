@@ -97,22 +97,3 @@ export type ScoreDownloadParams = {
 	length: string;
 	offset: string;
 };
-
-export type FileNode = {
-	node: {
-		file: {
-			index_file: IndexFile;
-		};
-	};
-};
-
-export type FileResponse = {
-	data: {
-		file: {
-			hits: {
-				edges: FileNode[];
-				total: number;
-			};
-		};
-	};
-};
