@@ -102,14 +102,3 @@ export type FileNode = {
 		};
 	};
 };
-
-export type FileResponse = {
-	data: {
-		file: {
-			hits: {
-				edges: FileNode[];
-				total: number;
-			};
-		};
-	};
-};
