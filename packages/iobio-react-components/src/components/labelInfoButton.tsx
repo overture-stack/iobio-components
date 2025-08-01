@@ -19,26 +19,13 @@
  *
  */
 
-import { type DetailedHTMLProps, type HTMLAttributes, type PropsWithChildren } from 'react';
-export interface IobioElementProps extends HTMLAttributes<HTMLElement> {
-	styles?: string;
-	label?: string;
-}
-export interface IobioDataBrokerProps extends IobioElementProps {
-	'alignment-url': string;
-	'index-url'?: string;
-	server?: string;
+import { type PropsWithChildren } from 'react';
+import { type IobioElementProps } from '../jsx';
+
+function IobioLabelInfoButton({ children, label }: PropsWithChildren<IobioElementProps>) {
+	return <iobio-label-info-button label={label}>{children}</iobio-label-info-button>;
 }
 
-declare global {
-	namespace JSX {
-		interface IntrinsicElements {
-			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-data-broker': DetailedHTMLProps<IobioDataBrokerProps, HTMLElement>;
-			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-label-info-button': DetailedHTMLProps<PropsWithChildren<IobioElementProps>, HTMLElement>;
-			'iobio-panel': DetailedHTMLProps<PropsWithChildren<IobioElementProps>, HTMLElement>;
-			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-		}
-	}
-}
+export default IobioLabelInfoButton;
+
+export type IobioLabelInfoButtonType = typeof IobioLabelInfoButton;
