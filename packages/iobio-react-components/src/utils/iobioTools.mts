@@ -30,6 +30,7 @@ import {
 	type percentageStatsKey,
 } from './constants.ts';
 import { type DataUpdate, type HistogramData } from './iobioTypes.ts';
+import { type FileDocument } from './scoreFileTypes.ts';
 
 export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
 	return ignoreOutlierKeys.includes(key as BamOutlierKey);
@@ -121,4 +122,38 @@ export const calculateMeanCoverage = (dataEvent: HistogramData) => {
 	const meanCoverage = Math.floor(coverageMean);
 
 	return meanCoverage;
+};
+
+/** File Strategy & Bed URL */
+const fileStrategies = ['WGS', 'WXS', 'ChipSeq', 'RNA-Seq'];
+type FileStrategyKey = (typeof fileStrategies)[number];
+export type DefaultBedUrls = {
+	[K in FileStrategyKey]: string;
+};
+
+const bedShuffled1BrowserUrl = `bedFiles/1k_flank_hg38_shuffled1.bed`;
+const bedShuffled2BrowserUrl = `bedFiles/1k_flank_hg38_shuffled2.bed`;
+const bedIlluminaBrowserUrl = `bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.bed`;
+
+export const defaultBrowserBedUrls: DefaultBedUrls = {
+	WGS: bedShuffled1BrowserUrl,
+	WXS: bedShuffled2BrowserUrl,
+	ChipSeq: bedShuffled2BrowserUrl,
+	'RNA-Seq': bedIlluminaBrowserUrl,
+};
+
+/** Lookup Default Bed File
+ * @param elasticDocument File Centric ElasticSearch document
+ * @returns bedFileUrl - string
+ */
+export const getDefaultBedFileUrl = (elasticDocument: FileDocument, bedUrlDictionary: DefaultBedUrls) => {
+	const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
+	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
+	const bedFileUrl = isValidStrategy ? bedUrlDictionary[fileStrategy] : '';
+	console.log('fileStrategy', fileStrategy);
+	return bedFileUrl;
+};
+
+export const getBrowserBedUrls = (elasticDocument: FileDocument) => {
+	return getDefaultBedFileUrl(elasticDocument, defaultBrowserBedUrls);
 };

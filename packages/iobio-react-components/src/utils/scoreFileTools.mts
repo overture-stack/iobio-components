@@ -46,9 +46,11 @@ export const getScoreFile = async ({
 	length: string;
 	object_id: string;
 }): Promise<FileMetaData | undefined> => {
-	const SCORE_API_URL = process.env.SCORE_API_URL;
-	const SCORE_API_DOWNLOAD_PATH = process.env.SCORE_API_DOWNLOAD_PATH;
-	if (!(SCORE_API_URL && SCORE_API_DOWNLOAD_PATH)) throw new Error('Score API URL is missing in .env');
+	const SCORE_API_URL = process.env.SCORE_API_URL || import.meta.env.VITE_SCORE_API_URL;
+	const SCORE_API_DOWNLOAD_PATH = process.env.SCORE_API_DOWNLOAD_PATH || import.meta.env.VITE_SCORE_API_DOWNLOAD_PATH;
+	if (!(SCORE_API_URL && SCORE_API_DOWNLOAD_PATH)) {
+		throw new Error('Score API URL is missing in .env');
+	}
 	const scoreDownloadParams: ScoreDownloadParams = {
 		...baseScoreDownloadParams,
 		length,
@@ -75,8 +77,9 @@ export const getFileMetadata = async (selectedFile: FileDocument) => {
 	const fileObjectId = selectedFile.object_id;
 	const fileData = selectedFile.file;
 	const fileSize = fileData.size.toString();
-	const fileMetadata = await getScoreFile({ length: fileSize, object_id: fileObjectId });
-	if (!isFileMetaData(fileMetadata)) throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
+	const scoreFileMetadata = await getScoreFile({ length: fileSize, object_id: fileObjectId });
+	if (!isFileMetaData(scoreFileMetadata))
+		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
 
 	/**  Related Index File download */
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
@@ -84,5 +87,5 @@ export const getFileMetadata = async (selectedFile: FileDocument) => {
 	if (!isFileMetaData(indexFileMetadata))
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
 
-	return { fileMetadata, indexFileMetadata };
+	return { scoreFileMetadata, indexFileMetadata };
 };

@@ -20,10 +20,11 @@
  */
 
 import readline from 'node:readline/promises';
+import { getDefaultBedFileUrl } from '../iobioTools.mts';
 import { type StatsOutput } from '../iobioTypes.ts';
 import { BamFileExtensions, getFileMetadata } from '../scoreFileTools.mts';
 import { type ElasticSearchResult } from '../scoreFileTypes.ts';
-import { generateIobioStats, getBedFileUrl, type CompleteCallback } from '../statisticsClient/statisticsTools.mts';
+import { type CompleteCallback, defaultNodeBedUrls, generateIobioStats } from '../statisticsClient/statisticsTools.mts';
 
 /** Base ElasticSearch arguments */
 export type EsConfig = {
@@ -162,13 +163,13 @@ export const getFileDetails = async ({
 	}
 
 	const fileName = elasticDocument.file?.name;
-	const { fileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
-	const fileUrl = fileMetadata?.parts[0]?.url || null;
+	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
+	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
 	}
 	const indexFileUrl = indexFileMetadata?.parts[0]?.url || undefined;
-	const bedFileUrl = getBedFileUrl(elasticDocument);
+	const bedFileUrl = getDefaultBedFileUrl(elasticDocument, defaultNodeBedUrls);
 
 	return { fileUrl, fileName, indexFileUrl, bedFileUrl };
 };

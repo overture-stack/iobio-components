@@ -38,7 +38,14 @@ export {
 	type BamPercentKey,
 } from './utils/constants';
 
-export { getBooleanAttributes, isOutlierKey, setElementStyles } from './utils/iobioTools.mts';
+export {
+	defaultBrowserBedUrls,
+	getBooleanAttributes,
+	getBrowserBedUrls,
+	getDefaultBedFileUrl,
+	isOutlierKey,
+	setElementStyles,
+} from './utils/iobioTools.mts';
 export { getFileMetadata, isFileMetaData } from './utils/scoreFileTools.mts';
 export { type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
 
