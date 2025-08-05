@@ -5,7 +5,7 @@
 ### Requirements:
 
 - PNPM 9+
-- Node 20+
+- Node 22+
 
 - Install dependencies: `pnpm i`
 
@@ -49,17 +49,17 @@ module.exports = withPlugins([withTranspileModules], {
 
 ## Node Iobio Metadata Utilities
 
-These features rely on Node web streams, and use of Node v22 is enforced in package.json engines field and .npmrc.
+These features rely on the [Node web streams API](https://nodejs.org/api/webstreams.html#web-streams-api), and use of Node v22 is enforced in package.json engines field and .npmrc.
 
-### ElasticSearch Index Updater Utility
+### ElasticSearch Index Updater
 
 A command line script for updating an ElasticSearch document with metadata generated using the Iobio tools. ElasticSearch Index field mappings are updated as needed. This function is built for Overture Score-based file systems. This script executes the Statistics Generation script and allows for outputting the metadata result as JSON.
 
 - Usage: `pnpm run indexer`
 
 Arguments:
-- `index` ElasticSearch index containing target file
-- `documentId` Elastic document Id to update with statistics
+- `index` ElasticSearch index containing target file, example: 'file_centric'
+- `documentId` Elastic document Id to update with statistics, example: '16983cb5-7590-5a10-90b4-7587285145a7'
 
 Env Config: 
 - `SCORE_API_URL` Score file server URL for retrieving BAM files

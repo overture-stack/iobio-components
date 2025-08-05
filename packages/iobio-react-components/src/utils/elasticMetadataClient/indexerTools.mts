@@ -1,11 +1,11 @@
 /*
  *
- * Copyright (c) 2024 The Ontario Institute for Cancer Research. All rights reserved
+ *  Copyright (c) 2025 The Ontario Institute for Cancer Research. All rights reserved
  *
  *  This program and the accompanying materials are made available under the terms of
  *  the GNU Affero General Public License v3.0. You should have received a copy of the
  *  GNU Affero General Public License along with this program.
- *   If not, see <http://www.gnu.org/licenses/>.
+ *  If not, see <http://www.gnu.org/licenses/>.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
  *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -19,127 +19,94 @@
  *
  */
 
-import readline from 'node:readline/promises';
-import { getDefaultBedFileUrl } from '../iobioTools.mts';
+import { Client } from '@elastic/elasticsearch';
+
+import { BamFileExtensions } from '../constants.ts';
 import { type StatsOutput } from '../iobioTypes.ts';
-import { BamFileExtensions, getFileMetadata } from '../scoreFileTools.mts';
-import { type ElasticSearchResult } from '../scoreFileTypes.ts';
-import { type CompleteCallback, defaultNodeBedUrls, generateIobioStats } from '../statisticsClient/statisticsTools.mts';
+import { getFileMetadata } from './scoreFileTools.mts';
+import { type ElasticSearchResult, type FileDocument } from './scoreFileTypes.ts';
 
 /** Base ElasticSearch arguments */
 export type EsConfig = {
+	client: Client;
 	index: string;
-	esHost: string;
 	documentId: string;
-	requestOptions: {
-		headers: {
-			Authorization: string;
-		};
-	};
 };
 
-/** Iobio Field Mapping Template */
+/** ElasticSearch Field Mapping Template for iobio_metadata */
 const integer = 'integer';
 const float = 'float';
-const iobioProperties = JSON.stringify({
-	properties: {
-		iobio_metadata: {
-			properties: {
-				mapped_reads: { type: integer },
-				mapped_reads_percentage: { type: float },
-				forward_strands: { type: integer },
-				forward_strands_percentage: { type: float },
-				proper_pairs: { type: integer },
-				proper_pairs_percentage: { type: float },
-				singletons: { type: integer },
-				singletons_percentage: { type: float },
-				both_mates_mapped: { type: integer },
-				both_mates_mapped_percentage: { type: float },
-				duplicates: { type: integer },
-				duplicates_percentage: { type: float },
-				failed_qc: { type: integer },
-				first_mates: { type: integer },
-				last_read_position: { type: integer },
-				paired_end_reads: { type: integer },
-				reverse_strands: { type: integer },
-				second_mates: { type: integer },
-				total_reads: { type: integer },
-				mean_read_coverage: { type: integer },
-			},
+const iobioMappingProperties = {
+	iobio_metadata: {
+		type: 'nested',
+		properties: {
+			mapped_reads: { type: integer },
+			mapped_reads_percentage: { type: float },
+			forward_strands: { type: integer },
+			forward_strands_percentage: { type: float },
+			proper_pairs: { type: integer },
+			proper_pairs_percentage: { type: float },
+			singletons: { type: integer },
+			singletons_percentage: { type: float },
+			both_mates_mapped: { type: integer },
+			both_mates_mapped_percentage: { type: float },
+			duplicates: { type: integer },
+			duplicates_percentage: { type: float },
+			failed_qc: { type: integer },
+			first_mates: { type: integer },
+			last_read_position: { type: integer },
+			paired_end_reads: { type: integer },
+			reverse_strands: { type: integer },
+			second_mates: { type: integer },
+			total_reads: { type: integer },
+			mean_read_coverage: { type: integer },
 		},
 	},
-});
+} as const;
 
 /**
  * Confirm requested index exists, and add Iobio Field Mappings if needed
+ * No return value if successful, throws error when index does not exist or on conflict with ElasticSearch
  * @param esConfig Base ElasticSearch arguments
- * @returns { Promise<void> }
  */
-export const validateAndUpdateIndex = async (esConfig: EsConfig) => {
-	const { index, esHost, requestOptions } = esConfig;
-	const mappingUrl = new URL(`${index}/_mapping`, esHost);
-	const indexResponse = await fetch(mappingUrl, requestOptions).then((response) => response.json());
+export const validateAndUpdateIndex = async (esConfig: EsConfig): Promise<void> => {
+	const { client, index } = esConfig;
+	const indexResponse = await client.indices.getMapping({ index });
 	const indexProperties = indexResponse[index]?.mappings.properties;
 	if (!indexProperties) throw new Error(`Error retrieving field mapping for ElasticSearch index ${index}`);
 
 	const hasIobioMapping = indexProperties.hasOwnProperty('iobio_metadata');
 	if (!hasIobioMapping) {
-		updateIndexMapping(esConfig);
+		await updateIndexMapping(esConfig);
 	}
 };
 
 /**
  * Add Iobio Metadata Fields to given Index Mapping
  * @param esConfig Base ElasticSearch config
- * @returns { Promise<void> }
  */
-export const updateIndexMapping = async (esConfig: EsConfig) => {
-	const { index, esHost, requestOptions } = esConfig;
+export const updateIndexMapping = async ({ client, index }: EsConfig): Promise<void> => {
 	console.log(`Updating Index ${index}`);
-	const mappingUrl = new URL(`${index}/_mapping`, esHost);
-	const updateMappingRequestOptions = {
-		headers: {
-			'Content-Type': 'application/json',
-			...requestOptions.headers,
-		},
-		method: 'PUT',
-		body: iobioProperties,
-	};
-
-	await fetch(mappingUrl, updateMappingRequestOptions).then((response) => response.json());
+	await client.indices
+		.putMapping({
+			index,
+			properties: iobioMappingProperties,
+		})
+		.catch((error) => {
+			throw new Error(`Error updating index: ${index}`, error);
+		});
 };
 
 /**
  * Find a specific ElasticSearch Document with given object_id
  * @param esConfig Base ElasticSearch config
- * @returns { Promise<ElasticSearchResult> }
  */
-export const searchDocument = async ({ index, documentId, esHost, requestOptions }: EsConfig) => {
-	const searchUrl = new URL(`${index}/_search`, esHost);
-	const searchQuery = JSON.stringify({
-		query: {
-			simple_query_string: {
-				query: documentId,
-				fields: ['object_id'],
-			},
-		},
-	});
-
-	const searchRequestOptions = {
-		headers: {
-			'Content-Type': 'application/json',
-			...requestOptions.headers,
-		},
-		method: 'POST',
-		body: searchQuery,
-	};
-
-	const searchResponse = await fetch(searchUrl, searchRequestOptions).then((response) => response.json());
-	const searchResult: ElasticSearchResult = searchResponse.hits.hits[0];
-
-	if (searchResult === undefined) {
+export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> => {
+	const searchResponse = await client.get<FileDocument>({ index, id: documentId }).catch(() => {
 		throw new Error(`No document found with id ${documentId}`);
-	}
+	});
+	// TODO: TS issue??
+	const searchResult = searchResponse as ElasticSearchResult;
 	return searchResult;
 };
 
@@ -147,15 +114,14 @@ export const searchDocument = async ({ index, documentId, esHost, requestOptions
  * Get Score File URLs and additional File metadata from Elastic Document
  * @param esConfig Base ElasticSearch config
  * @param searchResult ElasticSearch Document
- * @returns { fileUrl, fileName, indexFileUrl, bedUrl }
  */
 export const getFileDetails = async ({
-	esConfig,
 	searchResult,
+	esConfig,
 }: {
-	esConfig: EsConfig;
 	searchResult: ElasticSearchResult;
-}) => {
+	esConfig: EsConfig;
+}): Promise<{ fileUrl: string; fileName?: string; indexFileUrl?: string }> => {
 	const { documentId } = esConfig;
 	const elasticDocument = searchResult._source;
 	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
@@ -163,22 +129,20 @@ export const getFileDetails = async ({
 	}
 
 	const fileName = elasticDocument.file?.name;
-	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
-	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
+	const { fileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
+	const fileUrl = fileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
 	}
-	const indexFileUrl = indexFileMetadata?.parts[0]?.url || undefined;
-	const bedFileUrl = getDefaultBedFileUrl(elasticDocument, defaultNodeBedUrls);
+	const indexFileUrl = indexFileMetadata?.parts[0]?.url;
 
-	return { fileUrl, fileName, indexFileUrl, bedFileUrl };
+	return { fileUrl, fileName, indexFileUrl };
 };
 
 /**
  * Add Iobio Metadata to a specific Elastic Document
  * @param esConfig Base ElasticSearch config
  * @param iobio_metadata Generated Iobio Statistics data for the current file
- * @returns { Promise<void> }
  */
 export const updateElasticDocument = async ({
 	esConfig,
@@ -186,82 +150,11 @@ export const updateElasticDocument = async ({
 }: {
 	esConfig: EsConfig;
 	iobio_metadata: StatsOutput;
-}) => {
-	const { index, documentId, esHost, requestOptions } = esConfig;
-	const updateUrl = new URL(`${index}/_update/${documentId}`, esHost);
-	const updateBody = JSON.stringify({ doc: iobio_metadata });
+}): Promise<void> => {
+	const { client, index, documentId } = esConfig;
+	await client.update({ index, id: documentId, doc: iobio_metadata }).catch((error) => {
+		throw new Error(`Error Updating document with id: ${documentId}`, error);
+	});
 
-	const updateDocumentRequestOptions = {
-		headers: {
-			'Content-Type': 'application/json',
-			...requestOptions.headers,
-		},
-		method: 'POST',
-		body: updateBody,
-	};
-
-	const updateResponse = await fetch(updateUrl, updateDocumentRequestOptions).then((response) => response.json());
-	if (updateResponse.error) {
-		throw new Error(updateResponse);
-	}
 	console.log(`Successfully updated document with id ${documentId}`);
-};
-
-/**
- * Elastic Indexing Utility Main CLI function
- * Captures User Input, Validates Index & Document, Updates Mapping if needed,
- * Generates Iobio Statistics, then updates the Document
- */
-export const indexerCLI = async () => {
-	const authKey = process.env.ES_AUTH_KEY;
-	const esHost = process.env.ES_HOST_URL;
-	if (!(authKey && esHost)) throw new Error('Required .env configuration values are missing');
-
-	// Script Start
-	console.log('***** Overture Components: Iobio Metadata ElasticSearch Indexer *****');
-
-	// User Input
-	const readlineInterface = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout,
-	});
-
-	const index = await readlineInterface.question('\nElasticSearch Index: ');
-	const documentId = await readlineInterface.question('Document Id: ');
-	const outputOption = await readlineInterface.question('Output as JSON? (Y/N): ');
-	const enableFileOutput = outputOption.toLowerCase() === 'y';
-	readlineInterface.close();
-	if (!(index && documentId)) throw new Error('ElasticSearch index and documentId are required');
-
-	const requestOptions = {
-		headers: {
-			Authorization: `ApiKey ${authKey}`,
-		},
-	};
-	const esConfig: EsConfig = { documentId, esHost, index, requestOptions };
-
-	// Validate & Retrieve Data
-	console.log('Validating Index');
-	await validateAndUpdateIndex(esConfig);
-	console.log('Retrieving Document');
-	const searchResult = await searchDocument(esConfig);
-	console.log('Getting Score File Data');
-	const { fileUrl, fileName, indexFileUrl, bedFileUrl } = await getFileDetails({ esConfig, searchResult });
-
-	// Iobio Data Broker relies on event listeners and executes this callback function when streaming is complete
-	// This callback captures the statistics output and adds it to ElasticSearch
-	const onComplete: CompleteCallback = async (iobio_metadata: StatsOutput) => {
-		console.log('Updating Document');
-		await updateElasticDocument({ iobio_metadata, esConfig });
-	};
-
-	console.log('Generating Iobio Statistics');
-	await generateIobioStats({
-		bedFileUrl,
-		fileUrl,
-		fileName,
-		indexFileUrl,
-		enableFileOutput,
-		onComplete,
-	});
 };
