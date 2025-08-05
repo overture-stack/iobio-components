@@ -31,7 +31,7 @@ export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
  * Src: iobio-charts/coverage/src/BamViewChart.js L259
  * @param dataEvent { [BamKey]: number  }
  */
-export const calculateMeanCoverage = (dataEvent: HistogramData) => {
+export const calculateMeanCoverage = (dataEvent: HistogramData): number => {
 	const coverageData = dataEvent.coverage_hist;
 
 	let coverageMean = 0;
