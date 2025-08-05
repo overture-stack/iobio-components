@@ -19,13 +19,34 @@
  *
  */
 
-/// <reference types="vite/client" />
+/**
+ * Helper functions for Iobio Charts web component integrations
+ */
 
-interface ImportMeta {
-	readonly env: ImportMetaEnv;
-}
+/**
+ * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not
+ * False values are removed, truthy values returned as { key: boolean }
+ * @param booleanAttributes
+ * @returns { key: boolean }
+ */
+export const getBooleanAttributes = (booleanAttributes: { [key: string]: boolean }) => {
+	return Object.keys(booleanAttributes)
+		.filter((attribute) => booleanAttributes[attribute])
+		.reduce((acc, key) => {
+			return { ...acc, [key]: booleanAttributes[key] };
+		}, {});
+};
 
-interface ImportMetaEnv {
-	readonly VITE_PORT: string;
-	readonly IOBIO_SERVER_URL: string;
-}
+/**
+ * Take React Style object and apply it to Web Component Shadow Dom as style sheet
+ * Allows adding custom styles to nested elements
+ * @param element DOM Node
+ * @param styles CSS String
+ */
+export const setElementStyles = (element: Element, styles: string) => {
+	if (element?.shadowRoot) {
+		const elementStyles = new CSSStyleSheet();
+		elementStyles.replaceSync(styles);
+		element.shadowRoot.adoptedStyleSheets = [elementStyles];
+	}
+};

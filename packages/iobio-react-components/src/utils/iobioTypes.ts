@@ -19,13 +19,13 @@
  *
  */
 
-/// <reference types="vite/client" />
+import { type BamHistogramKey, type BamKey, type BamPercentKey, type StatisticKey } from './constants.ts';
 
-interface ImportMeta {
-	readonly env: ImportMetaEnv;
-}
-
-interface ImportMetaEnv {
-	readonly VITE_PORT: string;
-	readonly IOBIO_SERVER_URL: string;
-}
+export type DataUpdate = StatisticsData & PercentData;
+export type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
+export type StatisticsData = { [K in StatisticKey]: number };
+export type PercentData = { [K in BamPercentKey]: number };
+export type IobioMetaData = { [k in BamKey]: number };
+export type StatsOutput = {
+	iobio_metadata: IobioMetaData;
+};
