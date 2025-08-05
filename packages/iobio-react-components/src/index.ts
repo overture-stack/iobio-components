@@ -32,6 +32,7 @@ export {
 	defaultBamContext,
 	histogramKeys,
 	ignoreOutlierKeys,
+	isBamKey,
 	isOutlierKey,
 	isPercentKey,
 	percentKeys,
