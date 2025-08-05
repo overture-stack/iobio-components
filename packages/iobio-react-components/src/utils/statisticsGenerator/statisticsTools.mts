@@ -50,18 +50,18 @@ export const calculateMeanCoverage = (dataEvent: HistogramData): number => {
  * Obtain BAM statistical data from Data Broker data events
  * @param dataEvent { [BamKey]: number  }
  */
-export const getBamStatistics = (dataEvent: DataUpdate) => {
-	return [...percentKeys, ...statisticKeys].reduce((statsData, dataKey) => {
+export const getBamStatistics = (dataEvent: DataUpdate): IobioMetaData => {
+	return [...percentKeys, ...statisticKeys].reduce((statsData: IobioMetaData, dataKey) => {
 		const value = dataEvent[dataKey];
-		const stats: IobioMetaData = { ...statsData, [dataKey]: value };
+		statsData[dataKey] = value;
 
 		if (isPercentKey(dataKey)) {
 			const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
 			const displayKey: PercentageStatsKey = `${dataKey}_percentage`;
-			stats[displayKey] = percentage;
+			statsData[displayKey] = percentage;
 		}
-		return stats;
-	}, {} as IobioMetaData);
+		return statsData;
+	}, {});
 };
 
 /**

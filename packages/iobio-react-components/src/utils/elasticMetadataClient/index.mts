@@ -70,8 +70,12 @@ console.log('Validating Index');
 await validateAndUpdateIndex(esConfig);
 console.log('Retrieving Document');
 const searchResult = await searchDocument(esConfig);
+const elasticDocument = searchResult._source;
+if (!elasticDocument) {
+	throw new Error(`No document found with id ${documentId}`);
+}
 console.log('Getting Score File Data');
-const { fileUrl, fileName, indexFileUrl } = await getFileDetails({ esConfig, searchResult });
+const { fileUrl, fileName, indexFileUrl } = await getFileDetails({ esConfig, elasticDocument });
 
 // Iobio Data Broker relies on event listeners and executes this callback function when streaming is complete
 // This callback captures the statistics output and adds it to ElasticSearch

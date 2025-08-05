@@ -101,14 +101,8 @@ export const updateIndexMapping = async ({ client, index }: EsConfig): Promise<v
  * Find a specific ElasticSearch Document with given object_id
  * @param esConfig Base ElasticSearch config
  */
-export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> => {
-	const searchResponse = await client.get<FileDocument>({ index, id: documentId }).catch(() => {
-		throw new Error(`No document found with id ${documentId}`);
-	});
-	// TODO: TS issue??
-	const searchResult = searchResponse as ElasticSearchResult;
-	return searchResult;
-};
+export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> =>
+	await client.get<FileDocument>({ index, id: documentId });
 
 /**
  * Get Score File URLs and additional File metadata from Elastic Document
@@ -116,14 +110,13 @@ export const searchDocument = async ({ client, index, documentId }: EsConfig): P
  * @param searchResult ElasticSearch Document
  */
 export const getFileDetails = async ({
-	searchResult,
+	elasticDocument,
 	esConfig,
 }: {
-	searchResult: ElasticSearchResult;
+	elasticDocument: FileDocument;
 	esConfig: EsConfig;
 }): Promise<{ fileUrl: string; fileName?: string; indexFileUrl?: string }> => {
 	const { documentId } = esConfig;
-	const elasticDocument = searchResult._source;
 	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
 		throw new Error(`File is not a BAM or CRAM file, found extension ${elasticDocument.file_type}`);
 	}
