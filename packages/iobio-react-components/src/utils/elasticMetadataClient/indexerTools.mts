@@ -23,8 +23,8 @@ import { Client } from '@elastic/elasticsearch';
 
 import { BamFileExtensions } from '../constants.ts';
 import { type StatsOutput } from '../iobioTypes.ts';
-import { getFileMetadata } from './scoreFileTools.mts';
-import { type ElasticSearchResult, type FileDocument } from './scoreFileTypes.ts';
+import { getFileMetadata } from '../scoreFileTools.mts';
+import { type ElasticSearchResult, type FileDocument } from '../scoreFileTypes.ts';
 
 /** Base ElasticSearch arguments */
 export type EsConfig = {
@@ -129,8 +129,8 @@ export const getFileDetails = async ({
 	}
 
 	const fileName = elasticDocument.file?.name;
-	const { fileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
-	const fileUrl = fileMetadata?.parts[0]?.url || null;
+	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
+	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
 	}
