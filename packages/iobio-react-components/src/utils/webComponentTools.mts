@@ -1,11 +1,11 @@
 /*
  *
- * Copyright (c) 2024 The Ontario Institute for Cancer Research. All rights reserved
+ *  Copyright (c) 2025 The Ontario Institute for Cancer Research. All rights reserved
  *
  *  This program and the accompanying materials are made available under the terms of
  *  the GNU Affero General Public License v3.0. You should have received a copy of the
  *  GNU Affero General Public License along with this program.
- *   If not, see <http://www.gnu.org/licenses/>.
+ *  If not, see <http://www.gnu.org/licenses/>.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
  *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -19,22 +19,11 @@
  *
  */
 
-import {
-	histogramKeys,
-	ignoreOutlierKeys,
-	percentKeys,
-	statisticKeys,
-	type BamKey,
-	type BamOutlierKey,
-	type BamPercentKey,
-	type percentageStatsKey,
-} from './constants.ts';
-import { type DataUpdate, type HistogramData } from './iobioTypes.ts';
-import { type FileDocument } from './scoreFileTypes.ts';
+import { type FileDocument } from './scoreFileTypes';
 
-export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
-	return ignoreOutlierKeys.includes(key as BamOutlierKey);
-};
+/**
+ * Helper functions for Iobio Charts web component integrations
+ */
 
 /**
  * Formats Boolean React Props to native HTML style where the element only checks if it 'has' the property or not
@@ -62,66 +51,6 @@ export const setElementStyles = (element: Element, styles: string) => {
 		elementStyles.replaceSync(styles);
 		element.shadowRoot.adoptedStyleSheets = [elementStyles];
 	}
-};
-
-/**
- * Obtain BAM statistical data from Data Broker data events
- * @param dataEvent { [BamKey]: number  }
- */
-export const getBamStatistics = (dataEvent: DataUpdate) => {
-	return [...percentKeys, ...statisticKeys].reduce(
-		(statsData, dataKey) => {
-			const value = dataEvent[dataKey];
-			const stats: { [k in BamKey]: number } = { ...statsData, [dataKey]: value };
-
-			const isPercentKey = (key: keyof DataUpdate): key is BamPercentKey =>
-				percentKeys.some((percentKey) => percentKey === key);
-
-			if (isPercentKey(dataKey)) {
-				const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
-				const displayKey: percentageStatsKey = `${dataKey}_percentage`;
-				stats[displayKey] = percentage;
-			}
-			return stats;
-		},
-		{} as { [k in BamKey]: number },
-	);
-};
-
-/**
- * Obtain BAM Histogram data from Data Broker data events
- * @param dataEvent { [K in BamHistogramKey]: { [numKey: string]: number } }
- * where numKey parses to an Integer
- */
-
-export const getHistogramData = (dataEvent: HistogramData) => {
-	const histogramData = histogramKeys.reduce((statsData, dataKey) => {
-		const value = dataEvent[dataKey];
-		const stats: HistogramData = { ...statsData, [dataKey]: value };
-		return stats;
-	}, {} as HistogramData);
-
-	return histogramData;
-};
-
-/**
- * Obtain Mean Read Coverage from Coverage Histogram data
- * Src: iobio-charts/coverage/src/BamViewChart.js L259
- */
-
-export const calculateMeanCoverage = (dataEvent: HistogramData) => {
-	const coverageData = dataEvent.coverage_hist;
-
-	let coverageMean = 0;
-	for (const coverage in coverageData) {
-		const freq = coverageData[coverage];
-		const coverageVal = parseInt(coverage);
-
-		coverageMean += coverageVal * freq;
-	}
-	const meanCoverage = Math.floor(coverageMean);
-
-	return meanCoverage;
 };
 
 /** File Strategy & Bed URL */

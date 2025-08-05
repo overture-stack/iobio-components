@@ -29,5 +29,5 @@
 		"noFallthroughCasesInSwitch": true
 	},
 	"include": ["src/**/*"],
-	"exclude": ["src/utils/statisticsClient/*", "src/utils/elasticMetadataClient/*"]
+	"exclude": ["src/utils/statisticsGenerator/*", "src/utils/elasticMetadataClient/*"]
 }
