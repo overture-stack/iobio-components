@@ -28,6 +28,11 @@ const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 	'User-Agent': 'unknown',
 };
 
+export type ScoreConfig = {
+	scoreApiUrl: string;
+	scoreApiDownloadPath: string;
+};
+
 // Iobio File Properties
 export const bamFileExtension = 'BAM';
 export const cramFileExtension = 'CRAM';
@@ -42,13 +47,15 @@ export const isFileMetaData = (file: unknown): file is FileMetaData => {
 export const getScoreFile = async ({
 	length,
 	object_id,
+	scoreApiUrl,
+	scoreApiDownloadPath,
 }: {
 	length: string;
 	object_id: string;
+	scoreApiUrl: string;
+	scoreApiDownloadPath: string;
 }): Promise<FileMetaData | undefined> => {
-	const SCORE_API_URL = process.env.SCORE_API_URL || import.meta.env.VITE_SCORE_API_URL;
-	const SCORE_API_DOWNLOAD_PATH = process.env.SCORE_API_DOWNLOAD_PATH || import.meta.env.VITE_SCORE_API_DOWNLOAD_PATH;
-	if (!(SCORE_API_URL && SCORE_API_DOWNLOAD_PATH)) {
+	if (!(scoreApiUrl && scoreApiDownloadPath)) {
 		throw new Error('Score API URL is missing in .env');
 	}
 	const scoreDownloadParams: ScoreDownloadParams = {
@@ -57,7 +64,7 @@ export const getScoreFile = async ({
 	};
 	const urlParams = new URLSearchParams(scoreDownloadParams).toString();
 	try {
-		const scoreUrl = urlJoin(SCORE_API_URL, SCORE_API_DOWNLOAD_PATH, object_id, `?${urlParams}`);
+		const scoreUrl = urlJoin(scoreApiUrl, scoreApiDownloadPath, object_id, `?${urlParams}`);
 		const response = await fetch(scoreUrl, {
 			headers: { accept: '*/*' },
 		});
@@ -72,18 +79,32 @@ export const getScoreFile = async ({
 };
 
 /** Get required properties for Score Download */
-export const getFileMetadata = async (selectedFile: FileDocument) => {
+export const getFileMetadata = async (
+	selectedFile: FileDocument,
+	scoreApiUrl: string,
+	scoreApiDownloadPath: string,
+) => {
 	/* Base BAM/CRAM File download */
 	const fileObjectId = selectedFile.object_id;
 	const fileData = selectedFile.file;
 	const fileSize = fileData.size.toString();
-	const scoreFileMetadata = await getScoreFile({ length: fileSize, object_id: fileObjectId });
+	const scoreFileMetadata = await getScoreFile({
+		length: fileSize,
+		object_id: fileObjectId,
+		scoreApiUrl,
+		scoreApiDownloadPath,
+	});
 	if (!isFileMetaData(scoreFileMetadata))
 		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
 
 	/**  Related Index File download */
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
-	const indexFileMetadata = await getScoreFile({ length: indexFileSize.toString(), object_id: indexObjectId });
+	const indexFileMetadata = await getScoreFile({
+		length: indexFileSize.toString(),
+		object_id: indexObjectId,
+		scoreApiUrl,
+		scoreApiDownloadPath,
+	});
 	if (!isFileMetaData(indexFileMetadata))
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
 

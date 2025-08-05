@@ -23,10 +23,10 @@ import { Client } from '@elastic/elasticsearch';
 
 import { BamFileExtensions } from '../constants.ts';
 import { type StatsOutput } from '../iobioTypes.ts';
-import { getFileMetadata } from '../scoreFileTools.mts';
+import { getFileMetadata, type ScoreConfig } from '../scoreFileTools.mts';
 import { type ElasticSearchResult, type FileDocument } from '../scoreFileTypes.ts';
 
-/** Base ElasticSearch arguments */
+/** Base ElasticSearch & Score arguments */
 export type EsConfig = {
 	client: Client;
 	index: string;
@@ -112,9 +112,11 @@ export const searchDocument = async ({ client, index, documentId }: EsConfig): P
 export const getFileDetails = async ({
 	elasticDocument,
 	esConfig,
+	scoreConfig,
 }: {
 	elasticDocument: FileDocument;
 	esConfig: EsConfig;
+	scoreConfig: ScoreConfig;
 }): Promise<{ fileUrl: string; fileName?: string; indexFileUrl?: string }> => {
 	const { documentId } = esConfig;
 	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
@@ -122,7 +124,12 @@ export const getFileDetails = async ({
 	}
 
 	const fileName = elasticDocument.file?.name;
-	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
+	const { scoreApiDownloadPath, scoreApiUrl } = scoreConfig;
+	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(
+		elasticDocument,
+		scoreApiDownloadPath,
+		scoreApiUrl,
+	);
 	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
