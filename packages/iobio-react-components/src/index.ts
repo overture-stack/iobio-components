@@ -45,7 +45,7 @@ export {
 	type BamPercentKey,
 } from './utils/constants';
 
-export { getFileMetadata, isFileMetaData } from './utils/scoreFileTools.mts';
+export { FileMetaDataSchema, getFileMetadata } from './utils/scoreFileTools.mts';
 export { type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
 export { getBooleanAttributes, setElementStyles } from './utils/webComponentTools.mts';
 

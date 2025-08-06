@@ -20,6 +20,7 @@
  */
 
 import urlJoin from 'url-join';
+import * as zod from 'zod';
 import { type FileDocument, type FileMetaData, type ScoreDownloadParams } from './scoreFileTypes.ts';
 
 const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
@@ -34,9 +35,22 @@ export const cramFileExtension = 'CRAM';
 export const BamFileExtensions = [bamFileExtension, cramFileExtension];
 
 /** Type Checks for Score Data response */
-export const isFileMetaData = (file: unknown): file is FileMetaData => {
-	return Boolean((file as FileMetaData)?.objectId && (file as FileMetaData)?.parts[0]?.url);
-};
+export const FileMetaDataSchema = zod.object({
+	objectId: zod.string(),
+	objectKey: zod.string().optional(),
+	objectMd5: zod.string().optional(),
+	objectSize: zod.number().optional(),
+	parts: zod.array(
+		zod.object({
+			md5: zod.string().nullable().optional(),
+			offset: zod.number().optional(),
+			partNumber: zod.number().optional(),
+			partSize: zod.number().optional(),
+			url: zod.string(),
+		}),
+	),
+	uploadId: zod.string().optional(),
+});
 
 /** Request File from Score API */
 export const getScoreFile = async ({
@@ -89,7 +103,7 @@ export const getFileMetadata = async (
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!isFileMetaData(scoreFileMetadata))
+	if (!FileMetaDataSchema.safeParse(scoreFileMetadata))
 		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
 
 	/**  Related Index File download */
@@ -100,7 +114,7 @@ export const getFileMetadata = async (
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!isFileMetaData(indexFileMetadata))
+	if (!FileMetaDataSchema.safeParse(indexFileMetadata))
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
 
 	return { scoreFileMetadata, indexFileMetadata };
