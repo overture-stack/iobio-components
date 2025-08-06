@@ -32,6 +32,8 @@ export {
 	defaultBamContext,
 	histogramKeys,
 	ignoreOutlierKeys,
+	infoLabelHistogramCopy,
+	infoLabelPercentCopy,
 	isBamKey,
 	isOutlierKey,
 	isPercentKey,
