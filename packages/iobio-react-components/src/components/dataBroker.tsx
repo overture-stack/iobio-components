@@ -21,16 +21,14 @@
 
 function IobioDataBroker({
 	alignmentUrl,
-	bedUrl,
 	indexUrl,
 	server,
 }: {
 	alignmentUrl: string;
-	bedUrl?: string;
 	indexUrl?: string;
 	server?: string;
 }) {
-	return <iobio-data-broker alignment-url={alignmentUrl} index-url={indexUrl} bed-url={bedUrl} server={server} />;
+	return <iobio-data-broker alignment-url={alignmentUrl} index-url={indexUrl} server={server} />;
 }
 
 export default IobioDataBroker;

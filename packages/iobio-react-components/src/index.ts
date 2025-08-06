@@ -47,13 +47,7 @@ export {
 
 export { getFileMetadata, isFileMetaData } from './utils/scoreFileTools.mts';
 export { type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
-export {
-	defaultBrowserBedUrls,
-	getBooleanAttributes,
-	getBrowserBedUrls,
-	getDefaultBedFileUrl,
-	setElementStyles,
-} from './utils/webComponentTools.mts';
+export { getBooleanAttributes, setElementStyles } from './utils/webComponentTools.mts';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only
