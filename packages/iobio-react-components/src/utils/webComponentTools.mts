@@ -19,7 +19,7 @@
  *
  */
 
-import { type FileDocument } from './scoreFileTypes';
+import { type FileDocument } from './scoreFileTypes.ts';
 
 /**
  * Helper functions for Iobio Charts web component integrations
