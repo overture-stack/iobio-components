@@ -33,11 +33,6 @@ export type ScoreConfig = {
 	scoreApiDownloadPath: string;
 };
 
-// Iobio File Properties
-export const bamFileExtension = 'BAM';
-export const cramFileExtension = 'CRAM';
-export const BamFileExtensions = [bamFileExtension, cramFileExtension];
-
 /** Type Checks for Score Data response */
 export const isFileMetaData = (file: unknown): file is FileMetaData => {
 	return Boolean((file as FileMetaData)?.objectId && (file as FileMetaData)?.parts[0]?.url);
