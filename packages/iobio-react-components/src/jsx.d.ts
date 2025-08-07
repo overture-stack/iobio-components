@@ -30,6 +30,7 @@ declare global {
 
 		interface IobioDataBrokerProps extends IobioElementProps {
 			'alignment-url': string;
+			'file-format'?: string;
 			'index-url'?: string;
 			server?: string;
 		}
