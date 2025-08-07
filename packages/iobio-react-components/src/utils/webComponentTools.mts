@@ -79,7 +79,6 @@ export const getDefaultBedFileUrl = (elasticDocument: FileDocument, bedUrlDictio
 	const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
 	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
 	const bedFileUrl = isValidStrategy ? bedUrlDictionary[fileStrategy] : '';
-	console.log('fileStrategy', fileStrategy);
 	return bedFileUrl;
 };
 
