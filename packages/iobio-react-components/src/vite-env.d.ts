@@ -19,13 +19,4 @@
  *
  */
 
-/// <reference types="vite/types/importMeta.d.ts" />
 /// <reference types="vite/client" />
-interface ImportMetaEnv {
-	readonly VITE_SCORE_API_URL: string;
-	readonly VITE_SCORE_API_DOWNLOAD_PATH: string;
-}
-
-interface ImportMeta {
-	readonly env: ImportMetaEnv;
-}

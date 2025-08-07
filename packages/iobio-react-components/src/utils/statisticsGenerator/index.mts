@@ -20,6 +20,7 @@
  */
 
 import readline from 'node:readline/promises';
+import { defaultBedUrls } from '../webComponentTools.mts';
 import { generateIobioStats } from './statisticsTools.mts';
 
 /** Launch command line prompt for user input, then generate stats */
@@ -33,10 +34,23 @@ console.log('***** Overture Components: Iobio Metadata Generator *****');
 const fileUrl = await readlineInterface.question('\nBam File URL: ');
 if (!fileUrl) throw new Error('Alignment URL is required to generate statistics \nusage: pnpm run stats ${url}');
 
+const serverUrl = process.env.IOBIO_SERVER_URL;
 const indexFileUrl = await readlineInterface.question('\nIndex File URL (optional): ');
+let bedFileUrl = undefined;
+const bedFileUrlInput = await readlineInterface.question('\nBed File URL (optional): ');
+if (bedFileUrlInput) {
+	bedFileUrl = bedFileUrlInput;
+} else {
+	const useDefaultBedFile = await readlineInterface.question('\nUse Default Bed Files?: (Y/N) ');
+	const enableDefaultBedFile = useDefaultBedFile.toLowerCase() === 'y';
+	if (enableDefaultBedFile) {
+		const bedFileStrategy = await readlineInterface.question('\nBed File Strategy: (WGS, WXS, ChipSeq, RNA-Seq) ');
+		bedFileUrl = defaultBedUrls[bedFileStrategy];
+	}
+}
+
 const outputOption = await readlineInterface.question('\nOutput as JSON? (Y/N): ');
 const enableFileOutput = outputOption.toLowerCase() === 'y';
 readlineInterface.close();
 
-const serverUrl = process.env.IOBIO_SERVER_URL;
-generateIobioStats({ fileUrl, indexFileUrl, enableFileOutput, serverUrl });
+generateIobioStats({ fileUrl, indexFileUrl, bedFileUrl, enableFileOutput, serverUrl });
