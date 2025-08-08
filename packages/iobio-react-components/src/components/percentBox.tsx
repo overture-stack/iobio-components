@@ -44,5 +44,3 @@ const IobioPercentBox = ({
 };
 
 export default IobioPercentBox;
-
-export type IobioPercentBoxType = typeof IobioPercentBox;

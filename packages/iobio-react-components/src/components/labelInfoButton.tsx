@@ -26,5 +26,3 @@ const IobioLabelInfoButton = ({ children, label }: { children?: ReactNode; label
 };
 
 export default IobioLabelInfoButton;
-
-export type IobioLabelInfoButtonType = typeof IobioLabelInfoButton;

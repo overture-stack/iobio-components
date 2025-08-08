@@ -26,5 +26,3 @@ const IobioPanel = ({ children }: { children: ReactNode }) => {
 };
 
 export default IobioPanel;
-
-export type IobioPanelType = typeof IobioPanel;

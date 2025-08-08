@@ -19,12 +19,12 @@
  *
  */
 
-export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './components/coverageDepth';
-export { default as IobioDataBroker, type IobioDataBrokerType } from './components/dataBroker';
-export { default as IobioHistogram, type IobioHistogramType } from './components/histogram';
-export { default as IobioLabelInfoButton, type IobioLabelInfoButtonType } from './components/labelInfoButton';
-export { default as IobioPanel, type IobioPanelType } from './components/panel';
-export { default as IobioPercentBox, type IobioPercentBoxType } from './components/percentBox';
+export { default as IobioCoverageDepth } from './components/coverageDepth';
+export { default as IobioDataBroker } from './components/dataBroker';
+export { default as IobioHistogram } from './components/histogram';
+export { default as IobioLabelInfoButton } from './components/labelInfoButton';
+export { default as IobioPanel } from './components/panel';
+export { default as IobioPercentBox } from './components/percentBox';
 
 export {
 	bamDisplayNames,

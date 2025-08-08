@@ -24,5 +24,3 @@ const IobioCoverageDepth = ({ label }: { label?: string }) => {
 };
 
 export default IobioCoverageDepth;
-
-export type IobioCoverageDepthType = typeof IobioCoverageDepth;

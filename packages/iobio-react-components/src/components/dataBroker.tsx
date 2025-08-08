@@ -32,5 +32,3 @@ const IobioDataBroker = ({
 };
 
 export default IobioDataBroker;
-
-export type IobioDataBrokerType = typeof IobioDataBroker;
