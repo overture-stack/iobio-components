@@ -46,9 +46,9 @@ export {
 export { getFileMetadata, isFileMetaData } from './utils/scoreFileTools.mts';
 export { type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
 export {
-	defaultBrowserBedUrls,
+	defaultBedUrls,
+	getBedUrlForEsDocument,
 	getBooleanAttributes,
-	getBrowserBedUrls,
 	getDefaultBedFileUrl,
 	setElementStyles,
 } from './utils/webComponentTools.mts';
