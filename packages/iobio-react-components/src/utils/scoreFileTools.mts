@@ -34,7 +34,7 @@ export const bamFileExtension = 'BAM';
 export const cramFileExtension = 'CRAM';
 export const BamFileExtensions = [bamFileExtension, cramFileExtension];
 
-/** Type Checks for Score Data response */
+/** Validation for Score Data response */
 export const FileMetaDataSchema = zod.object({
 	objectId: zod.string(),
 	objectKey: zod.string().optional(),
@@ -74,13 +74,8 @@ export const getScoreFile = async ({
 	const urlParams = new URLSearchParams(scoreDownloadParams).toString();
 	try {
 		const scoreUrl = urlJoin(scoreApiUrl, scoreApiDownloadPath, object_id, `?${urlParams}`);
-		const response = await fetch(scoreUrl, {
-			headers: { accept: '*/*' },
-		});
-
-		if (response.status === 200) {
-			return response.json();
-		}
+		const response = (await fetch(scoreUrl)).json();
+		return response;
 	} catch (err: unknown) {
 		console.error(`Error at getScoreFile with object_id ${object_id}`);
 		console.error(err);
