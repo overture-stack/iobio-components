@@ -19,7 +19,7 @@
  *
  */
 
-function IobioDataBroker({
+const IobioDataBroker = ({
 	alignmentUrl,
 	indexUrl,
 	server,
@@ -27,10 +27,8 @@ function IobioDataBroker({
 	alignmentUrl: string;
 	indexUrl?: string;
 	server?: string;
-}) {
+}) => {
 	return <iobio-data-broker alignment-url={alignmentUrl} index-url={indexUrl} server={server} />;
-}
+};
 
 export default IobioDataBroker;
-
-export type IobioDataBrokerType = typeof IobioDataBroker;

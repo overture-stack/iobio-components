@@ -22,7 +22,7 @@
 import { useEffect } from 'react';
 import { getBooleanAttributes, setElementStyles } from '../utils/webComponentTools.mts';
 
-function IobioHistogram({
+const IobioHistogram = ({
 	brokerKey,
 	ignoreOutliers = false,
 	label,
@@ -32,7 +32,7 @@ function IobioHistogram({
 	ignoreOutliers?: boolean;
 	label?: string;
 	styles?: string;
-}) {
+}) => {
 	useEffect(() => {
 		const selector = `iobio-histogram[broker-key=${brokerKey}]`;
 		const element = document.querySelector(selector);
@@ -44,8 +44,6 @@ function IobioHistogram({
 
 	const booleanAttributes = getBooleanAttributes({ 'ignore-outliers': ignoreOutliers });
 	return <iobio-histogram broker-key={brokerKey} label={label} {...booleanAttributes} />;
-}
+};
 
 export default IobioHistogram;
-
-export type IobioHistogramType = typeof IobioHistogram;
