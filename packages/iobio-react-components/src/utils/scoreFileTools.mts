@@ -55,12 +55,12 @@ export const FileMetaDataSchema = zod.object({
 /** Request File from Score API */
 export const getScoreFile = async ({
 	length,
-	object_id,
+	objectId,
 	scoreApiUrl,
 	scoreApiDownloadPath,
 }: {
 	length: string;
-	object_id: string;
+	objectId: string;
 	scoreApiUrl: string;
 	scoreApiDownloadPath: string;
 }): Promise<FileMetaData | undefined> => {
@@ -73,11 +73,11 @@ export const getScoreFile = async ({
 	};
 	const urlParams = new URLSearchParams(scoreDownloadParams).toString();
 	try {
-		const scoreUrl = urlJoin(scoreApiUrl, scoreApiDownloadPath, object_id, `?${urlParams}`);
+		const scoreUrl = urlJoin(scoreApiUrl, scoreApiDownloadPath, objectId, `?${urlParams}`);
 		const response = (await fetch(scoreUrl)).json();
 		return response;
 	} catch (err: unknown) {
-		console.error(`Error at getScoreFile with object_id ${object_id}`);
+		console.error(`Error at getScoreFile with objectId ${objectId}`);
 		console.error(err);
 	}
 };
@@ -94,7 +94,7 @@ export const getFileMetadata = async (
 	const fileSize = fileData.size.toString();
 	const scoreFileMetadata = await getScoreFile({
 		length: fileSize,
-		object_id: fileObjectId,
+		objectId: fileObjectId,
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
@@ -106,7 +106,7 @@ export const getFileMetadata = async (
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
 	const indexFileMetadata = await getScoreFile({
 		length: indexFileSize.toString(),
-		object_id: indexObjectId,
+		objectId: indexObjectId,
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
