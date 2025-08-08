@@ -22,7 +22,9 @@
 import { Client } from '@elastic/elasticsearch';
 import readline from 'node:readline/promises';
 import { type StatsOutput } from '../iobioTypes.ts';
+import { type ScoreConfig } from '../scoreFileTools.mts';
 import { generateIobioStats, type CompleteCallback } from '../statisticsGenerator/statisticsTools.mts';
+import { getDefaultBedFileUrl } from '../webComponentTools.mts';
 import {
 	getFileDetails,
 	searchDocument,
@@ -39,7 +41,11 @@ import {
 
 const authKey = process.env.ES_AUTH_KEY;
 const esHost = process.env.ES_HOST_URL;
-if (!(authKey && esHost)) throw new Error('Required .env configuration values are missing');
+if (!(authKey && esHost)) throw new Error('Required ElasticSearch .env configuration values are missing');
+
+const scoreApiUrl = process.env.SCORE_API_URL;
+const scoreApiDownloadPath = process.env.SCORE_API_DOWNLOAD_PATH;
+if (!(scoreApiUrl && scoreApiDownloadPath)) throw new Error('Required Score .env configuration values are missing');
 
 // Script Start
 console.log('***** Overture Components: Iobio Metadata ElasticSearch Indexer *****');
@@ -64,14 +70,25 @@ const client = new Client({
 	},
 });
 const esConfig: EsConfig = { client, documentId, index };
+const scoreConfig: ScoreConfig = { scoreApiUrl, scoreApiDownloadPath };
 
 // Validate & Retrieve Data
 console.log('Validating Index');
 await validateAndUpdateIndex(esConfig);
+
 console.log('Retrieving Document');
 const searchResult = await searchDocument(esConfig);
+const elasticDocument = searchResult._source;
+if (!elasticDocument) throw new Error(`No Document with id: ${documentId}`);
+
 console.log('Getting Score File Data');
-const { fileUrl, fileName, indexFileUrl } = await getFileDetails({ esConfig, searchResult });
+const { fileUrl, fileName, indexFileUrl } = await getFileDetails({
+	scoreConfig,
+	esConfig,
+	elasticDocument,
+});
+const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
+const bedFileUrl = getDefaultBedFileUrl(fileStrategy);
 
 // Iobio Data Broker relies on event listeners and executes this callback function when streaming is complete
 // This callback captures the statistics output and adds it to ElasticSearch
@@ -85,6 +102,7 @@ await generateIobioStats({
 	fileUrl,
 	fileName,
 	indexFileUrl,
+	bedFileUrl,
 	enableFileOutput,
 	onComplete,
 });

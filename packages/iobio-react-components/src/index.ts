@@ -26,7 +26,10 @@ export { default as IobioPercentBox, type IobioPercentBoxType } from './componen
 
 export {
 	BamDisplayNames,
+	BamFileExtensions,
 	BamKeys,
+	bamFileExtension,
+	cramFileExtension,
 	defaultBamContext,
 	histogramKeys,
 	ignoreOutlierKeys,
@@ -40,7 +43,15 @@ export {
 	type BamPercentKey,
 } from './utils/constants';
 
-export { getBooleanAttributes, setElementStyles } from './utils/webComponentTools.mts';
+export { getFileMetadata, isFileMetaData } from './utils/scoreFileTools.mts';
+export { type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
+export {
+	defaultBedUrls,
+	getBedUrlForEsDocument,
+	getBooleanAttributes,
+	getDefaultBedFileUrl,
+	setElementStyles,
+} from './utils/webComponentTools.mts';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only

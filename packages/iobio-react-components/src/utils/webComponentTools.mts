@@ -19,6 +19,8 @@
  *
  */
 
+import { type FileDocument } from './scoreFileTypes.ts';
+
 /**
  * Helper functions for Iobio Charts web component integrations
  */
@@ -49,4 +51,49 @@ export const setElementStyles = (element: Element, styles: string) => {
 		elementStyles.replaceSync(styles);
 		element.shadowRoot.adoptedStyleSheets = [elementStyles];
 	}
+};
+
+/** File Strategy & Bed URL */
+const fileStrategies = ['WGS', 'WXS', 'ChipSeq', 'RNA-Seq'];
+type FileStrategyKey = (typeof fileStrategies)[number];
+export type DefaultBedUrls = {
+	[K in FileStrategyKey]: string;
+};
+
+// TODO: Finalize URLs after merge, these are just for testing
+const bedShuffled1BrowserUrl =
+	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/1k_flank_hg38_shuffled1.bed';
+const bedShuffled2BrowserUrl =
+	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/1k_flank_hg38_shuffled2.bed';
+const bedIlluminaBrowserUrl =
+	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed';
+
+export const defaultBedUrls: DefaultBedUrls = {
+	WGS: bedShuffled1BrowserUrl,
+	WXS: bedShuffled2BrowserUrl,
+	ChipSeq: bedShuffled2BrowserUrl,
+	'RNA-Seq': bedIlluminaBrowserUrl,
+};
+
+/** Lookup Default Bed File
+ * @param fileStrategy String file strategy designation for Bed file lookup
+ * @returns bedFileUrl - string
+ */
+export const getDefaultBedFileUrl = (fileStrategy: string | undefined): string | undefined => {
+	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
+	if (!isValidStrategy) {
+		console.error('File Strategy is not valid, cannot lookup recommended Bed file');
+		return undefined;
+	}
+	const bedFileUrl = defaultBedUrls[fileStrategy];
+	return bedFileUrl;
+};
+
+/** Helper to Lookup Default Bed File Url for documents with standard Score Analysis properties
+ * @param elasticDocument Score FileDocument object
+ * @returns bedFileUrl - string
+ */
+export const getBedUrlForEsDocument = (elasticDocument: FileDocument) => {
+	const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
+	return getDefaultBedFileUrl(fileStrategy);
 };
