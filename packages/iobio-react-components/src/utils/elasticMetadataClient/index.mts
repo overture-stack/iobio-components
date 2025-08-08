@@ -40,11 +40,19 @@ import {
 
 const authKey = process.env.ES_AUTH_KEY;
 const esHost = process.env.ES_HOST_URL;
-if (!(authKey && esHost)) throw new Error('Required ElasticSearch .env configuration values are missing');
+if (!(authKey && esHost)) {
+	throw new Error(
+		`Required ElasticSearch .env configuration values are missing: ${authKey ?? 'ES_AUTH_KEY'} ${authKey ?? 'ES_HOST_URL'}`,
+	);
+}
 
 const scoreApiUrl = process.env.SCORE_API_URL;
 const scoreApiDownloadPath = process.env.SCORE_API_DOWNLOAD_PATH;
-if (!(scoreApiUrl && scoreApiDownloadPath)) throw new Error('Required Score .env configuration values are missing');
+if (!(scoreApiUrl && scoreApiDownloadPath)) {
+	throw new Error(
+		`Required Score .env configuration values are missing: ${scoreApiUrl ?? 'SCORE_API_URL'} ${scoreApiDownloadPath ?? 'SCORE_API_DOWNLOAD_PATH'}`,
+	);
+}
 
 // Script Start
 console.log('***** Overture Components: Iobio Metadata ElasticSearch Indexer *****');

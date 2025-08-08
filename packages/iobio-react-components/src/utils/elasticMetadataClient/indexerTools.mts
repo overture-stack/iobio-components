@@ -101,8 +101,9 @@ export const updateIndexMapping = async ({ client, index }: EsConfig): Promise<v
  * Find a specific ElasticSearch Document with given object_id
  * @param esConfig Base ElasticSearch config
  */
-export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> =>
-	await client.get<FileDocument>({ index, id: documentId });
+export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> => {
+	return await client.get<FileDocument>({ index, id: documentId });
+};
 
 /**
  * Get Score File URLs and additional File metadata from Elastic Document

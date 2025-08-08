@@ -103,8 +103,9 @@ export const getFileMetadata = async (
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!FileMetaDataSchema.safeParse(scoreFileMetadata))
+	if (!FileMetaDataSchema.safeParse(scoreFileMetadata)) {
 		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
+	}
 
 	/**  Related Index File download */
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
@@ -114,8 +115,9 @@ export const getFileMetadata = async (
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!FileMetaDataSchema.safeParse(indexFileMetadata))
+	if (!FileMetaDataSchema.safeParse(indexFileMetadata)) {
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
+	}
 
 	return { scoreFileMetadata, indexFileMetadata };
 };
