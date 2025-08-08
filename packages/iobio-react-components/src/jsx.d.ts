@@ -20,25 +20,33 @@
  */
 
 import { type DetailedHTMLProps, type HTMLAttributes, type PropsWithChildren } from 'react';
-export interface IobioElementProps extends HTMLAttributes<HTMLElement> {
+export interface IobioElementAttributes extends HTMLAttributes<HTMLElement> {
 	styles?: string;
 	label?: string;
 }
-export interface IobioDataBrokerProps extends IobioElementProps {
+export interface IobioDataBrokerAttributes extends IobioElementAttributes {
 	'alignment-url': string;
 	'index-url'?: string;
 	server?: string;
 }
 
+type CoverageDepthProps = DetailedHTMLProps<IobioElementAttributes, HTMLElement>;
+type DataBrokerProps = DetailedHTMLProps<IobioDataBrokerAttributes, HTMLElement>;
+type HistogramProps = DetailedHTMLProps<IobioElementAttributes, HTMLElement>;
+type LabelInfoButtonProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type PanelProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type LabelInfoButtonProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type PercentBoxProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+
 declare global {
 	namespace JSX {
 		interface IntrinsicElements {
-			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-data-broker': DetailedHTMLProps<IobioDataBrokerProps, HTMLElement>;
-			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-label-info-button': DetailedHTMLProps<PropsWithChildren<IobioElementProps>, HTMLElement>;
-			'iobio-panel': DetailedHTMLProps<PropsWithChildren<IobioElementProps>, HTMLElement>;
-			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-coverage-depth': CoverageDepthProps;
+			'iobio-data-broker': DataBrokerProps;
+			'iobio-histogram': HistogramProps;
+			'iobio-label-info-button': LabelInfoButtonProps;
+			'iobio-panel': PanelProps;
+			'iobio-percent-box': PercentBoxProps;
 		}
 	}
 }

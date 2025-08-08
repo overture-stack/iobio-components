@@ -19,11 +19,11 @@
  *
  */
 
-import { type PropsWithChildren } from 'react';
+import { type ReactNode } from 'react';
 
-function IobioPanel({ children }: PropsWithChildren) {
+const IobioPanel = ({ children }: { children: ReactNode }) => {
 	return <iobio-panel>{children}</iobio-panel>;
-}
+};
 
 export default IobioPanel;
 

@@ -19,12 +19,11 @@
  *
  */
 
-import { type PropsWithChildren } from 'react';
-import { type IobioElementProps } from '../jsx';
+import { type ReactNode } from 'react';
 
-function IobioLabelInfoButton({ children, label }: PropsWithChildren<IobioElementProps>) {
+const IobioLabelInfoButton = ({ children, label }: { children?: ReactNode; label: string }) => {
 	return <iobio-label-info-button label={label}>{children}</iobio-label-info-button>;
-}
+};
 
 export default IobioLabelInfoButton;
 
