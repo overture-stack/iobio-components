@@ -21,8 +21,8 @@
 
 import clsx from 'clsx';
 import {
-	BamDisplayNames,
-	BamKeys,
+	bamDisplayNames,
+	bamKeys,
 	defaultBamContext,
 	histogramKeys,
 	IobioCoverageDepth,
@@ -45,16 +45,16 @@ const secondaryColors = ['lightpink', 'peachpuff', 'lemonchiffon', 'palegreen', 
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: BamKey, value: boolean) => void) => (
 	<div style={{ margin: '15px' }}>
-		{BamKeys.map((key) => {
+		{bamKeys.map((key) => {
 			return (
 				<button
 					className={clsx('config-button', bamContext[key] && 'active')}
 					key={key}
 					onClick={() => {
-						updateContext(key, bamContext[key]);
+						updateContext(key, !!bamContext[key]);
 					}}
 				>
-					{BamDisplayNames[key]}
+					{bamDisplayNames[key]}
 				</button>
 			);
 		})}
@@ -132,7 +132,7 @@ function App() {
 								(key, index) =>
 									bamContext[key] && (
 										<IobioPercentBox
-											label={BamDisplayNames[key]}
+											label={bamDisplayNames[key]}
 											percentKey={key}
 											styles={`
 											:host {
@@ -161,7 +161,7 @@ function App() {
 										<IobioHistogram
 											key={key}
 											brokerKey={key}
-											label={BamDisplayNames[key]}
+											label={bamDisplayNames[key]}
 											styles={`
 												.iobio-histogram-title { text-align: left;} 
 												:host {

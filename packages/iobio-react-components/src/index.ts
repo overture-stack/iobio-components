@@ -27,8 +27,8 @@ export { default as IobioPanel, type IobioPanelType } from './components/panel';
 export { default as IobioPercentBox, type IobioPercentBoxType } from './components/percentBox';
 
 export {
-	BamDisplayNames,
-	BamKeys,
+	bamDisplayNames,
+	bamKeys,
 	defaultBamContext,
 	histogramKeys,
 	ignoreOutlierKeys,

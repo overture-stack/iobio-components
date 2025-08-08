@@ -24,7 +24,7 @@ import { type DataUpdate } from './iobioTypes.ts';
 /* ========================== *
  *  Iobio Component Constants  *
  * ========================== */
-export const BamKeys = [
+export const bamKeys = [
 	'mapped_reads',
 	'mean_read_coverage',
 	'forward_strands',
@@ -45,7 +45,7 @@ export const BamKeys = [
 	'both_mates_mapped_percentage',
 	'duplicates_percentage',
 ] as const;
-export type BamKey = (typeof BamKeys)[number];
+export type BamKey = (typeof bamKeys)[number];
 export type BamContext = Partial<Record<BamKey, boolean>>;
 
 export const defaultBamContext = {
@@ -63,7 +63,7 @@ export const defaultBamContext = {
 	baseq_hist: true,
 } as const satisfies BamContext;
 
-export const BamDisplayNames = {
+export const bamDisplayNames = {
 	mapped_reads: 'Mapped Reads',
 	mean_read_coverage: 'Mean Read Coverage',
 	forward_strands: 'Forward Strands',
@@ -131,7 +131,7 @@ export type BamOutlierKey = (typeof ignoreOutlierKeys)[number];
 export const ignoreOutlierKeys = ['frag_hist', 'length_hist'] as const satisfies Array<BamKey>;
 
 export const isBamKey = (key: string): key is BamKey => {
-	return BamKeys.includes(key as BamKey);
+	return bamKeys.includes(key as BamKey);
 };
 
 export const isOutlierKey = (key: BamKey): key is BamOutlierKey => {
@@ -146,7 +146,7 @@ export const isPercentKey = (key: keyof DataUpdate): key is BamPercentKey =>
  * ========================= */
 export const bamFileExtension = 'BAM';
 export const cramFileExtension = 'CRAM';
-export const BamFileExtensions = [bamFileExtension, cramFileExtension];
+export const bamFileExtensions = [bamFileExtension, cramFileExtension];
 
 /* ============================================= *
  * Default Info Button Pop Up Modal Descriptions *

@@ -21,7 +21,7 @@
 
 import { Client } from '@elastic/elasticsearch';
 
-import { BamFileExtensions } from '../constants.ts';
+import { bamFileExtensions } from '../constants.ts';
 import { type StatsOutput } from '../iobioTypes.ts';
 import { getFileMetadata } from '../scoreFileTools.mts';
 import { type ElasticSearchResult, type FileDocument, type ScoreConfig } from '../scoreFileTypes.ts';
@@ -120,7 +120,7 @@ export const getFileDetails = async ({
 	scoreConfig: ScoreConfig;
 }): Promise<{ fileUrl: string; fileName?: string; indexFileUrl?: string }> => {
 	const { documentId } = esConfig;
-	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
+	if (elasticDocument.file_type && !bamFileExtensions.includes(elasticDocument?.file_type)) {
 		throw new Error(`File is not a BAM or CRAM file, found extension ${elasticDocument.file_type}`);
 	}
 
