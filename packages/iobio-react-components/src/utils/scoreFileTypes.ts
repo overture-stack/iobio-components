@@ -20,26 +20,32 @@
  */
 
 import { estypes } from '@elastic/elasticsearch';
+import * as zod from 'zod';
 
 export type ScoreConfig = {
 	scoreApiUrl: string;
 	scoreApiDownloadPath: string;
 };
 
-export type FileMetaData = {
-	objectId: string;
-	objectKey?: string;
-	objectMd5?: string;
-	objectSize?: number;
-	parts: {
-		md5?: string | null;
-		offset?: number;
-		partNumber?: number;
-		partSize?: number;
-		url: string;
-	}[];
-	uploadId?: string;
-};
+/** Validation for Score Data response */
+export const fileMetaDataSchema = zod.object({
+	objectId: zod.string(),
+	objectKey: zod.string().optional(),
+	objectMd5: zod.string().optional(),
+	objectSize: zod.number().optional(),
+	parts: zod.array(
+		zod.object({
+			md5: zod.string().nullable().optional(),
+			offset: zod.number().optional(),
+			partNumber: zod.number().optional(),
+			partSize: zod.number().optional(),
+			url: zod.string(),
+		}),
+	),
+	uploadId: zod.string().optional(),
+});
+
+export type FileMetaData = zod.infer<typeof fileMetaDataSchema>;
 
 export type IndexFile = {
 	object_id: string;

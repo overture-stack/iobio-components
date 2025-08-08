@@ -45,8 +45,8 @@ export {
 	type BamPercentKey,
 } from './utils/constants';
 
-export { FileMetaDataSchema, getFileMetadata } from './utils/scoreFileTools.mts';
-export { type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
+export { getFileMetadata } from './utils/scoreFileTools.mts';
+export { fileMetaDataSchema, type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
 export { getBooleanAttributes, setElementStyles } from './utils/webComponentTools.mts';
 
 // Init Iobio Charts

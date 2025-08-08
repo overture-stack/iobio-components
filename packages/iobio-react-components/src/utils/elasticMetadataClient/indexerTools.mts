@@ -128,8 +128,8 @@ export const getFileDetails = async ({
 	const fileName = elasticDocument.file?.name;
 	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(
 		elasticDocument,
-		scoreApiDownloadPath,
 		scoreApiUrl,
+		scoreApiDownloadPath,
 	);
 	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {

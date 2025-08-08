@@ -20,8 +20,12 @@
  */
 
 import urlJoin from 'url-join';
-import * as zod from 'zod';
-import { type FileDocument, type FileMetaData, type ScoreDownloadParams } from './scoreFileTypes.ts';
+import {
+	fileMetaDataSchema,
+	type FileDocument,
+	type FileMetaData,
+	type ScoreDownloadParams,
+} from './scoreFileTypes.ts';
 
 const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 	external: 'true',
@@ -33,24 +37,6 @@ const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 export const bamFileExtension = 'BAM';
 export const cramFileExtension = 'CRAM';
 export const BamFileExtensions = [bamFileExtension, cramFileExtension];
-
-/** Validation for Score Data response */
-export const FileMetaDataSchema = zod.object({
-	objectId: zod.string(),
-	objectKey: zod.string().optional(),
-	objectMd5: zod.string().optional(),
-	objectSize: zod.number().optional(),
-	parts: zod.array(
-		zod.object({
-			md5: zod.string().nullable().optional(),
-			offset: zod.number().optional(),
-			partNumber: zod.number().optional(),
-			partSize: zod.number().optional(),
-			url: zod.string(),
-		}),
-	),
-	uploadId: zod.string().optional(),
-});
 
 /** Request File from Score API */
 export const getScoreFile = async ({
@@ -98,7 +84,8 @@ export const getFileMetadata = async (
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!FileMetaDataSchema.safeParse(scoreFileMetadata)) {
+	const parsedFileMetaData = fileMetaDataSchema.safeParse(scoreFileMetadata);
+	if (!parsedFileMetaData.success) {
 		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
 	}
 
@@ -110,9 +97,10 @@ export const getFileMetadata = async (
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!FileMetaDataSchema.safeParse(indexFileMetadata)) {
+	const parsedIndexFileMetadata = fileMetaDataSchema.safeParse(indexFileMetadata);
+	if (!parsedIndexFileMetadata.success) {
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
 	}
 
-	return { scoreFileMetadata, indexFileMetadata };
+	return { scoreFileMetadata: parsedFileMetaData.data, indexFileMetadata: parsedIndexFileMetadata.data };
 };
