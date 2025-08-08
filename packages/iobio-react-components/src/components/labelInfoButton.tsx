@@ -22,7 +22,11 @@
 import { type ReactNode } from 'react';
 
 const IobioLabelInfoButton = ({ children, label }: { children?: ReactNode; label: string }) => {
-	return <iobio-label-info-button label={label}>{children}</iobio-label-info-button>;
+	return (
+		<iobio-label-info-button label={label}>
+			<div slot="content">{children}</div>
+		</iobio-label-info-button>
+	);
 };
 
 export default IobioLabelInfoButton;
