@@ -26,28 +26,10 @@ export { default as IobioLabelInfoButton } from './components/labelInfoButton';
 export { default as IobioPanel } from './components/panel';
 export { default as IobioPercentBox } from './components/percentBox';
 
-export {
-	bamDisplayNames,
-	bamKeys,
-	defaultBamContext,
-	histogramKeys,
-	ignoreOutlierKeys,
-	infoLabelHistogramCopy,
-	infoLabelPercentCopy,
-	isBamKey,
-	isOutlierKey,
-	isPercentKey,
-	percentKeys,
-	type BamContext,
-	type BamHistogramKey,
-	type BamKey,
-	type BamOutlierKey,
-	type BamPercentKey,
-} from './utils/constants';
-
+export * from './utils/constants';
 export { getFileMetadata } from './utils/scoreFileTools.mts';
-export { fileMetaDataSchema, type FileDocument, type FileMetaData, type IndexFile } from './utils/scoreFileTypes.ts';
-export { getBooleanAttributes, setElementStyles } from './utils/webComponentTools.mts';
+export * from './utils/scoreFileTypes.ts';
+export * from './utils/webComponentTools.mts';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only
