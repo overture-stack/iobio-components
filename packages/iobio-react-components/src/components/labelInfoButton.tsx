@@ -20,11 +20,29 @@
  */
 
 import { type ReactNode } from 'react';
+import { type IobioInfoModalKeys, bamDisplayNames, infoModalCopy } from '../utils/constants';
 
-const IobioLabelInfoButton = ({ children, label }: { children?: ReactNode; label: string }) => {
+/**
+ * Visualizer Label w/ Modal Info Button
+ * @param bamKey Optional BamKey for using default label and modal copy values. Overrides label & children.
+ * @param children Optional React Children node for custom modal content
+ * @param label Optional custom String Label to display next to Info Button
+ */
+const IobioLabelInfoButton = ({
+	bamKey,
+	children,
+	label,
+}: {
+	bamKey?: IobioInfoModalKeys;
+	children?: ReactNode;
+	label?: string;
+}) => {
+	const labelText = bamKey !== undefined ? bamDisplayNames[bamKey] : label;
+	const modalContent = bamKey !== undefined ? <p>{infoModalCopy[bamKey]}</p> : children;
+
 	return (
-		<iobio-label-info-button label={label}>
-			<div slot="content">{children}</div>
+		<iobio-label-info-button label={labelText}>
+			<div slot="content">{modalContent}</div>
 		</iobio-label-info-button>
 	);
 };

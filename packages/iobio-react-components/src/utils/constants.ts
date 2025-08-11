@@ -152,7 +152,9 @@ export const bamFileExtensions = [bamFileExtension, cramFileExtension];
  * Default Info Button Pop Up Modal Descriptions *
  * ============================================= */
 
-export const infoLabelPercentCopy: { [P in BamPercentKey]: string } = {
+export type IobioInfoModalKeys = BamHistogramKey | BamPercentKey;
+
+export const infoModalCopy: { [K in IobioInfoModalKeys]: string } = {
 	mapped_reads:
 		'The mapped reads chart shows how many of the reads in the sample were successfully mapped to the reference genome. Genetic variation, in particular structural variants, ensure that every sequenced sample is genetically different to the reference genome it was aligned to. If the sample differs only in a small number of single base pair changes (e.g. SNVs), the read will still likely map to the reference, but, for more significant variation, the read can fail to be placed. Therefore, it is not expected that the mapped reads rate will hit 100%, but it is expected to be high (usually >90%).',
 	forward_strands:
@@ -165,9 +167,6 @@ export const infoLabelPercentCopy: { [P in BamPercentKey]: string } = {
 		'When working with paired-end sequencing, each DNA fragment is sequenced from both ends, creating two mates for each pair. This chart shows the fraction of reads in pairs where both of the mates successfully map to the reference genome. When calculating this metric, pairs where both mates are unmapped are not included.',
 	duplicates:
 		'PCR duplicates are two (or more) reads that originate from the same DNA fragment. When sequencing data is analysed, it is assumed that each observation (i.e. each read) is independent; an assumption that fails in the presence of duplicate reads. Typically, algorithms look for reads that map to the same genomic coordinate, and whose mates also map to identical genomic coordinates. It is important to note that as the sequencing depth increases, more reads are sampled from the DNA library, and consequently it is increasingly likely that duplicate reads will be sampled. As a result, the true duplicate rate is not independent of the depth, and they should both be considered when looking at the duplicate rate. Additionally, as the sequencing depth in increases, it is also increasingly likely that reads will map to the same location and be marked as duplicates, even when they are not. As such, as the sequencing depth approaches and surpasses the read length, the duplicate rate starts to become less indicative of problems.',
-};
-
-export const infoLabelHistogramCopy: { [H in BamHistogramKey]: string } = {
 	coverage_hist:
 		'The read coverage shows how the read coverage varies across the entire genome. The coloured numbers above represent chromosomes in the reference genome used and can be selected to view the read coverage in an individual chromosome. Selecting a different chromosome will cause all other metrics in bam.iobio to be recalculated based on reads sampled from that chromosome only. You can also focus on a smaller region by dragging over the region of interest. The mean coverage across the entire genome or sigle chromosome is shown as a red line.',
 	frag_hist:
