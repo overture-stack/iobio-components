@@ -154,7 +154,7 @@ export const bamFileExtensions = [bamFileExtension, cramFileExtension];
 
 export type IobioInfoModalKeys = BamHistogramKey | BamPercentKey;
 
-export const infoModalCopy: { [K in IobioInfoModalKeys]: string } = {
+export const infoModalCopy: Record<IobioInfoModalKeys, string> = {
 	mapped_reads:
 		'The mapped reads chart shows how many of the reads in the sample were successfully mapped to the reference genome. Genetic variation, in particular structural variants, ensure that every sequenced sample is genetically different to the reference genome it was aligned to. If the sample differs only in a small number of single base pair changes (e.g. SNVs), the read will still likely map to the reference, but, for more significant variation, the read can fail to be placed. Therefore, it is not expected that the mapped reads rate will hit 100%, but it is expected to be high (usually >90%).',
 	forward_strands:
