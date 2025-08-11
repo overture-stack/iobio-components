@@ -34,11 +34,10 @@ const IobioPercentBox = ({
 	useEffect(() => {
 		const selector = `iobio-percent-box[percent-key=${percentKey}][total-key=${totalKey}]`;
 		const element = document.querySelector(selector);
-
 		if (element && styles) {
 			setElementStyles(element, styles);
 		}
-	}, []);
+	}, [styles]);
 
 	return <iobio-percent-box percent-key={percentKey} total-key={totalKey} />;
 };
