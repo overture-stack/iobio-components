@@ -60,8 +60,9 @@ export const getScoreFile = async ({
 	const urlParams = new URLSearchParams(scoreDownloadParams).toString();
 	try {
 		const scoreUrl = urlJoin(scoreApiUrl, scoreApiDownloadPath, objectId, `?${urlParams}`);
-		const response = (await fetch(scoreUrl)).json();
-		return response;
+		const response = await fetch(scoreUrl);
+		const data = await response.json();
+		return data;
 	} catch (err: unknown) {
 		console.error(`Error at getScoreFile with objectId ${objectId}`);
 		console.error(err);
