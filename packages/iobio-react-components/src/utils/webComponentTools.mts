@@ -60,6 +60,11 @@ export type DefaultBedUrls = {
 	[K in FileStrategyKey]: string;
 };
 
+/**
+ * GitHub Bed File URLs for requesting Bed files from a browser
+ * Iobio Data Broker requires a Bed URL argument
+ * In the browser, relative file path solutions are more complicated
+ */
 // TODO: Finalize URLs after merge, these are just for testing
 const bedShuffled1BrowserUrl =
 	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/1k_flank_hg38_shuffled1.bed';
