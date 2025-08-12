@@ -24,6 +24,7 @@ import {
 	fileMetaDataSchema,
 	type FileDocument,
 	type FileMetaData,
+	type ScoreConfig,
 	type ScoreDownloadParams,
 } from './scoreFileTypes.ts';
 
@@ -42,14 +43,13 @@ export const isFileMetaData = (file: unknown): file is FileMetaData => {
 export const getScoreFile = async ({
 	length,
 	objectId,
-	scoreApiUrl,
-	scoreApiDownloadPath,
+	scoreConfig,
 }: {
 	length: string;
 	objectId: string;
-	scoreApiUrl: string;
-	scoreApiDownloadPath: string;
+	scoreConfig: ScoreConfig;
 }): Promise<FileMetaData | undefined> => {
+	const { scoreApiUrl, scoreApiDownloadPath } = scoreConfig;
 	if (!(scoreApiUrl && scoreApiDownloadPath)) {
 		throw new Error('Score API URL is missing in .env');
 	}
@@ -72,12 +72,10 @@ export const getScoreFile = async ({
 /** Get required properties for Score Download */
 export const getFileMetadata = async ({
 	selectedFile,
-	scoreApiUrl,
-	scoreApiDownloadPath,
+	scoreConfig,
 }: {
 	selectedFile: FileDocument;
-	scoreApiUrl: string;
-	scoreApiDownloadPath: string;
+	scoreConfig: ScoreConfig;
 }) => {
 	/* Base BAM/CRAM File download */
 	const fileObjectId = selectedFile.object_id;
@@ -86,8 +84,7 @@ export const getFileMetadata = async ({
 	const scoreFileMetadata = await getScoreFile({
 		length: fileSize,
 		objectId: fileObjectId,
-		scoreApiUrl,
-		scoreApiDownloadPath,
+		scoreConfig,
 	});
 	const parsedFileMetaData = fileMetaDataSchema.safeParse(scoreFileMetadata);
 	if (!parsedFileMetaData.success) {
@@ -99,8 +96,7 @@ export const getFileMetadata = async ({
 	const indexFileMetadata = await getScoreFile({
 		length: indexFileSize.toString(),
 		objectId: indexObjectId,
-		scoreApiUrl,
-		scoreApiDownloadPath,
+		scoreConfig,
 	});
 	const parsedIndexFileMetadata = fileMetaDataSchema.safeParse(indexFileMetadata);
 	if (!parsedIndexFileMetadata.success) {

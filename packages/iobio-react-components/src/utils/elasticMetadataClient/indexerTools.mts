@@ -124,11 +124,9 @@ export const getFileDetails = async ({
 		throw new Error(`File is not a BAM or CRAM file, found extension ${elasticDocument.file_type}`);
 	}
 
-	const { scoreApiDownloadPath, scoreApiUrl } = scoreConfig;
 	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata({
 		selectedFile: elasticDocument,
-		scoreApiUrl,
-		scoreApiDownloadPath,
+		scoreConfig,
 	});
 	const fileName = elasticDocument.file?.name;
 	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
