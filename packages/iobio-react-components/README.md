@@ -76,6 +76,8 @@ This package provides a command line script for obtaining BAM File statistics by
 Arguments: 
 - `alignmentUrl` Source URL for BAM or CRAM file to read and generate statistics
 - `indexUrl` Optional, associated index file url to improve BAM/CRAM file read accuracy
+- `bedUrl` Optional, allows supplying a path to a bed file to improve statistical accuracy
+- `Use Default Bed Urls`: Optional, supplies a recommended bed file based on target file's strategy ('WGS', 'WXS', 'ChipSeq', 'RNA-Seq')
 
 Env Config:
 - `IOBIO_SERVER_URL` Optional, allows for running a local instance of an Iobio server
