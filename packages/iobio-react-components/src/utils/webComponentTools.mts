@@ -65,11 +65,11 @@ export type DefaultBedUrls = Record<FileStrategyKey, string>;
  */
 // TODO: Finalize URLs after merge, these are just for testing
 const bedShuffled1BrowserUrl =
-	'https://github.com/overture-stack/iobio-components/blob/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled1.bed';
+	'https://raw.githubusercontent.com/overture-stack/iobio-components/refs/heads/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled1.bed';
 const bedShuffled2BrowserUrl =
-	'https://github.com/overture-stack/iobio-components/blob/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled2.bed';
+	'https://raw.githubusercontent.com/overture-stack/iobio-components/refs/heads/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled2.bed';
 const bedIlluminaBrowserUrl =
-	'https://github.com/overture-stack/iobio-components/blob/main/packages/iobio-react-components/resources/bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed';
+	'https://raw.githubusercontent.com/overture-stack/iobio-components/refs/heads/main/packages/iobio-react-components/resources/bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed';
 
 export const defaultBedUrls: DefaultBedUrls = {
 	wgs: bedShuffled1BrowserUrl,
@@ -88,7 +88,7 @@ export const getDefaultBedFileUrl = (fileStrategy: string | undefined): string |
 		console.error('File Strategy is not valid, cannot lookup recommended Bed file');
 		return undefined;
 	}
-	const bedFileUrl = defaultBedUrls[fileStrategy];
+	const bedFileUrl = defaultBedUrls[fileStrategy.toLowerCase()];
 	return bedFileUrl;
 };
 
