@@ -23,20 +23,8 @@ import { DataBroker } from 'iobio-charts/data_broker.js';
 import fs from 'node:fs';
 import { histogramKeys, isPercentKey, percentKeys, statisticKeys, type PercentageStatsKey } from '../constants.ts';
 import { IobioMetaData, type DataUpdate, type HistogramData, type StatsOutput } from '../iobioTypes.ts';
-import { type DefaultBedUrls } from '../webComponentTools.mts';
 
 export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
-
-const bedShuffled1Url = new URL('../bedFiles/1k_flank_hg38_shuffled1.bed', import.meta.url);
-const bedShuffled2Url = new URL('../bedFiles/1k_flank_hg38_shuffled2.bed', import.meta.url);
-const bedIlluminaUrl = new URL('../bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed', import.meta.url);
-
-export const defaultNodeBedUrls: DefaultBedUrls = {
-	WGS: bedShuffled1Url.href,
-	WXS: bedIlluminaUrl.href,
-	ChipSeq: bedShuffled2Url.href,
-	'RNA-Seq': bedIlluminaUrl.href,
-};
 
 /**
  * Obtain Mean Read Coverage from Coverage Histogram data

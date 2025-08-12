@@ -65,11 +65,11 @@ export type DefaultBedUrls = Record<FileStrategyKey, string>;
  */
 // TODO: Finalize URLs after merge, these are just for testing
 const bedShuffled1BrowserUrl =
-	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/1k_flank_hg38_shuffled1.bed';
+	'https://github.com/overture-stack/iobio-components/blob/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled1.bed';
 const bedShuffled2BrowserUrl =
-	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/1k_flank_hg38_shuffled2.bed';
+	'https://github.com/overture-stack/iobio-components/blob/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled2.bed';
 const bedIlluminaBrowserUrl =
-	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed';
+	'https://github.com/overture-stack/iobio-components/blob/main/packages/iobio-react-components/resources/bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed';
 
 export const defaultBedUrls: DefaultBedUrls = {
 	wgs: bedShuffled1BrowserUrl,

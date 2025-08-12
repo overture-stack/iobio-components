@@ -135,7 +135,7 @@ export const statisticKeys = [
 	'reverse_strands',
 	'second_mates',
 	'total_reads',
-] as const;
+] as const satisfies Array<BamKey>;
 
 export type BamHistogramKey = (typeof histogramKeys)[number];
 export type BamPercentKey = (typeof percentKeys)[number];
