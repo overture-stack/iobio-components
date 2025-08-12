@@ -20,17 +20,17 @@
  */
 
 import urlJoin from 'url-join';
-import { type FileDocument, type FileMetaData, type ScoreDownloadParams } from './scoreFileTypes.ts';
+import {
+	fileMetaDataSchema,
+	type FileDocument,
+	type FileMetaData,
+	type ScoreDownloadParams,
+} from './scoreFileTypes.ts';
 
 const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 	external: 'true',
 	offset: '0',
 	'User-Agent': 'unknown',
-};
-
-export type ScoreConfig = {
-	scoreApiUrl: string;
-	scoreApiDownloadPath: string;
 };
 
 /** Type Checks for Score Data response */
@@ -41,12 +41,12 @@ export const isFileMetaData = (file: unknown): file is FileMetaData => {
 /** Request File from Score API */
 export const getScoreFile = async ({
 	length,
-	object_id,
+	objectId,
 	scoreApiUrl,
 	scoreApiDownloadPath,
 }: {
 	length: string;
-	object_id: string;
+	objectId: string;
 	scoreApiUrl: string;
 	scoreApiDownloadPath: string;
 }): Promise<FileMetaData | undefined> => {
@@ -59,16 +59,12 @@ export const getScoreFile = async ({
 	};
 	const urlParams = new URLSearchParams(scoreDownloadParams).toString();
 	try {
-		const scoreUrl = urlJoin(scoreApiUrl, scoreApiDownloadPath, object_id, `?${urlParams}`);
-		const response = await fetch(scoreUrl, {
-			headers: { accept: '*/*' },
-		});
-
-		if (response.status === 200) {
-			return response.json();
-		}
+		const scoreUrl = urlJoin(scoreApiUrl, scoreApiDownloadPath, objectId, `?${urlParams}`);
+		const response = await fetch(scoreUrl);
+		const data = await response.json();
+		return data;
 	} catch (err: unknown) {
-		console.error(`Error at getScoreFile with object_id ${object_id}`);
+		console.error(`Error at getScoreFile with objectId ${objectId}`);
 		console.error(err);
 	}
 };
@@ -85,23 +81,27 @@ export const getFileMetadata = async (
 	const fileSize = fileData.size.toString();
 	const scoreFileMetadata = await getScoreFile({
 		length: fileSize,
-		object_id: fileObjectId,
+		objectId: fileObjectId,
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!isFileMetaData(scoreFileMetadata))
+	const parsedFileMetaData = fileMetaDataSchema.safeParse(scoreFileMetadata);
+	if (!parsedFileMetaData.success) {
 		throw new Error(`Unable to retrieve Score File with object_id: ${fileObjectId}`);
+	}
 
 	/**  Related Index File download */
 	const { object_id: indexObjectId, size: indexFileSize } = fileData.index_file;
 	const indexFileMetadata = await getScoreFile({
 		length: indexFileSize.toString(),
-		object_id: indexObjectId,
+		objectId: indexObjectId,
 		scoreApiUrl,
 		scoreApiDownloadPath,
 	});
-	if (!isFileMetaData(indexFileMetadata))
+	const parsedIndexFileMetadata = fileMetaDataSchema.safeParse(indexFileMetadata);
+	if (!parsedIndexFileMetadata.success) {
 		console.error(`Error retrieving Index file from Score with object_id: ${fileObjectId}, results may be inaccurate`);
+	}
 
-	return { scoreFileMetadata, indexFileMetadata };
+	return { scoreFileMetadata: parsedFileMetaData.data, indexFileMetadata: parsedIndexFileMetadata.data };
 };

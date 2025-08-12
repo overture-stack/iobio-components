@@ -19,27 +19,35 @@
  *
  */
 
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { type DetailedHTMLProps, type HTMLAttributes, type PropsWithChildren } from 'react';
+export interface IobioElementAttributes extends HTMLAttributes<HTMLElement> {
+	styles?: string;
+	label?: string;
+}
+export interface IobioDataBrokerAttributes extends IobioElementAttributes {
+	'alignment-url': string;
+	'index-url'?: string;
+	'file-format'?: string;
+	server?: string;
+}
+
+type CoverageDepthProps = DetailedHTMLProps<IobioElementAttributes, HTMLElement>;
+type DataBrokerProps = DetailedHTMLProps<IobioDataBrokerAttributes, HTMLElement>;
+type HistogramProps = DetailedHTMLProps<IobioElementAttributes, HTMLElement>;
+type LabelInfoButtonProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type PanelProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type LabelInfoButtonProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type PercentBoxProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
 
 declare global {
 	namespace JSX {
-		interface IobioElementProps extends HTMLAttributes<HTMLElement> {
-			styles?: string;
-			label?: string;
-		}
-
-		interface IobioDataBrokerProps extends IobioElementProps {
-			'alignment-url': string;
-			'file-format'?: string;
-			'index-url'?: string;
-			server?: string;
-		}
-
 		interface IntrinsicElements {
-			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-data-broker': DetailedHTMLProps<IobioDataBrokerProps, HTMLElement>;
-			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-coverage-depth': CoverageDepthProps;
+			'iobio-data-broker': DataBrokerProps;
+			'iobio-histogram': HistogramProps;
+			'iobio-label-info-button': LabelInfoButtonProps;
+			'iobio-panel': PanelProps;
+			'iobio-percent-box': PercentBoxProps;
 		}
 	}
 }

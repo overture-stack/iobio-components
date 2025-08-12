@@ -21,10 +21,10 @@
 
 import { Client } from '@elastic/elasticsearch';
 
-import { BamFileExtensions } from '../constants.ts';
+import { bamFileExtensions } from '../constants.ts';
 import { type StatsOutput } from '../iobioTypes.ts';
-import { getFileMetadata, type ScoreConfig } from '../scoreFileTools.mts';
-import { type ElasticSearchResult, type FileDocument } from '../scoreFileTypes.ts';
+import { getFileMetadata } from '../scoreFileTools.mts';
+import { type ElasticSearchResult, type FileDocument, type ScoreConfig } from '../scoreFileTypes.ts';
 
 /** Base ElasticSearch & Score arguments */
 export type EsConfig = {
@@ -101,8 +101,9 @@ export const updateIndexMapping = async ({ client, index }: EsConfig): Promise<v
  * Find a specific ElasticSearch Document with given object_id
  * @param esConfig Base ElasticSearch config
  */
-export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> =>
-	await client.get<FileDocument>({ index, id: documentId });
+export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> => {
+	return await client.get<FileDocument>({ index, id: documentId });
+};
 
 /**
  * Get Score File URLs and additional File metadata from Elastic Document
@@ -119,17 +120,17 @@ export const getFileDetails = async ({
 	scoreConfig: ScoreConfig;
 }): Promise<{ fileUrl: string; fileName?: string; indexFileUrl?: string }> => {
 	const { documentId } = esConfig;
-	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
+	if (elasticDocument.file_type && !bamFileExtensions.includes(elasticDocument?.file_type)) {
 		throw new Error(`File is not a BAM or CRAM file, found extension ${elasticDocument.file_type}`);
 	}
 
-	const fileName = elasticDocument.file?.name;
 	const { scoreApiDownloadPath, scoreApiUrl } = scoreConfig;
 	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(
 		elasticDocument,
-		scoreApiDownloadPath,
 		scoreApiUrl,
+		scoreApiDownloadPath,
 	);
+	const fileName = elasticDocument.file?.name;
 	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
