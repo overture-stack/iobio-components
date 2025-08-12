@@ -22,11 +22,11 @@
 import { type BamHistogramKey, type BamPercentKey, type PercentageStatsKey, type StatisticKey } from './constants.ts';
 
 export type DataUpdate = StatisticsData & PercentData;
-export type HistogramData = { [K in BamHistogramKey]: { [numKey: string]: number } };
-export type PercentageStatsData = { [K in PercentageStatsKey]: number };
+export type HistogramData = Record<BamHistogramKey, { [numKey: string]: number }>;
+export type PercentageStatsData = Record<PercentageStatsKey, number>;
 export type IobioMetaData = Partial<DataUpdate & PercentageStatsData>;
-export type PercentData = { [K in BamPercentKey]: number };
-export type StatisticsData = { [K in StatisticKey]: number };
+export type PercentData = Record<BamPercentKey, number>;
+export type StatisticsData = Record<StatisticKey, number>;
 export type StatsOutput = {
 	iobio_metadata: IobioMetaData;
 };
