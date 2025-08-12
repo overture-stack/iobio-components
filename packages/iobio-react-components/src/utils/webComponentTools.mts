@@ -56,9 +56,7 @@ export const setElementStyles = (element: Element, styles: string) => {
 /** File Strategy & Bed URL */
 const fileStrategies = ['WGS', 'WXS', 'ChipSeq', 'RNA-Seq'];
 type FileStrategyKey = (typeof fileStrategies)[number];
-export type DefaultBedUrls = {
-	[K in FileStrategyKey]: string;
-};
+export type DefaultBedUrls = Record<FileStrategyKey, string>;
 
 /**
  * GitHub Bed File URLs for requesting Bed files from a browser
