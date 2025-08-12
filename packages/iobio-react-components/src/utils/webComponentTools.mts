@@ -85,7 +85,7 @@ export const defaultBedUrls: DefaultBedUrls = {
 export const getDefaultBedFileUrl = (fileStrategy: string | undefined): string | undefined => {
 	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy.toLowerCase());
 	if (!isValidStrategy) {
-		console.error('File Strategy is not valid, cannot lookup recommended Bed file');
+		console.error(`No default Bed file available for file strategy ${fileStrategy}`);
 		return undefined;
 	}
 	const bedFileUrl = defaultBedUrls[fileStrategy.toLowerCase()];
