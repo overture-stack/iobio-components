@@ -125,11 +125,11 @@ export const getFileDetails = async ({
 	}
 
 	const { scoreApiDownloadPath, scoreApiUrl } = scoreConfig;
-	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(
-		elasticDocument,
+	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata({
+		selectedFile: elasticDocument,
 		scoreApiUrl,
 		scoreApiDownloadPath,
-	);
+	});
 	const fileName = elasticDocument.file?.name;
 	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {

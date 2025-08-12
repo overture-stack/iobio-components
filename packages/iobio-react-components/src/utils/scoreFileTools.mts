@@ -70,11 +70,15 @@ export const getScoreFile = async ({
 };
 
 /** Get required properties for Score Download */
-export const getFileMetadata = async (
-	selectedFile: FileDocument,
-	scoreApiUrl: string,
-	scoreApiDownloadPath: string,
-) => {
+export const getFileMetadata = async ({
+	selectedFile,
+	scoreApiUrl,
+	scoreApiDownloadPath,
+}: {
+	selectedFile: FileDocument;
+	scoreApiUrl: string;
+	scoreApiDownloadPath: string;
+}) => {
 	/* Base BAM/CRAM File download */
 	const fileObjectId = selectedFile.object_id;
 	const fileData = selectedFile.file;
