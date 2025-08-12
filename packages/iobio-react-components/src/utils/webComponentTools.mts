@@ -54,7 +54,7 @@ export const setElementStyles = (element: Element, styles: string) => {
 };
 
 /** File Strategy & Bed URL */
-const fileStrategies = ['WGS', 'WXS', 'ChipSeq', 'RNA-Seq'];
+const fileStrategies = ['wgs', 'wxs', 'chipseq', 'rna-seq'];
 type FileStrategyKey = (typeof fileStrategies)[number];
 export type DefaultBedUrls = Record<FileStrategyKey, string>;
 
@@ -72,10 +72,10 @@ const bedIlluminaBrowserUrl =
 	'https://raw.githubusercontent.com/overture-stack/iobio-components/29a2f8ec57ea8d38a00e998c52487b5aafe5095d/packages/iobio-react-components/src/utils/bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed';
 
 export const defaultBedUrls: DefaultBedUrls = {
-	WGS: bedShuffled1BrowserUrl,
-	WXS: bedShuffled2BrowserUrl,
-	ChipSeq: bedShuffled2BrowserUrl,
-	'RNA-Seq': bedIlluminaBrowserUrl,
+	wgs: bedShuffled1BrowserUrl,
+	wxs: bedShuffled2BrowserUrl,
+	chipseq: bedShuffled2BrowserUrl,
+	'rna-seq': bedIlluminaBrowserUrl,
 };
 
 /** Lookup Default Bed File
@@ -83,7 +83,7 @@ export const defaultBedUrls: DefaultBedUrls = {
  * @returns bedFileUrl - string
  */
 export const getDefaultBedFileUrl = (fileStrategy: string | undefined): string | undefined => {
-	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy);
+	const isValidStrategy = fileStrategy && fileStrategies.includes(fileStrategy.toLowerCase());
 	if (!isValidStrategy) {
 		console.error('File Strategy is not valid, cannot lookup recommended Bed file');
 		return undefined;
