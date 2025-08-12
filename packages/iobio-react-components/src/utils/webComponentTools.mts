@@ -63,19 +63,18 @@ export type DefaultBedUrls = Record<FileStrategyKey, string>;
  * Iobio Data Broker requires a Bed URL argument
  * In the browser, relative file path solutions are more complicated
  */
-// TODO: Finalize URLs after merge, these are just for testing
-const bedShuffled1BrowserUrl =
+const bedShuffled1Url =
 	'https://raw.githubusercontent.com/overture-stack/iobio-components/refs/heads/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled1.bed';
-const bedShuffled2BrowserUrl =
+const bedShuffled2Url =
 	'https://raw.githubusercontent.com/overture-stack/iobio-components/refs/heads/main/packages/iobio-react-components/resources/bedFiles/1k_flank_hg38_shuffled2.bed';
-const bedIlluminaBrowserUrl =
+const bedIlluminaUrl =
 	'https://raw.githubusercontent.com/overture-stack/iobio-components/refs/heads/main/packages/iobio-react-components/resources/bedFiles/hg38_Twist_Bioscience_for_Illumina_Exome_2.5.subset.bed';
 
 export const defaultBedUrls: DefaultBedUrls = {
-	wgs: bedShuffled1BrowserUrl,
-	wxs: bedShuffled2BrowserUrl,
-	chipseq: bedShuffled2BrowserUrl,
-	'rna-seq': bedIlluminaBrowserUrl,
+	wgs: bedShuffled1Url,
+	wxs: bedShuffled2Url,
+	chipseq: bedShuffled2Url,
+	'rna-seq': bedIlluminaUrl,
 };
 
 /** Lookup Default Bed File
