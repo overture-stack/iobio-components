@@ -19,28 +19,17 @@
  *
  */
 
-export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './components/coverageDepth';
-export { default as IobioDataBroker, type IobioDataBrokerType } from './components/dataBroker';
-export { default as IobioHistogram, type IobioHistogramType } from './components/histogram';
-export { default as IobioPercentBox, type IobioPercentBoxType } from './components/percentBox';
+export { default as IobioCoverageDepth } from './components/coverageDepth';
+export { default as IobioDataBroker } from './components/dataBroker';
+export { default as IobioHistogram } from './components/histogram';
+export { default as IobioLabelInfoButton } from './components/labelInfoButton';
+export { default as IobioPanel } from './components/panel';
+export { default as IobioPercentBox } from './components/percentBox';
 
-export {
-	BamDisplayNames,
-	BamKeys,
-	defaultBamContext,
-	histogramKeys,
-	ignoreOutlierKeys,
-	isOutlierKey,
-	isPercentKey,
-	percentKeys,
-	type BamContext,
-	type BamHistogramKey,
-	type BamKey,
-	type BamOutlierKey,
-	type BamPercentKey,
-} from './utils/constants';
-
-export { getBooleanAttributes, setElementStyles } from './utils/webComponentTools.mts';
+export * from './utils/constants';
+export { getFileMetadata } from './utils/scoreFileTools.mts';
+export * from './utils/scoreFileTypes.ts';
+export * from './utils/webComponentTools.mts';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only

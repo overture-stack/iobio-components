@@ -22,29 +22,24 @@
 import { useEffect } from 'react';
 import { setElementStyles } from '../utils/webComponentTools.mts';
 
-function IobioPercentBox({
+const IobioPercentBox = ({
 	percentKey,
-	label,
 	styles,
 	totalKey,
 }: {
 	percentKey: string;
-	label?: string;
 	styles?: string;
 	totalKey: string;
-}) {
+}) => {
 	useEffect(() => {
 		const selector = `iobio-percent-box[percent-key=${percentKey}][total-key=${totalKey}]`;
 		const element = document.querySelector(selector);
-
 		if (element && styles) {
 			setElementStyles(element, styles);
 		}
-	}, []);
+	}, [styles]);
 
-	return <iobio-percent-box percent-key={percentKey} label={label} total-key={totalKey} />;
-}
+	return <iobio-percent-box percent-key={percentKey} total-key={totalKey} />;
+};
 
 export default IobioPercentBox;
-
-export type IobioPercentBoxType = typeof IobioPercentBox;

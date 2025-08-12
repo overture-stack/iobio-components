@@ -21,10 +21,10 @@
 
 import { Client } from '@elastic/elasticsearch';
 
-import { BamFileExtensions } from '../constants.ts';
+import { bamFileExtensions } from '../constants.ts';
 import { type StatsOutput } from '../iobioTypes.ts';
-import { getFileMetadata } from './scoreFileTools.mts';
-import { type ElasticSearchResult, type FileDocument } from './scoreFileTypes.ts';
+import { getFileMetadata } from '../scoreFileTools.mts';
+import { type ElasticSearchResult, type FileDocument, type ScoreConfig } from '../scoreFileTypes.ts';
 
 /** Base ElasticSearch arguments */
 export type EsConfig = {
@@ -102,12 +102,7 @@ export const updateIndexMapping = async ({ client, index }: EsConfig): Promise<v
  * @param esConfig Base ElasticSearch config
  */
 export const searchDocument = async ({ client, index, documentId }: EsConfig): Promise<ElasticSearchResult> => {
-	const searchResponse = await client.get<FileDocument>({ index, id: documentId }).catch(() => {
-		throw new Error(`No document found with id ${documentId}`);
-	});
-	// TODO: TS issue??
-	const searchResult = searchResponse as ElasticSearchResult;
-	return searchResult;
+	return await client.get<FileDocument>({ index, id: documentId });
 };
 
 /**
@@ -116,21 +111,27 @@ export const searchDocument = async ({ client, index, documentId }: EsConfig): P
  * @param searchResult ElasticSearch Document
  */
 export const getFileDetails = async ({
-	searchResult,
+	elasticDocument,
 	esConfig,
+	scoreConfig,
 }: {
-	searchResult: ElasticSearchResult;
+	elasticDocument: FileDocument;
 	esConfig: EsConfig;
+	scoreConfig: ScoreConfig;
 }): Promise<{ fileUrl: string; fileName?: string; indexFileUrl?: string }> => {
 	const { documentId } = esConfig;
-	const elasticDocument = searchResult._source;
-	if (elasticDocument.file_type && !BamFileExtensions.includes(elasticDocument.file_type)) {
+	if (elasticDocument.file_type && !bamFileExtensions.includes(elasticDocument?.file_type)) {
 		throw new Error(`File is not a BAM or CRAM file, found extension ${elasticDocument.file_type}`);
 	}
 
+	const { scoreApiDownloadPath, scoreApiUrl } = scoreConfig;
 	const fileName = elasticDocument.file?.name;
-	const { fileMetadata, indexFileMetadata } = await getFileMetadata(elasticDocument);
-	const fileUrl = fileMetadata?.parts[0]?.url || null;
+	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(
+		elasticDocument,
+		scoreApiUrl,
+		scoreApiDownloadPath,
+	);
+	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);
 	}
