@@ -1,18 +1,19 @@
 {
 	"compilerOptions": {
-		"composite": true,
-		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-		"skipLibCheck": true,
-		"module": "ESNext",
-		"moduleResolution": "bundler",
 		"allowSyntheticDefaultImports": true,
 		"allowImportingTsExtensions": true,
-		"strict": true,
+		"composite": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"noEmit": true,
 		"paths": {
 			"iobio-charts/*": ["./src/iobio.d.ts"],
 			"vite-plugin-dts": ["./node_modules/vite-plugin-dts/dist/index.d.ts"]
-		}
+		},
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "esnext",
+		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
 	},
-	"include": ["vite.config.ts", "src/utils/stats.mts", "src/utils/index.ts", "src/utils/constants.ts"]
+	"include": ["vite.config.ts", "src/utils/**/*"]
 }

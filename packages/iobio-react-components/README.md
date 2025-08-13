@@ -5,7 +5,7 @@
 ### Requirements:
 
 - PNPM 9+
-- Node 20+
+- Node 22+
 
 - Install dependencies: `pnpm i`
 
@@ -47,14 +47,40 @@ module.exports = withPlugins([withTranspileModules], {
 
 - This solution works in Next 12.1 and may be updated in future iterations.
 
-## Statistics Generation
+## Node Iobio Metadata Utilities
 
-- This package provides a command line utility function for obtaining BAM File statistics by querying the Iobio server. Provide a BAM/CRAM file URL to obtain mean read coverage and other statistics on sampled regions of the file. Values will vary depending on the number of reads performed and regions sampled.
+These features rely on the [Node web streams API](https://nodejs.org/api/webstreams.html#web-streams-api), and use of Node v22 is enforced in package.json engines field and .npmrc.
 
-- Usage: `pnpm run stats ${url}`
+### ElasticSearch Index Updater
 
-- This feature relies on Node web streams, and use of Node v22 is enforced in package.json engines field and .npmrc.
+A command line script for updating an ElasticSearch document with metadata generated using the Iobio tools. ElasticSearch Index field mappings are updated as needed. This function is built for Overture Score-based file systems. This script executes the Statistics Generation script and allows for outputting the metadata result as JSON.
 
+- Usage: `pnpm run indexer`
+
+Arguments:
+- `index` ElasticSearch index containing target file, example: 'file_centric'
+- `documentId` Elastic document Id to update with statistics, example: '16983cb5-7590-5a10-90b4-7587285145a7'
+
+Env Config: 
+- `SCORE_API_URL` Score file server URL for retrieving BAM files
+- `SCORE_API_DOWNLOAD_PATH` Path for file download from Score
+- `ES_AUTH_KEY` ElasticSearch Authorization header string
+- `ES_HOST_URL` ElasticSearch instance url
+
+### Statistics Generation
+
+This package provides a command line script for obtaining BAM File statistics by querying the Iobio server. Provide a BAM/CRAM file URL to obtain mean read coverage and other statistics on sampled regions of the file. Values will vary depending on the number of reads performed and regions sampled. An Index File URL can be provided for more accurate results. This function allows for outputting the metadata result as JSON.
+
+- Usage: `pnpm run stats`
+
+Arguments: 
+- `alignmentUrl` Source URL for BAM or CRAM file to read and generate statistics
+- `indexUrl` Optional, associated index file url to improve BAM/CRAM file read accuracy
+- `bedUrl` Optional, allows supplying a path to a bed file to improve statistical accuracy
+- `Use Default Bed Urls`: Optional, supplies a recommended bed file based on target file's strategy ('WGS', 'WXS', 'ChipSeq', 'RNA-Seq')
+
+Env Config:
+- `IOBIO_SERVER_URL` Optional, allows for running a local instance of an Iobio server
 
 ## React + TypeScript + Vite
 

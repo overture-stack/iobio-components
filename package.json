@@ -1,6 +1,6 @@
 {
 	"name": "@overture-stack/iobio-components",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "Overture Integration of Iobio.io Genomic Analysis Tools",
 	"main": "index.js",
 	"type": "module",

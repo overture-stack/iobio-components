@@ -1,11 +1,11 @@
 /*
  *
- * Copyright (c) 2024 The Ontario Institute for Cancer Research. All rights reserved
+ *  Copyright (c) 2025 The Ontario Institute for Cancer Research. All rights reserved
  *
  *  This program and the accompanying materials are made available under the terms of
  *  the GNU Affero General Public License v3.0. You should have received a copy of the
  *  GNU Affero General Public License along with this program.
- *   If not, see <http://www.gnu.org/licenses/>.
+ *  If not, see <http://www.gnu.org/licenses/>.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
  *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -19,26 +19,35 @@
  *
  */
 
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
+import { type DetailedHTMLProps, type HTMLAttributes, type PropsWithChildren } from 'react';
+export interface IobioElementAttributes extends HTMLAttributes<HTMLElement> {
+	styles?: string;
+	label?: string;
+}
+export interface IobioDataBrokerAttributes extends IobioElementAttributes {
+	'alignment-url': string;
+	'index-url'?: string;
+	'file-format'?: string;
+	server?: string;
+}
+
+type CoverageDepthProps = DetailedHTMLProps<IobioElementAttributes, HTMLElement>;
+type DataBrokerProps = DetailedHTMLProps<IobioDataBrokerAttributes, HTMLElement>;
+type HistogramProps = DetailedHTMLProps<IobioElementAttributes, HTMLElement>;
+type LabelInfoButtonProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type PanelProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type LabelInfoButtonProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
+type PercentBoxProps = DetailedHTMLProps<PropsWithChildren<IobioElementAttributes>, HTMLElement>;
 
 declare global {
 	namespace JSX {
-		interface IobioElementProps extends HTMLAttributes<HTMLElement> {
-			styles?: string;
-			label?: string;
-		}
-
-		interface IobioDataBrokerProps extends IobioElementProps {
-			'alignment-url': string;
-			'index-url'?: string;
-			server?: string;
-		}
-
 		interface IntrinsicElements {
-			'iobio-percent-box': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-histogram': DetailedHTMLProps<IobioElementProps, HTMLElement>;
-			'iobio-data-broker': DetailedHTMLProps<IobioDataBrokerProps, HTMLElement>;
-			'iobio-coverage-depth': DetailedHTMLProps<IobioElementProps, HTMLElement>;
+			'iobio-coverage-depth': CoverageDepthProps;
+			'iobio-data-broker': DataBrokerProps;
+			'iobio-histogram': HistogramProps;
+			'iobio-label-info-button': LabelInfoButtonProps;
+			'iobio-panel': PanelProps;
+			'iobio-percent-box': PercentBoxProps;
 		}
 	}
 }

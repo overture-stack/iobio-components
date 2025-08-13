@@ -1,11 +1,11 @@
 /*
  *
- * Copyright (c) 2024 The Ontario Institute for Cancer Research. All rights reserved
+ *  Copyright (c) 2025 The Ontario Institute for Cancer Research. All rights reserved
  *
  *  This program and the accompanying materials are made available under the terms of
  *  the GNU Affero General Public License v3.0. You should have received a copy of the
  *  GNU Affero General Public License along with this program.
- *   If not, see <http://www.gnu.org/licenses/>.
+ *  If not, see <http://www.gnu.org/licenses/>.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
  *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -19,26 +19,17 @@
  *
  */
 
-export { default as IobioCoverageDepth, type IobioCoverageDepthType } from './components/coverageDepth';
-export { default as IobioDataBroker, type IobioDataBrokerType } from './components/dataBroker';
-export { default as IobioHistogram, type IobioHistogramType } from './components/histogram';
-export { default as IobioPercentBox, type IobioPercentBoxType } from './components/percentBox';
+export { default as IobioCoverageDepth } from './components/coverageDepth';
+export { default as IobioDataBroker } from './components/dataBroker';
+export { default as IobioHistogram } from './components/histogram';
+export { default as IobioLabelInfoButton } from './components/labelInfoButton';
+export { default as IobioPanel } from './components/panel';
+export { default as IobioPercentBox } from './components/percentBox';
 
-export {
-	BamDisplayNames,
-	BamKeys,
-	defaultBamContext,
-	histogramKeys,
-	ignoreOutlierKeys,
-	percentKeys,
-	type BamContext,
-	type BamHistogramKey,
-	type BamKey,
-	type BamOutlierKey,
-	type BamPercentKey,
-} from './utils/constants';
-
-export { getBooleanAttributes, isOutlierKey, setElementStyles } from './utils';
+export * from './utils/constants';
+export { getFileMetadata, isFileMetaData } from './utils/scoreFileTools.mts';
+export * from './utils/scoreFileTypes.ts';
+export * from './utils/webComponentTools.mts';
 
 // Init Iobio Charts
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import#import_a_module_for_its_side_effects_only

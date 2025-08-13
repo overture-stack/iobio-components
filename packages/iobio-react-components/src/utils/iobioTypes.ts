@@ -19,28 +19,14 @@
  *
  */
 
-const IobioDataBroker = ({
-	alignmentUrl,
-	bedUrl,
-	fileFormat,
-	indexUrl,
-	server,
-}: {
-	alignmentUrl: string;
-	bedUrl?: string;
-	fileFormat?: string;
-	indexUrl?: string;
-	server?: string;
-}) => {
-	return (
-		<iobio-data-broker
-			alignment-url={alignmentUrl}
-			file-format={fileFormat}
-			index-url={indexUrl}
-			bed-url={bedUrl}
-			server={server}
-		/>
-	);
-};
+import { type BamHistogramKey, type BamPercentKey, type PercentageStatsKey, type StatisticKey } from './constants.ts';
 
-export default IobioDataBroker;
+export type DataUpdate = StatisticsData & PercentData;
+export type HistogramData = Record<BamHistogramKey, { [numKey: string]: number }>;
+export type PercentageStatsData = Record<PercentageStatsKey, number>;
+export type IobioMetaData = Partial<DataUpdate & PercentageStatsData>;
+export type PercentData = Record<BamPercentKey, number>;
+export type StatisticsData = Record<StatisticKey, number>;
+export type StatsOutput = {
+	iobio_metadata: IobioMetaData;
+};

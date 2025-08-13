@@ -1,11 +1,11 @@
 /*
  *
- * Copyright (c) 2024 The Ontario Institute for Cancer Research. All rights reserved
+ *  Copyright (c) 2025 The Ontario Institute for Cancer Research. All rights reserved
  *
  *  This program and the accompanying materials are made available under the terms of
  *  the GNU Affero General Public License v3.0. You should have received a copy of the
  *  GNU Affero General Public License along with this program.
- *   If not, see <http://www.gnu.org/licenses/>.
+ *  If not, see <http://www.gnu.org/licenses/>.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
  *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -21,8 +21,8 @@
 
 import clsx from 'clsx';
 import {
-	BamDisplayNames,
-	BamKeys,
+	bamDisplayNames,
+	bamKeys,
 	defaultBamContext,
 	histogramKeys,
 	IobioCoverageDepth,
@@ -45,16 +45,16 @@ const secondaryColors = ['lightpink', 'peachpuff', 'lemonchiffon', 'palegreen', 
 
 const bamConfigPanel = (bamContext: BamContext, updateContext: (key: BamKey, value: boolean) => void) => (
 	<div style={{ margin: '15px' }}>
-		{BamKeys.map((key) => {
+		{bamKeys.map((key) => {
 			return (
 				<button
 					className={clsx('config-button', bamContext[key] && 'active')}
 					key={key}
 					onClick={() => {
-						updateContext(key, bamContext[key]);
+						updateContext(key, !!bamContext[key]);
 					}}
 				>
-					{BamDisplayNames[key]}
+					{bamDisplayNames[key]}
 				</button>
 			);
 		})}
@@ -132,7 +132,7 @@ function App() {
 								(key, index) =>
 									bamContext[key] && (
 										<IobioPercentBox
-											label={BamDisplayNames[key]}
+											label={bamDisplayNames[key]}
 											percentKey={key}
 											styles={`
 											:host {
@@ -161,7 +161,7 @@ function App() {
 										<IobioHistogram
 											key={key}
 											brokerKey={key}
-											label={BamDisplayNames[key]}
+											label={bamDisplayNames[key]}
 											styles={`
 												.iobio-histogram-title { text-align: left;} 
 												:host {
