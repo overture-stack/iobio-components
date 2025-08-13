@@ -27,7 +27,7 @@ export { default as IobioPanel } from './components/panel';
 export { default as IobioPercentBox } from './components/percentBox';
 
 export * from './utils/constants';
-export { getFileMetadata } from './utils/scoreFileTools.mts';
+export { getFileMetadata, isFileMetaData } from './utils/scoreFileTools.mts';
 export * from './utils/scoreFileTypes.ts';
 export * from './utils/webComponentTools.mts';
 

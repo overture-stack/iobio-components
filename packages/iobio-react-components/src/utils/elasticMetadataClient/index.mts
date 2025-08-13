@@ -23,6 +23,7 @@ import { Client } from '@elastic/elasticsearch';
 import readline from 'node:readline/promises';
 import { type StatsOutput } from '../iobioTypes.ts';
 import { generateIobioStats, type CompleteCallback } from '../statisticsGenerator/statisticsTools.mts';
+import { getDefaultBedFileUrl } from '../webComponentTools.mts';
 import { type ScoreConfig } from './../scoreFileTypes.ts';
 import {
 	getFileDetails,
@@ -82,14 +83,22 @@ const scoreConfig: ScoreConfig = { scoreApiUrl, scoreApiDownloadPath };
 // Validate & Retrieve Data
 console.log('Validating Index');
 await validateAndUpdateIndex(esConfig);
+
 console.log('Retrieving Document');
 const searchResult = await searchDocument(esConfig);
 const elasticDocument = searchResult._source;
 if (!elasticDocument) {
-	throw new Error(`No document found with id ${documentId}`);
+	throw new Error(`No Document with id: ${documentId}`);
 }
+
 console.log('Getting Score File Data');
-const { fileUrl, fileName, indexFileUrl } = await getFileDetails({ esConfig, elasticDocument, scoreConfig });
+const { fileUrl, fileName, indexFileUrl } = await getFileDetails({
+	scoreConfig,
+	esConfig,
+	elasticDocument,
+});
+const fileStrategy = elasticDocument.analysis?.experiment?.experimentalStrategy;
+const bedFileUrl = getDefaultBedFileUrl(fileStrategy);
 
 // Iobio Data Broker relies on event listeners and executes this callback function when streaming is complete
 // This callback captures the statistics output and adds it to ElasticSearch
@@ -103,6 +112,7 @@ await generateIobioStats({
 	fileUrl,
 	fileName,
 	indexFileUrl,
+	bedFileUrl,
 	enableFileOutput,
 	onComplete,
 });

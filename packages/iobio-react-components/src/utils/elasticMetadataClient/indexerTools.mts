@@ -26,7 +26,7 @@ import { type StatsOutput } from '../iobioTypes.ts';
 import { getFileMetadata } from '../scoreFileTools.mts';
 import { type ElasticSearchResult, type FileDocument, type ScoreConfig } from '../scoreFileTypes.ts';
 
-/** Base ElasticSearch arguments */
+/** Base ElasticSearch & Score arguments */
 export type EsConfig = {
 	client: Client;
 	index: string;
@@ -124,13 +124,11 @@ export const getFileDetails = async ({
 		throw new Error(`File is not a BAM or CRAM file, found extension ${elasticDocument.file_type}`);
 	}
 
-	const { scoreApiDownloadPath, scoreApiUrl } = scoreConfig;
+	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata({
+		selectedFile: elasticDocument,
+		scoreConfig,
+	});
 	const fileName = elasticDocument.file?.name;
-	const { scoreFileMetadata, indexFileMetadata } = await getFileMetadata(
-		elasticDocument,
-		scoreApiUrl,
-		scoreApiDownloadPath,
-	);
 	const fileUrl = scoreFileMetadata?.parts[0]?.url || null;
 	if (!fileUrl) {
 		throw new Error(`Unable to retrieve Score File URL for document with id: ${documentId}`);

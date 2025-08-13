@@ -27,6 +27,7 @@ export interface IobioElementAttributes extends HTMLAttributes<HTMLElement> {
 export interface IobioDataBrokerAttributes extends IobioElementAttributes {
 	'alignment-url': string;
 	'index-url'?: string;
+	'file-format'?: string;
 	server?: string;
 }
 

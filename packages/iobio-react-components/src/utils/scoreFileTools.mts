@@ -24,6 +24,7 @@ import {
 	fileMetaDataSchema,
 	type FileDocument,
 	type FileMetaData,
+	type ScoreConfig,
 	type ScoreDownloadParams,
 } from './scoreFileTypes.ts';
 
@@ -33,23 +34,22 @@ const baseScoreDownloadParams: Omit<ScoreDownloadParams, 'length'> = {
 	'User-Agent': 'unknown',
 };
 
-// Iobio File Properties
-export const bamFileExtension = 'BAM';
-export const cramFileExtension = 'CRAM';
-export const BamFileExtensions = [bamFileExtension, cramFileExtension];
+/** Type Checks for Score Data response */
+export const isFileMetaData = (file: unknown): file is FileMetaData => {
+	return Boolean((file as FileMetaData)?.objectId && (file as FileMetaData)?.parts[0]?.url);
+};
 
 /** Request File from Score API */
 export const getScoreFile = async ({
 	length,
 	objectId,
-	scoreApiUrl,
-	scoreApiDownloadPath,
+	scoreConfig,
 }: {
 	length: string;
 	objectId: string;
-	scoreApiUrl: string;
-	scoreApiDownloadPath: string;
+	scoreConfig: ScoreConfig;
 }): Promise<FileMetaData | undefined> => {
+	const { scoreApiUrl, scoreApiDownloadPath } = scoreConfig;
 	if (!(scoreApiUrl && scoreApiDownloadPath)) {
 		throw new Error('Score API URL is missing in .env');
 	}
@@ -70,11 +70,13 @@ export const getScoreFile = async ({
 };
 
 /** Get required properties for Score Download */
-export const getFileMetadata = async (
-	selectedFile: FileDocument,
-	scoreApiUrl: string,
-	scoreApiDownloadPath: string,
-) => {
+export const getFileMetadata = async ({
+	selectedFile,
+	scoreConfig,
+}: {
+	selectedFile: FileDocument;
+	scoreConfig: ScoreConfig;
+}) => {
 	/* Base BAM/CRAM File download */
 	const fileObjectId = selectedFile.object_id;
 	const fileData = selectedFile.file;
@@ -82,8 +84,7 @@ export const getFileMetadata = async (
 	const scoreFileMetadata = await getScoreFile({
 		length: fileSize,
 		objectId: fileObjectId,
-		scoreApiUrl,
-		scoreApiDownloadPath,
+		scoreConfig,
 	});
 	const parsedFileMetaData = fileMetaDataSchema.safeParse(scoreFileMetadata);
 	if (!parsedFileMetaData.success) {
@@ -95,8 +96,7 @@ export const getFileMetadata = async (
 	const indexFileMetadata = await getScoreFile({
 		length: indexFileSize.toString(),
 		objectId: indexObjectId,
-		scoreApiUrl,
-		scoreApiDownloadPath,
+		scoreConfig,
 	});
 	const parsedIndexFileMetadata = fileMetaDataSchema.safeParse(indexFileMetadata);
 	if (!parsedIndexFileMetadata.success) {

@@ -31,7 +31,7 @@ export type CompleteCallback = (stats: StatsOutput) => Promise<void>;
  * Src: iobio-charts/coverage/src/BamViewChart.js L259
  * @param dataEvent { [BamKey]: number  }
  */
-export const calculateMeanCoverage = (dataEvent: HistogramData) => {
+export const calculateMeanCoverage = (dataEvent: HistogramData): number => {
 	const coverageData = dataEvent.coverage_hist;
 
 	let coverageMean = 0;
@@ -50,18 +50,18 @@ export const calculateMeanCoverage = (dataEvent: HistogramData) => {
  * Obtain BAM statistical data from Data Broker data events
  * @param dataEvent { [BamKey]: number  }
  */
-export const getBamStatistics = (dataEvent: DataUpdate) => {
-	return [...percentKeys, ...statisticKeys].reduce((statsData, dataKey) => {
+export const getBamStatistics = (dataEvent: DataUpdate): IobioMetaData => {
+	return [...percentKeys, ...statisticKeys].reduce((statsData: IobioMetaData, dataKey) => {
 		const value = dataEvent[dataKey];
-		const stats: IobioMetaData = { ...statsData, [dataKey]: value };
+		statsData[dataKey] = value;
 
 		if (isPercentKey(dataKey)) {
 			const percentage = Number((value / dataEvent['total_reads']).toPrecision(4));
 			const displayKey: PercentageStatsKey = `${dataKey}_percentage`;
-			stats[displayKey] = percentage;
+			statsData[displayKey] = percentage;
 		}
-		return stats;
-	}, {} as IobioMetaData);
+		return statsData;
+	}, {});
 };
 
 /**
@@ -89,6 +89,7 @@ export const getHistogramData = (dataEvent: HistogramData) => {
 export const generateIobioStats = async ({
 	fileUrl,
 	fileName,
+	bedFileUrl,
 	indexFileUrl = '',
 	serverUrl = '',
 	enableFileOutput = false,
@@ -96,20 +97,19 @@ export const generateIobioStats = async ({
 }: {
 	fileUrl: string;
 	fileName?: string;
+	bedFileUrl?: string;
 	indexFileUrl?: string;
 	serverUrl?: string;
 	enableFileOutput?: boolean;
 	onComplete?: CompleteCallback | null;
 }): Promise<void> => {
 	// Generate Statistics
+	console.log('Streaming started');
 	const db = new DataBroker(fileUrl, { server: serverUrl });
-	if (indexFileUrl) db.indexUrl = indexFileUrl;
+	if (!!indexFileUrl) db.indexUrl = indexFileUrl;
+	if (!!bedFileUrl) db.bedUrl = bedFileUrl;
 
 	const data: any[] = [];
-
-	db.addEventListener('stats-stream-start', () => {
-		console.log('Streaming started');
-	});
 
 	db.addEventListener('stats-stream-data', (event: any) => {
 		process.stdout.write('*');
